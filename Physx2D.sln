@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SandBox", "SandBox\SandBox.vcxproj", "{53527C13-0A1A-4C07-A1FB-48C5F2CE9244}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Physx2D", "Physx2D\Physx2D.vcxproj", "{375F2E6F-911A-412E-A824-46567D49E2AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{53527C13-0A1A-4C07-A1FB-48C5F2CE9244}.Debug|x64.ActiveCfg = Debug|x64
+		{53527C13-0A1A-4C07-A1FB-48C5F2CE9244}.Debug|x64.Build.0 = Debug|x64
+		{53527C13-0A1A-4C07-A1FB-48C5F2CE9244}.Release|x64.ActiveCfg = Release|x64
+		{53527C13-0A1A-4C07-A1FB-48C5F2CE9244}.Release|x64.Build.0 = Release|x64
+		{375F2E6F-911A-412E-A824-46567D49E2AD}.Debug|x64.ActiveCfg = Debug|x64
+		{375F2E6F-911A-412E-A824-46567D49E2AD}.Debug|x64.Build.0 = Debug|x64
+		{375F2E6F-911A-412E-A824-46567D49E2AD}.Release|x64.ActiveCfg = Release|x64
+		{375F2E6F-911A-412E-A824-46567D49E2AD}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EEE338D1-EEBE-4259-80DF-D473927DD426}
+	EndGlobalSection
+EndGlobal
