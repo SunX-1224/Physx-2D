@@ -19,10 +19,10 @@ Although a "proper physics handling system" is still far off from where the it i
 QuadTree is used for handling on-screen collisions of object, when no clustering of thousands of objects is present, this can handle many colliding objects over 5 thousand. Framerate will drop is thousands of objects are clustered in one place. No substeps for collision optimization is implemented and no separate thread for handling physics is implemented till now.
 
 On the bright side, there are 4 types of colliders that can be used,
-> CircleColliders
-> BoxCollider2D
-> AABB
-> Bounding Circle
+* CircleColliders
+* BoxCollider2D
+* AABB
+* Bounding Circle
 
 Among them, last 2 colliders are static (and implemented only to make it easy to setup a physics simulation where objects won't fly off screen. On a single screen, AABB and BoundingCircles should not overlap with any of each other due to what they are made for.
 
@@ -33,15 +33,14 @@ Currently there is no GUI layer implemented, so everything has to be done in cod
 
 # Entity Component System
 A Physx-2D world handles objects according to their components (data oriented design) rather than inherited properties (object oriented design). This enables an object to have any combination of properties. Components currently available are :
-> Transform
-> Tag
-    {These 2 components are added by default when objects are created, and are requires for all objecsts}
-> RendererComponent
-> Collider : 
-    > BoxCollider2D
-    > CircleCollider
-    > AABB
-    > Bounding Circle
+* Transform
+* Tag
+* RendererComponent
+* Collider : 
+    * BoxCollider2D
+    * CircleCollider
+    * AABB
+    * Bounding Circle
      {An object can have only one type of collider at a time}
-> RigidBody2D
-> ScriptComponent
+* RigidBody2D
+* ScriptComponent
