@@ -4,11 +4,11 @@ Physx2D is a in-development early stage physics and rendering engine for mainly 
 
 # Rendering 
 Inside this different options related to 2D rendering is implemented, which are listed as below,
-> Normal Renderer
-> Instanced Renderer
-> Framebuffer
-> Textures
-> Shaders
+* Normal Renderer
+* Instanced Renderer
+* Framebuffer
+* Textures
+* Shaders
 
 Not everything is very flexible and can be implemented in any form, but development and optimizations are going on.
 
