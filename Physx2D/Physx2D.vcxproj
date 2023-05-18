@@ -61,13 +61,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>PHSX_BUILD_DLL;PHSX_PLATFORM_WINDOWS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);PHSX_PLATFORM_WINDOWS;PHSX_PLATFORM_WINDOWS;PHSX_BUILD_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Physx2D\libraries\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Physx2D\libraries\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -78,8 +79,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>PHSX_BUILD_DLL;PHSX_PLATFORM_WINDOWS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);PHSX_PLATFORM_WINDOWS;PHSX_PLATFORM_WINDOWS;PHSX_BUILD_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Physx2D\libraries\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -87,16 +87,61 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Physx2D\libraries\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="libraries\include\glad\glad.h" />
+    <ClInclude Include="libraries\include\GLFW\glfw3.h" />
+    <ClInclude Include="libraries\include\GLFW\glfw3native.h" />
+    <ClInclude Include="libraries\include\KHR\khrplatform.h" />
+    <ClInclude Include="libraries\include\stb\stb_image.h" />
+    <ClInclude Include="src\math\math.h" />
+    <ClInclude Include="src\physics\physics2d.h" />
     <ClInclude Include="src\physx2d.h" />
     <ClInclude Include="src\core\Application.h" />
     <ClInclude Include="src\core\core.h" />
     <ClInclude Include="src\core\entry.h" />
+    <ClInclude Include="src\renderer\framebuffer.h" />
+    <ClInclude Include="src\renderer\instancedRenderer.h" />
+    <ClInclude Include="src\renderer\renderer2D.h" />
+    <ClInclude Include="src\renderer\shader.h" />
+    <ClInclude Include="src\renderer\texture.h" />
+    <ClInclude Include="src\renderer\vao.h" />
+    <ClInclude Include="src\scene\components.h" />
+    <ClInclude Include="src\scene\ecsmanager.h" />
+    <ClInclude Include="src\scene\entity.h" />
+    <ClInclude Include="src\scene\world.h" />
+    <ClInclude Include="src\utils\defaults.h" />
+    <ClInclude Include="src\utils\quadtree.h" />
+    <ClInclude Include="src\utils\time.h" />
+    <ClInclude Include="src\window\window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="glad.c" />
     <ClCompile Include="src\core\Application.cpp" />
+    <ClCompile Include="src\math\math.cpp" />
+    <ClCompile Include="src\physics\physics2d.cpp" />
+    <ClCompile Include="src\renderer\framebuffer.cpp" />
+    <ClCompile Include="src\renderer\instancedRenderer.cpp" />
+    <ClCompile Include="src\renderer\renderer2D.cpp" />
+    <ClCompile Include="src\renderer\shader.cpp" />
+    <ClCompile Include="src\renderer\texture.cpp" />
+    <ClCompile Include="src\renderer\vao.cpp" />
+    <ClCompile Include="src\scene\entity.cpp" />
+    <ClCompile Include="src\scene\world.cpp" />
+    <ClCompile Include="src\utils\time.cpp" />
+    <ClCompile Include="src\window\window.cpp" />
+    <ClCompile Include="stb_image.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\utils\res\circle.glsl" />
+    <None Include="src\utils\res\quad.glsl" />
+    <None Include="src\utils\res\vert.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="libraries\lib\glfw3.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -9,7 +9,7 @@ namespace Physx2D {
 
 		~Application();
 
-		void Run() {
+		virtual void Run() {
 			while (1);
 		}
 	};

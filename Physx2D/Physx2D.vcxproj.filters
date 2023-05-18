@@ -4,12 +4,77 @@
     <ClInclude Include="src\core\core.h">
       <Filter>src\core</Filter>
     </ClInclude>
-    <ClInclude Include="src\physx2d.h" />
     <ClInclude Include="src\core\entry.h">
       <Filter>src\core</Filter>
     </ClInclude>
     <ClInclude Include="src\core\Application.h">
       <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scene\components.h">
+      <Filter>src\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\defaults.h">
+      <Filter>src\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scene\ecsmanager.h">
+      <Filter>src\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scene\entity.h">
+      <Filter>src\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\framebuffer.h">
+      <Filter>src\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\instancedRenderer.h">
+      <Filter>src\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\math.h">
+      <Filter>src\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\physics\physics2d.h">
+      <Filter>src\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\physx2d.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\renderer2D.h">
+      <Filter>src\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\shader.h">
+      <Filter>src\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\quadtree.h">
+      <Filter>src\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\texture.h">
+      <Filter>src\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\vao.h">
+      <Filter>src\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\time.h">
+      <Filter>src\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\window\window.h">
+      <Filter>src\window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scene\world.h">
+      <Filter>src\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="libraries\include\glad\glad.h">
+      <Filter>vendors</Filter>
+    </ClInclude>
+    <ClInclude Include="libraries\include\GLFW\glfw3.h">
+      <Filter>vendors</Filter>
+    </ClInclude>
+    <ClInclude Include="libraries\include\GLFW\glfw3native.h">
+      <Filter>vendors</Filter>
+    </ClInclude>
+    <ClInclude Include="libraries\include\KHR\khrplatform.h">
+      <Filter>vendors</Filter>
+    </ClInclude>
+    <ClInclude Include="libraries\include\stb\stb_image.h">
+      <Filter>vendors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -19,10 +84,92 @@
     <Filter Include="src\core">
       <UniqueIdentifier>{d21267cd-ac60-4f6f-8ef5-3f007698a146}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\math">
+      <UniqueIdentifier>{3fd65376-325c-499c-bd72-2185f83ee3da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\physics">
+      <UniqueIdentifier>{ebb55e67-097a-49bb-9a10-ef9ce465821d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\renderer">
+      <UniqueIdentifier>{46c5ced0-cbae-4524-a2a3-9323d2886334}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\scene">
+      <UniqueIdentifier>{bb6f80a8-0d6f-4baf-8a5f-36931c11e0ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utils">
+      <UniqueIdentifier>{22e266eb-87d1-4944-8c48-c9f35bec6c1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utils\res">
+      <UniqueIdentifier>{fb96bfe9-a0c4-400f-906b-6cbf2e532a38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\window">
+      <UniqueIdentifier>{c524bb15-2181-495e-9dc5-2f9ca19d0317}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendors">
+      <UniqueIdentifier>{2f4da620-bc69-4292-8172-cc61c6b52635}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\Application.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
+    <ClCompile Include="src\scene\entity.cpp">
+      <Filter>src\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\framebuffer.cpp">
+      <Filter>src\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\instancedRenderer.cpp">
+      <Filter>src\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math\math.cpp">
+      <Filter>src\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\physics\physics2d.cpp">
+      <Filter>src\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\renderer2D.cpp">
+      <Filter>src\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\shader.cpp">
+      <Filter>src\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\texture.cpp">
+      <Filter>src\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\vao.cpp">
+      <Filter>src\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\time.cpp">
+      <Filter>src\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\world.cpp">
+      <Filter>src\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window\window.cpp">
+      <Filter>src\window</Filter>
+    </ClCompile>
+    <ClCompile Include="glad.c">
+      <Filter>vendors</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_image.cpp">
+      <Filter>vendors</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\utils\res\circle.glsl">
+      <Filter>src\utils\res</Filter>
+    </None>
+    <None Include="src\utils\res\quad.glsl">
+      <Filter>src\utils\res</Filter>
+    </None>
+    <None Include="src\utils\res\vert.glsl">
+      <Filter>src\utils\res</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="libraries\lib\glfw3.lib">
+      <Filter>vendors</Filter>
+    </Library>
   </ItemGroup>
 </Project>
