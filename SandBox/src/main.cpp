@@ -14,7 +14,7 @@ public:
 
 		self->AddComponent<Physx2D::RigidBody2D>(Physx2D::DYNAMIC, rp, Physx2D::vec2(), sc.x, 0.f, 0.8f);
 		self->AddComponent<Physx2D::CircleCollider>(Physx2D::vec2(), sc.x * 0.5f);
-		self->AddComponent<Physx2D::RendererComponent>(Physx2D::CIRCLE, Physx2D::vec4(Physx2D::Math::random(1224), Physx2D::Math::random(1223), 0.5f, 1.f));
+		self->AddComponent<Physx2D::SpriteRenderer>(Physx2D::CIRCLE, Physx2D::vec4(Physx2D::Math::random(1224), Physx2D::Math::random(1223), 0.5f, 1.f));
 	}
 
 	virtual void update() override {
@@ -24,15 +24,15 @@ public:
 			Physx2D::Transform* trf = self->GetComponent<Physx2D::Transform>();
 			rgb->Acceleration = Physx2D::vec2(0.f, -100.f);
 		}
-		if (self->HasComponent<Physx2D::RendererComponent>()) {
-			Physx2D::RendererComponent* rdr1 = self->GetComponent<Physx2D::RendererComponent>();
+		if (self->HasComponent<Physx2D::SpriteRenderer>()) {
+			Physx2D::SpriteRenderer* rdr1 = self->GetComponent<Physx2D::SpriteRenderer>();
 			rdr1->color += Physx2D::Color(-0.1f, 0.f, 0.2f, 0.f);
 		}
 	}
 
 	virtual void OnCollisionDetected(Physx2D::CollisionData& data, Physx2D::Entity* other) {
-		Physx2D::RendererComponent* rdr1 = self->GetComponent<Physx2D::RendererComponent>();
-		Physx2D::RendererComponent* rdr2 = other->GetComponent<Physx2D::RendererComponent>();
+		Physx2D::SpriteRenderer* rdr1 = self->GetComponent<Physx2D::SpriteRenderer>();
+		Physx2D::SpriteRenderer* rdr2 = other->GetComponent<Physx2D::SpriteRenderer>();
 
 		rdr1->color += Physx2D::Color(0.05f, 0.f, -0.1f, 0.f);
 		rdr2->color += Physx2D::Color(0.05f, 0.f, -0.1f, 0.f);
@@ -51,19 +51,24 @@ public:
 		window->Init();
 
 		world = new Physx2D::World(window);
+		//bounds
+		{
 
-		for (int i = 0; i < 500; i++) {
 			Physx2D::Entity* entity = world->CreateEntity();
+			Physx2D::Transform* tfr = entity->GetComponent<Physx2D::Transform>();
+			tfr->Scale = window->GetResolution().y;
+			entity->AddComponent<Physx2D::BoundingCircle>(Physx2D::vec2(), tfr->Scale.x * 0.5f);
+			entity->AddComponent<Physx2D::RigidBody2D>();
+			entity->AddComponent<Physx2D::SpriteRenderer>(Physx2D::CIRCLE, Physx2D::Color(0.1f, 0.2f, 0.2f, 0.3f));
+		}
+		for (int i = 0; i < 10; i++) {
+			Physx2D::Entity* entity = world->CreateEntity(std::string("entity"));
 			Gravity* grv = new Gravity();
 			entity->AddComponent<Physx2D::ScriptComponent>(grv);
 		}
 		
-		Physx2D::Entity* entity = world->CreateEntity();
-		Physx2D::Transform* tfr = entity->GetComponent<Physx2D::Transform>();
-		tfr->Scale = window->GetResolution();
-		entity->AddComponent<Physx2D::AABB>(Physx2D::vec2(), tfr->Scale);
-		entity->AddComponent<Physx2D::RigidBody2D>();
-		entity->AddComponent<Physx2D::RendererComponent>(Physx2D::QUAD, Physx2D::Color(0.3f));
+
+		world->loadTexture("res/container2.png", "test", Physx2D::CIRCLE);
 
 		world->Initialize();
 	}

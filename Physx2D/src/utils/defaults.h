@@ -16,14 +16,13 @@
 namespace Physx2D {
 	typedef vec4 Color;
 
-	const vec2 QUAD_VERTICES[6]{
-			vec2(-.5f, -.5f),
-			vec2( .5f, -.5f),
-			vec2(-.5f,  .5f),
-
-			vec2( .5f, -.5f),
-			vec2(-.5f,  .5f),
-			vec2( .5f,  .5f)
+	const float QUAD_VERTICES[24]{
+			-.5f, -.5f, 0.f, 0.f,
+			 .5f, -.5f, 1.f, 0.f,
+			-.5f,  .5f, 0.f, 1.f,
+			 .5f, -.5f, 1.f, 0.f,
+			 .5f,  .5f, 1.f, 1.f,
+			-.5f,  .5f, 0.f, 1.f,
 	};
 
 	const vec2 UNIT_RECT[4]{
@@ -33,15 +32,15 @@ namespace Physx2D {
 			vec2(-.5f,  .5f),
 	};
 
-	const vec2 TRIANGLE_VERTICES[3] {
-		vec2(-0.866f, -0.5f),
-		vec2( 0.866f, -0.5f),
-		vec2( 0.000f,  1.0f)
+	const float TRIANGLE_VERTICES[12] {
+		-0.5f, -0.5f, 0.0f, 0.f,
+		 0.5f, -0.5f, 1.0f, 0.f,
+		 0.0f,  0.866f, 0.5f, 0.866f,
 	};
 
-	const vec2 LINE_VERTICES[2]{
-		vec2(0.f),
-		vec2(1.0f, 0.f)
+	const float LINE_VERTICES[8]{
+		0.0f, 0.f, 0.f, 0.f,
+		1.0f, 0.f, 1.f, 0.f,
 	};
 
 	struct PHYSX2D_API WindowProps {

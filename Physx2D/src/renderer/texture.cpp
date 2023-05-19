@@ -5,8 +5,8 @@ namespace Physx2D {
 		unsigned char* data;
 		GLenum src_format = GL_RGBA;
 
-		m_slot = slot;
 		m_type = type;
+		m_slot = slot;
 
 		if (path == NULL) {
 			data = NULL;
@@ -37,7 +37,8 @@ namespace Physx2D {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, src_format, GL_UNSIGNED_INT, data);
+		
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, src_format, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		if (data)
@@ -45,9 +46,9 @@ namespace Physx2D {
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	void Texture::texUnit(Shader& shader, const char* uniform) {
-		shader.use();
-		shader.setInt(uniform, m_slot);
+	void Texture::texUnit(Shader* shader, const char* uniform) {
+		shader->use();
+		shader->setInt(uniform, m_slot);
 	}
 
 	void Texture::bind(int slot) {

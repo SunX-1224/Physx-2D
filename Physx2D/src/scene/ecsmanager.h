@@ -28,7 +28,8 @@ namespace Physx2D {
 				componentVector.resize(entity + 16, nullptr);
 			}
 
-			if (componentVector[entity] != nullptr) delete ((T*)componentVector[entity]);
+			if (componentVector[entity] != nullptr) 
+				delete ((T*)componentVector[entity]);
 
 			componentVector[entity] = component;
 			return static_cast<T*>(componentVector[entity]);

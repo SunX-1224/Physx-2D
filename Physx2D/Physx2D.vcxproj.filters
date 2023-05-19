@@ -99,9 +99,6 @@
     <Filter Include="src\utils">
       <UniqueIdentifier>{22e266eb-87d1-4944-8c48-c9f35bec6c1f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\utils\res">
-      <UniqueIdentifier>{fb96bfe9-a0c4-400f-906b-6cbf2e532a38}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\window">
       <UniqueIdentifier>{c524bb15-2181-495e-9dc5-2f9ca19d0317}</UniqueIdentifier>
     </Filter>
@@ -155,17 +152,6 @@
     <ClCompile Include="stb_image.cpp">
       <Filter>vendors</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\utils\res\circle.glsl">
-      <Filter>src\utils\res</Filter>
-    </None>
-    <None Include="src\utils\res\quad.glsl">
-      <Filter>src\utils\res</Filter>
-    </None>
-    <None Include="src\utils\res\vert.glsl">
-      <Filter>src\utils\res</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Library Include="libraries\lib\glfw3.lib">

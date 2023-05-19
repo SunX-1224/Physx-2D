@@ -7,15 +7,15 @@ namespace Physx2D {
 		m_ivbo = 0;
 	}
 
-	InstancedRenderer::InstancedRenderer(std::vector<vec2> vertices, std::vector<uint32_t> indices, GLenum mode) :
+	InstancedRenderer::InstancedRenderer(std::vector<float> vertices, std::vector<uint32_t> indices, GLenum mode) :
 		Renderer2D(vertices, indices, mode)
 	{
 		m_count = 1;
 		glGenBuffers(1, &m_ivbo);
 	}
 
-	InstancedRenderer::InstancedRenderer(std::vector<vec2> vertices, GLenum mode) :
-		Renderer2D(vertices, mode)
+	InstancedRenderer::InstancedRenderer(std::vector<float> vertices, uint32_t numPoints, GLenum mode) :
+		Renderer2D(vertices, numPoints, mode)
 	{
 		m_count = 1;
 		glGenBuffers(1, &m_ivbo);

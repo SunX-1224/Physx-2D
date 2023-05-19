@@ -99,6 +99,11 @@
       <Project>{375f2e6f-911a-412e-a824-46567d49e2ad}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\circle.glsl" />
+    <None Include="res\quad.glsl" />
+    <None Include="res\vert.glsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

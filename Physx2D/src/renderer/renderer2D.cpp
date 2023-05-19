@@ -9,7 +9,7 @@ namespace Physx2D {
 		m_renderMode = 0;
 	}
 
-	Renderer2D::Renderer2D(std::vector<vec2> vertices, std::vector<uint32_t> indices, GLenum mode) :
+	Renderer2D::Renderer2D(std::vector<float> vertices, std::vector<uint32_t> indices, GLenum mode) :
 		m_renderMode(mode), p_count(indices.size()), arrayMode(false)
 	{
 		m_vao.bind();
@@ -27,8 +27,8 @@ namespace Physx2D {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	Renderer2D::Renderer2D(std::vector<vec2> vertices, GLenum mode) 
-		:m_renderMode(mode), arrayMode(true), p_count(vertices.size()), m_ebo(0)
+	Renderer2D::Renderer2D(std::vector<float> vertices, uint32_t numPoints, GLenum mode) 
+		:m_renderMode(mode), arrayMode(true), p_count(numPoints), m_ebo(0)
 	{
 		m_vao.bind();
 
@@ -57,7 +57,7 @@ namespace Physx2D {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
-	void Renderer2D::ArrayDataLayout(uint32_t location, uint32_t count, GLenum type, GLsizei stride, uint32_t offset) {
+	void Renderer2D::VertexDataLayout(uint32_t location, uint32_t count, GLenum type, GLsizei stride, uint32_t offset) {
 		m_vao.bind();
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 		m_vao.layout(location, count, type, stride, offset);

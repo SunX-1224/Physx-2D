@@ -24,8 +24,8 @@ namespace Physx2D {
 				entity->RemoveComponent<Tag>();
 			if (entity->HasComponent<RigidBody2D>())
 				entity->RemoveComponent<RigidBody2D>();
-			if (entity->HasComponent<RendererComponent>())
-				entity->RemoveComponent<RendererComponent>();
+			if (entity->HasComponent<SpriteRenderer>())
+				entity->RemoveComponent<SpriteRenderer>();
 			if (entity->HasComponent<ScriptComponent>()) 
 				entity->RemoveComponent<ScriptComponent>();
 			if (entity->HasComponent<Collider>()) {
@@ -46,10 +46,10 @@ namespace Physx2D {
 	}
 
 	void World::Initialize() {
-		addInstancedRenderer(LINE, initVectorFromArray(LINE_VERTICES, vec2), GL_LINES);
-		addInstancedRenderer(TRIANGLE, initVectorFromArray(TRIANGLE_VERTICES, vec2), GL_TRIANGLES);
-		addInstancedRenderer(QUAD, initVectorFromArray(QUAD_VERTICES, vec2), GL_TRIANGLES);
-		addInstancedRenderer(CIRCLE, initVectorFromArray(QUAD_VERTICES, vec2), GL_TRIANGLES);
+		addInstancedRenderer(LINE, initVectorFromArray(LINE_VERTICES, float), 2, GL_LINES);
+		addInstancedRenderer(TRIANGLE, initVectorFromArray(TRIANGLE_VERTICES, float), 3, GL_TRIANGLES);
+		addInstancedRenderer(QUAD, initVectorFromArray(QUAD_VERTICES, float), 6, GL_TRIANGLES);
+		addInstancedRenderer(CIRCLE, initVectorFromArray(QUAD_VERTICES, float), 6, GL_TRIANGLES);
 
 		std::shared_ptr<Shader> s1 = std::make_shared<Shader>(Shader("res/vert.glsl", "res/quad.glsl"));
 		std::shared_ptr<Shader> s2 = std::make_shared<Shader>(Shader("res/vert.glsl", "res/circle.glsl"));
@@ -80,6 +80,10 @@ namespace Physx2D {
 
 	void World::Render() {
 		for (auto& iter : renderers) {
+			if (textures[iter.first] != nullptr) {
+				textures[iter.first]->bind();
+				textures[iter.first]->texUnit(shaders[iter.first].get(), "u_texture");
+			}
 			iter.second.Draw(shaders[iter.first].get());
 		}
 	}
@@ -99,7 +103,11 @@ namespace Physx2D {
 		shaders[ID] = std::make_shared<Shader>(Shader(vert, frag));
 	}
 
-	InstancedRenderer* World::addInstancedRenderer(uint32_t type, std::vector<vec2> vertices, GLenum draw_mode) {
+	void World::loadTexture(const char* path, const char* type, uint32_t ID, uint32_t slot) {
+		textures[ID] = std::make_shared<Texture>(Texture(path, type, slot));
+	}
+
+	InstancedRenderer* World::addInstancedRenderer(uint32_t type, std::vector<float> vertices, uint32_t numPoints,GLenum draw_mode) {
 		bool createNew = true;
 		for (auto& iter : renderers) {
 			if (iter.first == type) {
@@ -109,18 +117,21 @@ namespace Physx2D {
 		}
 		assert(createNew && "Renderer of this type already exists");
 
-		renderers[type] = InstancedRenderer(vertices, draw_mode);
-		renderers[type].ArrayDataLayout(0, 2, GL_FLOAT, sizeof(vec2), 0);
+		renderers[type] = InstancedRenderer(vertices, numPoints, draw_mode);
+		renderers[type].VertexDataLayout(0, 2, GL_FLOAT, 2*sizeof(vec2), 0);						//vec2 vertex position
+		renderers[type].VertexDataLayout(1, 2, GL_FLOAT, 2*sizeof(vec2), sizeof(vec2));			//vec2 texture coords
 
-		renderers[type].InstanceLayout(1, 2, GL_FLOAT, sizeof(RenderData), 0); //vec2 position
-		renderers[type].InstanceLayout(2, 2, GL_FLOAT, sizeof(RenderData), 2 * sizeof(float)); //vec2 scale
-		renderers[type].InstanceLayout(3, 1, GL_FLOAT, sizeof(RenderData), 4 * sizeof(float)); // float rotation
-		renderers[type].InstanceLayout(4, 4, GL_FLOAT, sizeof(RenderData), 5 * sizeof(float)); //vec4 color
+		renderers[type].InstanceLayout(2, 2, GL_FLOAT, sizeof(RenderData), 0);					//vec2 position
+		renderers[type].InstanceLayout(3, 2, GL_FLOAT, sizeof(RenderData), 2 * sizeof(float));	//vec2 scale
+		renderers[type].InstanceLayout(4, 1, GL_FLOAT, sizeof(RenderData), 4 * sizeof(float));	//float rotation
+		renderers[type].InstanceLayout(5, 4, GL_FLOAT, sizeof(RenderData), 5 * sizeof(float));	//vec4 color
+		renderers[type].InstanceLayout(6, 2, GL_FLOAT, sizeof(RenderData), 9 * sizeof(float));	//texOffset
+		renderers[type].InstanceLayout(7, 2, GL_FLOAT, sizeof(RenderData), 11 * sizeof(float)); //Tiling factor
 
 		return &renderers[type];
 	}
 
-	InstancedRenderer* World::addInstancedRenderer(uint32_t type, std::vector<vec2> vertices, std::vector<uint32_t> indices, GLenum draw_mode) {
+	InstancedRenderer* World::addInstancedRenderer(uint32_t type, std::vector<float> vertices, std::vector<uint32_t> indices, GLenum draw_mode) {
 		bool createNew = true;
 		for (auto& iter : renderers) {
 			if (iter.first == type) {
@@ -131,15 +142,16 @@ namespace Physx2D {
 		assert(createNew && "Renderer of this type already exists");
 
 		renderers[type] = InstancedRenderer(vertices, indices, draw_mode);
+		renderers[type].VertexDataLayout(0, 2, GL_FLOAT, 2*sizeof(vec2), 0);						//vec2 vertex position
+		renderers[type].VertexDataLayout(1, 2, GL_FLOAT, 2*sizeof(vec2), sizeof(vec2));			//vec2 texture coords
 
-		renderers[type].ArrayDataLayout(0, 2, GL_FLOAT, sizeof(vec2), 0);
-
-		renderers[type].InstanceLayout(1, 2, GL_FLOAT, sizeof(RenderData), 0); //vec2 position
-		renderers[type].InstanceLayout(2, 2, GL_FLOAT, sizeof(RenderData), 2 * sizeof(float)); //vec2 scale
-		renderers[type].InstanceLayout(3, 1, GL_FLOAT, sizeof(RenderData), 4 * sizeof(float)); // float rotation
-		renderers[type].InstanceLayout(4, 4, GL_FLOAT, sizeof(RenderData), 5 * sizeof(float)); //vec4 color
-
-
+		renderers[type].InstanceLayout(2, 2, GL_FLOAT, sizeof(RenderData), 0);					//vec2 position
+		renderers[type].InstanceLayout(3, 2, GL_FLOAT, sizeof(RenderData), 2 * sizeof(float));	//vec2 scale
+		renderers[type].InstanceLayout(4, 1, GL_FLOAT, sizeof(RenderData), 4 * sizeof(float));	//float rotation
+		renderers[type].InstanceLayout(5, 4, GL_FLOAT, sizeof(RenderData), 5 * sizeof(float));	//vec4 color
+		renderers[type].InstanceLayout(6, 2, GL_FLOAT, sizeof(RenderData), 9 * sizeof(float));	//texOffset
+		renderers[type].InstanceLayout(7, 2, GL_FLOAT, sizeof(RenderData), 11 * sizeof(float)); //Tiling factor
+		
 		return &renderers[type];
 	}
 
@@ -223,11 +235,10 @@ namespace Physx2D {
 			vec.second.clear();
 
 		for (auto& entity : entities) {
-			if (entity->HasComponent<RendererComponent>()) {
+			if (entity->HasComponent<SpriteRenderer>()) {
 				Transform* trnf = entity->GetComponent<Transform>();
-				RendererComponent* rnc = entity->GetComponent<RendererComponent>();
-				Collider* cld = entity->GetComponent<Collider>();
-				renderData[rnc->type].push_back(RenderData(*trnf, rnc->color)); // TODO : can be optimized
+				SpriteRenderer* rnc = entity->GetComponent<SpriteRenderer>();
+				renderData[rnc->type].push_back(RenderData(*trnf, rnc->color, rnc->offset, rnc->tiling)); // TODO : can be optimized
 			}
 		}
 

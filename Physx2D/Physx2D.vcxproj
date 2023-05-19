@@ -136,11 +136,6 @@
     <ClCompile Include="stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\utils\res\circle.glsl" />
-    <None Include="src\utils\res\quad.glsl" />
-    <None Include="src\utils\res\vert.glsl" />
-  </ItemGroup>
-  <ItemGroup>
     <Library Include="libraries\lib\glfw3.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

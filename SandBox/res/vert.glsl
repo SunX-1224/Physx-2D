@@ -1,16 +1,20 @@
 #version 460 core
 
 layout(location = 0) in vec2 vertPos;
+layout(location = 1) in vec2 texCoord;
 
-layout(location = 1) in vec2 translation;
-layout(location = 2) in vec2 scale;
-layout(location = 3) in float angle;
-layout(location = 4) in vec4 color;
+layout(location = 2) in vec2 translation;
+layout(location = 3) in vec2 scale;
+layout(location = 4) in float angle;
+layout(location = 5) in vec4 color;
+layout(location = 6) in vec2 texOffset;
+layout(location = 7) in vec2 tiling;
 
 out Vert_Out{
 	vec2 position;
 	vec2 size;
 	vec4 color;
+	vec2 texUV;
 }vs_out;
 
 uniform mat3 u_ortho;
@@ -23,7 +27,8 @@ vec2 performcalculations(){
 	vs_out.size = scale / u_resolution;
 	vs_out.size /= vec2(1.0f, aspect);
 	vs_out.color = color;
-	
+	vs_out.texUV = texCoord * tiling + texOffset;
+		
 	float s = sin(angle);
 	float c = cos(angle);
 	vec2 pos;

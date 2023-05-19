@@ -7,6 +7,7 @@
 #include "../utils/defaults.h"
 #include "../physics/physics2d.h"
 #include "../renderer/shader.h"
+#include "../renderer/texture.h"
 #include "../renderer/instancedRenderer.h"
 #include "../utils/quadtree.h"
 
@@ -27,9 +28,10 @@ namespace Physx2D {
 			Entity* CreateEntity(std::string name = std::string());
 
 			void loadShader(const char* vertexPath, const char* fragPath, uint32_t ID);
+			void loadTexture(const char* path, const char* type, uint32_t ID, uint32_t slot = 0);
 
-			InstancedRenderer* addInstancedRenderer(uint32_t type, std::vector<vec2> vertices, GLenum draw_mode);
-			InstancedRenderer* addInstancedRenderer(uint32_t type, std::vector<vec2> vertices, std::vector<uint32_t> indices, GLenum draw_mode);
+			InstancedRenderer* addInstancedRenderer(uint32_t type, std::vector<float> vertices, uint32_t numPoints, GLenum draw_mode);
+			InstancedRenderer* addInstancedRenderer(uint32_t type, std::vector<float> vertices, std::vector<uint32_t> indices, GLenum draw_mode);
 
 		private:
 			Window* window = nullptr;
@@ -37,6 +39,7 @@ namespace Physx2D {
 			ECSManager manager;
 			std::vector<Entity*> entities;
 			std::unordered_map<uint32_t, std::shared_ptr<Shader>> shaders;
+			std::unordered_map<uint32_t, std::shared_ptr<Texture>> textures;
 
 			std::unordered_map<uint32_t, InstancedRenderer> renderers;
 

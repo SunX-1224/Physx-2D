@@ -38,17 +38,21 @@ namespace Physx2D {
 		}
 	};
 
-	struct PHYSX2D_API RendererComponent {
-
+	struct PHYSX2D_API SpriteRenderer {
 		RenderType type;
 		vec4 color;
+		vec2 offset;
+		vec2 tiling;
 
-		RendererComponent(RenderType _type = QUAD, vec4 _color = vec4(1.0f)) :type(_type), color(_color) {}
+		SpriteRenderer(RenderType _type = QUAD, vec4 _color = vec4(1.0f), vec2 _offset = vec2(), vec2 _tiling = vec2(1.f), int _texSlot = 0) :
+			type(_type), color(_color), offset(_offset), tiling(_tiling) {}
 	};
 
 	struct PHYSX2D_API RenderData {
 		Transform transform;
 		Color color;
+		vec2 texOffset;
+		vec2 tiling;
 	};
 
 	struct PHYSX2D_API RigidBody2D {

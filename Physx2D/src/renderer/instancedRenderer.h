@@ -9,12 +9,13 @@ namespace Physx2D {
 
 		InstancedRenderer();
 		InstancedRenderer(
-			std::vector<vec2> vertices,
+			std::vector<float> vertices,
 			std::vector<uint32_t> indices,
 			GLenum mode = GL_TRIANGLES
 		);
 		InstancedRenderer(
-			std::vector<vec2> vertices,
+			std::vector<float> vertices,
+			uint32_t numPoints,
 			GLenum mode = GL_TRIANGLES
 		);
 

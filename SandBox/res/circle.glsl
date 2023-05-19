@@ -6,9 +6,11 @@ in Vert_Out{
 	vec2 position;
 	vec2 size;
 	vec4 color;
+	vec2 texUV;
 }vs_out;
 
 uniform vec2 u_resolution;
+uniform sampler2D u_texture;
 
 vec2 precalc(){
 	float aspect = u_resolution.x / u_resolution.y;
@@ -25,7 +27,8 @@ vec2 precalc(){
 void main(){
 	vec2 uv = precalc();
 	float len = smoothstep(1.0f, 0.999f, length(uv));
-	frag_color = vs_out.color * len ;
+	frag_color = vs_out.color + texture(u_texture, vs_out.texUV);
+	frag_color *= len;
 
 	//frag_color = vec4(1.0f);
 	//frag_color = len == 0.0f? vec4(0.5f) : vs_out.color * len;

@@ -11,4 +11,9 @@
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\circle.glsl" />
+    <None Include="res\quad.glsl" />
+    <None Include="res\vert.glsl" />
+  </ItemGroup>
 </Project>
