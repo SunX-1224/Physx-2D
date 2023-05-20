@@ -76,6 +76,7 @@
     <ClInclude Include="libraries\include\stb\stb_image.h">
       <Filter>vendors</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\Log.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">

@@ -6,6 +6,7 @@
 #include "core/entry.h"
 //__________________________________
  
+#include "core/Log.h"
 #include "renderer/instancedRenderer.h"
 #include "renderer//framebuffer.h"
 #include "window/window.h" 

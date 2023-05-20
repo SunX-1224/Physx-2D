@@ -1,4 +1,5 @@
 #include "window.h"
+#include "../core/Log.h"
 
 namespace Physx2D {
 
@@ -28,7 +29,7 @@ namespace Physx2D {
             });
 
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-            std::cout << "Failed to initialize GLAD" << std::endl;
+            LOG_ERROR("Failed to initialize glad%s", "\n");
         }
 
         glViewport(0, 0, properties.WIDTH, properties.HEIGHT);

@@ -5,7 +5,7 @@
 
 namespace Physx2D {
 	class Entity;
-	enum PHYSX2D_API BodyType  { STATIC = 0, DYNAMIC };
+	enum PHYSX2D_API BodyType  { STATIC = 0, KINETIC};
 	enum PHYSX2D_API RenderType {LINE = 0, TRIANGLE, QUAD, CIRCLE};
 
 	class PHYSX2D_API ScriptObject {

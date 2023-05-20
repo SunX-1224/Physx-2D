@@ -1,4 +1,5 @@
 #include "texture.h"
+#include "../core/Log.h"
 
 namespace Physx2D {
 	Texture::Texture(const char* path, const char* type, unsigned int slot, int _width, int _height) {
@@ -17,8 +18,7 @@ namespace Physx2D {
 			int nrChannels = 1;
 			stbi_set_flip_vertically_on_load(true);
 			data = stbi_load(path, &m_width, &m_height, &nrChannels, 0);
-			if (not data)
-				std::cout << "ERROR while loading the image on path : " << path << std::endl;
+			if (not data) LOG_ERROR("ERROR : while loading the path %s\n", path);
 
 			if (nrChannels == 1)
 				src_format = GL_RED;

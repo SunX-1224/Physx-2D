@@ -6,13 +6,13 @@ public:
 	virtual void setup() override {
 
 		Physx2D::vec2 rp = Physx2D::vec2(Physx2D::Math::randint(-400, 400), Physx2D::Math::randint(-400, 400));
-		Physx2D::vec2 sc = Physx2D::vec2(Physx2D::Math::random(1224) * 10.f + 5.f);
+		Physx2D::vec2 sc = Physx2D::vec2(Physx2D::Math::random(1224) * 4.f + 4.f);
 
 		Physx2D::Transform* tfr = self->GetComponent<Physx2D::Transform>();
 		tfr->Position = rp;
 		tfr->Scale = sc;
 
-		self->AddComponent<Physx2D::RigidBody2D>(Physx2D::DYNAMIC, rp, Physx2D::vec2(), sc.x, 0.f, 0.8f);
+		self->AddComponent<Physx2D::RigidBody2D>(Physx2D::KINETIC, rp, Physx2D::vec2(), sc.x, 0.f, 0.8f);
 		self->AddComponent<Physx2D::CircleCollider>(Physx2D::vec2(), sc.x * 0.5f);
 		self->AddComponent<Physx2D::SpriteRenderer>(Physx2D::CIRCLE, Physx2D::vec4(Physx2D::Math::random(1224), Physx2D::Math::random(1223), 0.5f, 1.f));
 	}
@@ -53,23 +53,19 @@ public:
 		world = new Physx2D::World(window);
 		//bounds
 		{
-
 			Physx2D::Entity* entity = world->CreateEntity();
 			Physx2D::Transform* tfr = entity->GetComponent<Physx2D::Transform>();
-			tfr->Scale = window->GetResolution().y;
-			entity->AddComponent<Physx2D::BoundingCircle>(Physx2D::vec2(), tfr->Scale.x * 0.5f);
+			tfr->Scale = window->GetResolution();
+			entity->AddComponent<Physx2D::AABB>(Physx2D::vec2(), tfr->Scale);
 			entity->AddComponent<Physx2D::RigidBody2D>();
-			entity->AddComponent<Physx2D::SpriteRenderer>(Physx2D::CIRCLE, Physx2D::Color(0.1f, 0.2f, 0.2f, 0.3f));
+			entity->AddComponent<Physx2D::SpriteRenderer>(Physx2D::QUAD, Physx2D::Color(0.1f, 0.2f, 0.2f, 0.3f));
 		}
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 500; i++) {
 			Physx2D::Entity* entity = world->CreateEntity(std::string("entity"));
 			Gravity* grv = new Gravity();
 			entity->AddComponent<Physx2D::ScriptComponent>(grv);
 		}
 		
-
-		world->loadTexture("res/container2.png", "test", Physx2D::CIRCLE);
-
 		world->Initialize();
 	}
 	~SandBox() {

@@ -63,15 +63,15 @@ namespace Physx2D{
 			return data;
 		}
 
-		if (s2 == DYNAMIC) {
-			if (s1 == DYNAMIC) {
+		if (s2 == KINETIC) {
+			if (s1 == KINETIC) {
 				data.axis *= 0.5f;
 				t1->Position -= data.axis;
 			}
 			t2->Position += data.axis;
 		}
 		else {
-			if (s1 == DYNAMIC) {
+			if (s1 == KINETIC) {
 				t1->Position -= data.axis;
 			}
 		}
@@ -82,7 +82,7 @@ namespace Physx2D{
 
 	void PhysicsHandler::collisionPhysics(CollisionData data, RigidBody2D* body1, RigidBody2D* body2) {
 
-		if (body2->Type != STATIC) {
+		if (body2 != nullptr && body2->Type != STATIC) {
 			vec2 del = data.axis * Math::dot(body2->Velocity - body1->Velocity, data.axis) * (2.f / (body1->mass + body2->mass));
 
 			body1->Velocity +=  del * body1->coef_restitution * body2->mass;

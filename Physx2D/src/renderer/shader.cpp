@@ -1,4 +1,5 @@
 #include "shader.h"
+#include "../core/Log.h"
 
 namespace Physx2D {
 
@@ -16,6 +17,7 @@ namespace Physx2D {
 			in.close();
 			return(contents);
 		}
+		LOG_ERROR("ERROR : Invalid file path %s\n", filename);
 		throw(errno);
 	}
 
@@ -31,7 +33,7 @@ namespace Physx2D {
 		glGetShaderiv(id, GL_COMPILE_STATUS, &success);
 		if (not success) {
 			glGetShaderInfoLog(id, 512, NULL, infoLog);
-			std::cout << "ERROR while compiling " << (type == GL_VERTEX_SHADER ? "vertex" : "fragment") << " shader :: LOG : " << infoLog << std::endl;
+			LOG_ERROR("ERROR: %s Shader did not compiled successfully\n LOG : %s\n", type == GL_VERTEX_SHADER ? "Vertex" : "Fragment", infoLog);
 		}
 		return id;
 	}
@@ -63,7 +65,7 @@ namespace Physx2D {
 			glGetProgramiv(m_ID, GL_LINK_STATUS, &success);
 			if (not success) {
 				glGetProgramInfoLog(m_ID, 512, NULL, infoLog);
-				std::cout << "ERROR while linking program : " << vertexPath << " : " << fragmentPath << " : " << infoLog << std::endl;
+				LOG_ERROR("ERROR : Shader program did not link successfully, paths : vertex_shader : %s , fragment_shader : %s\n", vertexPath, fragmentPath);
 			}
 		}
 
@@ -82,25 +84,35 @@ namespace Physx2D {
 	void Shader::setBool(const char* name, bool value) {
 		if (glGetUniformLocation(m_ID, name) >= 0)
 			glUniform1i(glGetUniformLocation(m_ID, name), (int)value);
+		else
+			LOG_WARN("WARNING : location of boolean %s not found\n", name);
 	}
 
 	void Shader::setInt(const char* name, int value) {
 		if (glGetUniformLocation(m_ID, name) >= 0)
 			glUniform1i(glGetUniformLocation(m_ID, name), value);
+		else
+			LOG_WARN("WARNING : location of integer %s not found\n", name);
 	}
 
 	void Shader::setFloat(const char* name, float value) {
-		if(glGetUniformLocation(m_ID, name) >= 0)
+		if (glGetUniformLocation(m_ID, name) >= 0)
 			glUniform1f(glGetUniformLocation(m_ID, name), value);
+		else
+			LOG_WARN("WARNING : location of float %s not found\n", name);
 	}
 
 	void Shader::setVec2(const char* name, vec2 vec) {
 		if (glGetUniformLocation(m_ID, name) >= 0)
 			glUniform2f(glGetUniformLocation(m_ID, name), vec.x, vec.y);
+		else
+			LOG_WARN("WARNING : location of vec2 %s not found\n", name);
 	}
 
 	void Shader::setMat3(const char* name, mat3 mat) {
 		if (glGetUniformLocation(m_ID, name) >= 0)
 			glUniformMatrix3fv(glGetUniformLocation(m_ID, name), 1, GL_FALSE, &mat.value[0][0]);
+		else
+			LOG_WARN("WARNING : location of mat3 %s not found\n", name);
 	}
 }

@@ -1,4 +1,5 @@
 #include "framebuffer.h"
+#include "../core/Log.h"
 
 namespace Physx2D {
 	FrameBuffer::FrameBuffer(int width, int height, uint32_t defaultSlot, GLenum _dtype) {
@@ -31,7 +32,7 @@ namespace Physx2D {
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_rbo);
 
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-			std::cout << "ERROR while attaching the framebuffer" << std::endl;
+			LOG_WARN("Error while attaching framebuffer%s", "\n");
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}

@@ -4,7 +4,6 @@
 #include <unordered_map>
 #include <vector>
 #include <typeindex>
-#include <cassert>
 #include "components.h"
 
 namespace Physx2D {
@@ -21,7 +20,7 @@ namespace Physx2D {
 
 		template<typename T>
 		T* addComponent(EntityID entity, T* component) {
-			assert(entity >= 0 && entity < nextEntity && "Invalid entity ID");
+			if(entity < 0 || entity >= nextEntity) throw("Invalid entity ID");
 
 			std::vector<void*>& componentVector = componentStorage[std::type_index(typeid(T))];
 			if (entity >= componentVector.size()) {
@@ -37,7 +36,7 @@ namespace Physx2D {
 
 		template<typename T>
 		void removeComponent(EntityID entity) {
-			assert(entity >= 0 && entity < nextEntity && "Invalid entity ID");
+			if (entity < 0 || entity >= nextEntity) throw("Invalid entity ID");
 
 			std::vector<void*>& componentVector = componentStorage[std::type_index(typeid(T))];
 			delete ((T*)componentVector[entity]);
@@ -53,7 +52,7 @@ namespace Physx2D {
 		template<typename T>
 		T* getComponent(EntityID entity) {
 			
-			assert(entity >= 0 && entity < nextEntity && "Invalid entity ID");
+			if (entity < 0 || entity >= nextEntity) throw("Invalid entity ID");
 
 			std::vector<void*>& componentVector = componentStorage[std::type_index(typeid(T))];
 

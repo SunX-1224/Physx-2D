@@ -1,5 +1,6 @@
 #include "world.h"
 #include "entity.h"
+#include "../core/Log.h"
 
 namespace Physx2D {
 	World::World(Window* targetWindow) {
@@ -69,13 +70,13 @@ namespace Physx2D {
 	void World::Update(double delta_time) {
 		float time = TIME;
 		handleCollisions();
-		std::cout << (TIME - time) * 1000<< ", "; time = TIME;
+		LOG_INFO("%f", (TIME - time) * 1000.f); time = TIME;
 		handleScriptUpdate();
-		std::cout << (TIME - time)*1000 << ", "; time = TIME;
+		LOG_INFO("%f", (TIME - time) * 1000.f); time = TIME;
 		handlePhysics(delta_time);
-		std::cout << (TIME - time) *1000<< ", "; time = TIME;
+		LOG_INFO("%f", (TIME - time) * 1000.f); time = TIME;
 		updateRenderData();
-		std::cout << (TIME - time)*1000 << "\n"; time = TIME;
+		LOG_INFO("%f\n", (TIME - time) * 1000.f); time = TIME;
 	}
 
 	void World::Render() {
@@ -115,7 +116,10 @@ namespace Physx2D {
 				break;
 			}
 		}
-		assert(createNew && "Renderer of this type already exists");
+		if (not createNew) { 
+			LOG_WARN("Renderer of the type %u already exists", type);
+			return &renderers[type];
+		}
 
 		renderers[type] = InstancedRenderer(vertices, numPoints, draw_mode);
 		renderers[type].VertexDataLayout(0, 2, GL_FLOAT, 2*sizeof(vec2), 0);						//vec2 vertex position
@@ -139,8 +143,10 @@ namespace Physx2D {
 				break;
 			}
 		}
-		assert(createNew && "Renderer of this type already exists");
-
+		if (not createNew) {
+			LOG_WARN("Renderer of the type %u already exists", type);
+			return &renderers[type];
+		}
 		renderers[type] = InstancedRenderer(vertices, indices, draw_mode);
 		renderers[type].VertexDataLayout(0, 2, GL_FLOAT, 2*sizeof(vec2), 0);						//vec2 vertex position
 		renderers[type].VertexDataLayout(1, 2, GL_FLOAT, 2*sizeof(vec2), sizeof(vec2));			//vec2 texture coords
@@ -194,31 +200,39 @@ namespace Physx2D {
 		range *= 2.f;
 
 		//collision check 
-		
 		for (auto& entity : entities) {
 			if (entity->HasComponent<Collider>()) {
 				Transform* tfr = entity->GetComponent<Transform>();
 				Collider* cld = entity->GetComponent<Collider>();
-				RigidBody2D* rgb = entity->GetComponent<RigidBody2D>();
 
 				std::vector<Entity*> neighbours;
 
 				bool isBound = (cld->typeIndex == std::type_index(typeid(AABB))) || (cld->typeIndex == std::type_index(typeid(BoundingCircle)));
 
-				qtree.query(centerRect(tfr->Position + cld->Offset, isBound?cld->getSize() : range), neighbours);
+				qtree.query(centerRect(tfr->Position + cld->Offset, isBound?cld->getSize()+range : range), neighbours);
 
 				for (auto& nent : neighbours) {
 					if (nent == entity) continue;
 					
 					Transform* ntfr = nent->GetComponent<Transform>();
 					Collider* ncld = nent->GetComponent<Collider>();
-					RigidBody2D* nrgb = nent->GetComponent<RigidBody2D>();
 
-					CollisionData data = PhysicsHandler::checkCollision(cld, tfr, rgb->Type, ncld, ntfr, nrgb->Type);
+					RigidBody2D* nrgb = nullptr;
+					RigidBody2D* rgb = nullptr;
+
+					if(entity->HasComponent<RigidBody2D>())
+						rgb = entity->GetComponent<RigidBody2D>();
+					if (nent->HasComponent<RigidBody2D>()) 
+						nrgb = nent->GetComponent<RigidBody2D>();
+
+					BodyType type1 = rgb ? rgb->Type : STATIC;
+					BodyType type2 = nrgb ? nrgb->Type : KINETIC;
+
+					CollisionData data = PhysicsHandler::checkCollision(cld, tfr, type1, ncld, ntfr, type2);
 					if (data.status) {
-						if (rgb->Type == DYNAMIC)
+						if (type1 == KINETIC)
 							PhysicsHandler::collisionPhysics(data, rgb, nrgb);
-						else if (nrgb->Type == DYNAMIC)
+						else if (type2 == KINETIC && nrgb)
 							PhysicsHandler::collisionPhysics(data, nrgb, rgb);
 
 						if (entity->HasComponent<ScriptComponent>()) {
