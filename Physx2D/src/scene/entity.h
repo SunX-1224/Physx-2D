@@ -9,6 +9,8 @@ namespace Physx2D {
 
 	class PHYSX2D_API Entity {
 		public:
+			World* m_world = nullptr;
+
 			Entity() = default;
 			Entity(EntityID id, World* world_);
 
@@ -26,6 +28,7 @@ namespace Physx2D {
 					T* comp = new T(args...);
 					if constexpr (std::is_same_v<T, ScriptComponent>) {
 						comp->script->self = this;
+						comp->script->setup();
 					}
 					
 					return  m_world->manager.addComponent<T>(m_ID, comp);
@@ -88,6 +91,5 @@ namespace Physx2D {
 
 		private:
 			EntityID m_ID = 0;
-			World* m_world = nullptr;
 	};
 }

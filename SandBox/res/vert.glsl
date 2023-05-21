@@ -17,15 +17,16 @@ out Vert_Out{
 	vec2 texUV;
 }vs_out;
 
-uniform mat3 u_ortho;
+uniform mat3 u_camMatrices;
 uniform vec2 u_resolution;
+uniform float u_fov;
 
 vec2 performcalculations(){
 	float aspect = u_resolution.x / u_resolution.y;
 	
-	vs_out.position = (u_ortho * vec3(translation, 1.0f)).xy;
-	vs_out.size = scale / u_resolution;
-	vs_out.size /= vec2(1.0f, aspect);
+	vs_out.position = (u_camMatrices * vec3(translation, 1.0f)).xy;
+	vs_out.size = scale / u_resolution ;
+	vs_out.size /= vec2(1.0f, aspect)* u_fov;
 	vs_out.color = color;
 	vs_out.texUV = texCoord * tiling + texOffset;
 		
@@ -35,7 +36,7 @@ vec2 performcalculations(){
 	pos.x = scale.x * (vertPos.x * c - vertPos.y * s) + translation.x;
 	pos.y = scale.y * (vertPos.x * s + vertPos.y * c) + translation.y;
 
-	pos = (u_ortho * vec3(pos, 1.0f)).xy;
+	pos = (u_camMatrices * vec3(pos, 1.0f)).xy;
 	return pos;
 }
 

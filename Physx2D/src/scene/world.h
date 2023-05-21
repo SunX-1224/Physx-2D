@@ -2,6 +2,7 @@
 
 #include "../core/core.h"
 
+
 #include "../window/window.h"
 #include "ecsmanager.h"
 #include "../utils/defaults.h"
@@ -10,6 +11,7 @@
 #include "../renderer/texture.h"
 #include "../renderer/instancedRenderer.h"
 #include "../utils/quadtree.h"
+#include "camera.h"
 
 namespace Physx2D {
 
@@ -17,6 +19,8 @@ namespace Physx2D {
 
 	class PHYSX2D_API World {
 		public:
+
+			Camera sceneCamera;
 
 			World(Window* targetWindow);
 			~World();
@@ -45,7 +49,7 @@ namespace Physx2D {
 
 			std::unordered_map<uint32_t, std::vector<RenderData>> renderData;
 			
-			void handleScriptUpdate();
+			void handleScriptUpdate(float delta_time);
 			void handlePhysics(double delta_time);
 			void handleCollisions();
 			void updateRenderData();

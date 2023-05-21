@@ -10,14 +10,24 @@ namespace Physx2D{
 		return (u.x * v.x + u.y * v.y);
 	}
 
-	mat3 Math::get_ortho2d(vec2 btm_left, vec2 top_right) {
+	mat3 Math::get_ortho2d(vec2 center, vec2 area) {
+		vec2 btm_left = center - area * 0.5f;
+		vec2 top_right = center + area * 0.5f;
+
 		mat3 ortho = mat3(1.0f);
 		ortho.value[0][0] = 2.0f / (top_right.x - btm_left.x);
 		ortho.value[1][1] = 2.0f / (top_right.y - btm_left.y);
 
-		ortho.value[0][2] = -1.0f;
-		ortho.value[1][2] = -1.0f;
+		ortho.value[0][2] = - (btm_left.x + top_right.x)/(btm_left.x - top_right.x);
+		ortho.value[1][2] = - (btm_left.y + top_right.y)/(btm_left.y - top_right.y);
 		return ortho;
+	}
+
+	mat3 Math::get_view2d(vec2 pos) {
+		mat3 view = mat3(1.0f);
+		view.value[0][2] = -pos.x;
+		view.value[1][2] = -pos.y;
+		return view;
 	}
 
 	float Math::random(uint32_t seed) {

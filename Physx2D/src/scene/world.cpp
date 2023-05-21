@@ -4,7 +4,8 @@
 
 namespace Physx2D {
 	World::World(Window* targetWindow) {
-		window = targetWindow;
+		this->window = targetWindow;
+		this->sceneCamera = Camera(vec2(500.f), window->GetResolution());
 	}
 
 	World::~World()	{
@@ -59,22 +60,17 @@ namespace Physx2D {
 		shaders[CIRCLE] = s2;
 		shaders[TRIANGLE] = s1;
 		shaders[LINE] = s1;
-
-		for (auto& entity : entities) {
-			if (entity->HasComponent<ScriptComponent>()) {
-				entity->GetComponent<ScriptComponent>()->script->setup();
-			}
-		}
 	}
 
 	void World::Update(double delta_time) {
 		float time = TIME;
 		handleCollisions();
-		LOG_INFO("%f", (TIME - time) * 1000.f); time = TIME;
-		handleScriptUpdate();
-		LOG_INFO("%f", (TIME - time) * 1000.f); time = TIME;
+		LOG_INFO("%f\n", (TIME - time) * 1000.f); time = TIME;
+		sceneCamera.handleInputs(window->m_window, delta_time);
+		handleScriptUpdate(delta_time);
+		LOG_INFO("%f\n", (TIME - time) * 1000.f); time = TIME;
 		handlePhysics(delta_time);
-		LOG_INFO("%f", (TIME - time) * 1000.f); time = TIME;
+		LOG_INFO("%f\n", (TIME - time) * 1000.f); time = TIME;
 		updateRenderData();
 		LOG_INFO("%f\n", (TIME - time) * 1000.f); time = TIME;
 	}
@@ -122,7 +118,7 @@ namespace Physx2D {
 		}
 
 		renderers[type] = InstancedRenderer(vertices, numPoints, draw_mode);
-		renderers[type].VertexDataLayout(0, 2, GL_FLOAT, 2*sizeof(vec2), 0);						//vec2 vertex position
+		renderers[type].VertexDataLayout(0, 2, GL_FLOAT, 2*sizeof(vec2), 0);					//vec2 vertex position
 		renderers[type].VertexDataLayout(1, 2, GL_FLOAT, 2*sizeof(vec2), sizeof(vec2));			//vec2 texture coords
 
 		renderers[type].InstanceLayout(2, 2, GL_FLOAT, sizeof(RenderData), 0);					//vec2 position
@@ -161,10 +157,10 @@ namespace Physx2D {
 		return &renderers[type];
 	}
 
-	void World::handleScriptUpdate() {
+	void World::handleScriptUpdate(float delta_time) {
 		for (auto& entity : entities) {
 			if (entity->HasComponent<ScriptComponent>()) {
-				entity->GetComponent<ScriptComponent>()->script->update();
+				entity->GetComponent<ScriptComponent>()->script->update(delta_time);
 			}
 		}
 	}
@@ -258,13 +254,13 @@ namespace Physx2D {
 
 		for (auto& iter : shaders) {
 			iter.second->use();
-			iter.second->setVec2("u_resolution", window->GetResolution());
-			iter.second->setMat3("u_ortho", Math::get_ortho2d(vec2(0.f, 0.f), window->GetResolution()));
+			sceneCamera.setValues(iter.second.get());
 			iter.second->setFloat("u_time", glfwGetTime());
 		}
 		
 		for (auto& renderer : renderers) {
 			auto& rd = renderData[renderer.first];
+			if (rd.size() == 0) continue;
 			renderer.second.InstanceData(rd.data(), rd.size(), sizeof(RenderData));
 		}
 	}

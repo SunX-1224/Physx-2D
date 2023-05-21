@@ -92,6 +92,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\boids\boid.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +104,9 @@
     <None Include="res\circle.glsl" />
     <None Include="res\quad.glsl" />
     <None Include="res\vert.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\boids\boid.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

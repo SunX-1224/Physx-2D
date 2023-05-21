@@ -15,7 +15,7 @@ namespace Physx2D {
 		ScriptObject() {}
 
 		virtual void setup() = 0;
-		virtual void update() = 0;
+		virtual void update(float delta_time) = 0;
 		virtual void OnCollisionDetected(CollisionData& data, Entity* other) {}
 	};
 	

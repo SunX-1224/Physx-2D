@@ -76,7 +76,12 @@
     <ClInclude Include="libraries\include\stb\stb_image.h">
       <Filter>vendors</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\Log.h" />
+    <ClInclude Include="src\scene\camera.h">
+      <Filter>src\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Log.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -152,6 +157,9 @@
     </ClCompile>
     <ClCompile Include="stb_image.cpp">
       <Filter>vendors</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\camera.cpp">
+      <Filter>src\scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

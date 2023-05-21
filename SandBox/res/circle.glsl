@@ -27,7 +27,7 @@ vec2 precalc(){
 void main(){
 	vec2 uv = precalc();
 	float len = smoothstep(1.0f, 0.999f, length(uv));
-	frag_color = vs_out.color + texture(u_texture, vs_out.texUV);
+	frag_color = vs_out.color + vec4(texture(u_texture, vs_out.texUV).xyz, 0.f);
 	frag_color *= len;
 
 	//frag_color = vec4(1.0f);

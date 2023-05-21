@@ -33,9 +33,9 @@ namespace Physx2D {
 	};
 
 	const float TRIANGLE_VERTICES[12] {
-		-0.5f, -0.5f, 0.0f, 0.f,
-		 0.5f, -0.5f, 1.0f, 0.f,
-		 0.0f,  0.866f, 0.5f, 0.866f,
+		-0.866f, -0.5f, 0.0f, 0.00f,
+		 0.866f, -0.5f, 1.0f, 0.00f,
+		 0.000f,  1.0f, 0.5f, 0.866f,
 	};
 
 	const float LINE_VERTICES[8]{

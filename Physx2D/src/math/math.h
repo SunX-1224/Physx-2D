@@ -149,7 +149,8 @@ namespace Physx2D {
 		static const float MIN_float;
 
 		static float dot(vec2 u, vec2 b);
-		static mat3 get_ortho2d(vec2 btm_left, vec2 top_right);
+		static mat3 get_ortho2d(vec2 center, vec2 area);
+		static mat3 get_view2d(vec2 pos);
 
 		static float random(uint32_t seed);
 		static int randint(int a, int b);

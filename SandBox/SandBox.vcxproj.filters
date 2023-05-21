@@ -10,10 +10,16 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\boids\boid.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\circle.glsl" />
     <None Include="res\quad.glsl" />
     <None Include="res\vert.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\boids\boid.h" />
   </ItemGroup>
 </Project>
