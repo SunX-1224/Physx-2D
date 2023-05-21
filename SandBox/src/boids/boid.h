@@ -4,20 +4,19 @@
 
 using namespace Physx2D;
 
-class Agent {
-	public:
-		Entity* self;
-		float fov, speed;
+struct Agent {
+	Entity* self;
+	float fov;
+	float speed;
 
-		Agent(World* world, vec2 pos, float fov, float speed);
-
-		void update(float dt);
+	Agent(World* world, vec2 pos, float fov, float speed);
 };
 
 class Boid :public ScriptObject {
 	public:
 		uint32_t n_agents;
 		std::vector<Agent> agents;
+		const float aware_radius = 60.f;
 
 		Boid(uint32_t n);
 

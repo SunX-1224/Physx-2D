@@ -9,7 +9,7 @@ namespace Physx2D {
 	template<class T>
 	struct PHYSX2D_API Data {
 		vec2 key;
-		T data;
+		T data = T();
 
 		Data() {}
 		Data(vec2 key_, T data_) :key(key_), data(data_) {}

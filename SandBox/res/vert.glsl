@@ -24,17 +24,23 @@ uniform float u_fov;
 vec2 performcalculations(){
 	float aspect = u_resolution.x / u_resolution.y;
 	
+	//take a better look at this
+	//-------------------
 	vs_out.position = (u_camMatrices * vec3(translation, 1.0f)).xy;
 	vs_out.size = scale / u_resolution ;
 	vs_out.size /= vec2(1.0f, aspect)* u_fov;
+	//-------------------
+
 	vs_out.color = color;
 	vs_out.texUV = texCoord * tiling + texOffset;
-		
+	
 	float s = sin(angle);
 	float c = cos(angle);
-	vec2 pos;
-	pos.x = scale.x * (vertPos.x * c - vertPos.y * s) + translation.x;
-	pos.y = scale.y * (vertPos.x * s + vertPos.y * c) + translation.y;
+
+	vec2 pos = vertPos.xy;
+	pos *= scale;
+	pos = vec2(pos.x * c - pos.y * s, pos.x * s + pos.y * c);
+	pos += translation;
 
 	pos = (u_camMatrices * vec3(pos, 1.0f)).xy;
 	return pos;

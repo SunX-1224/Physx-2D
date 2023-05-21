@@ -161,6 +161,7 @@
     <ClCompile Include="src\scene\camera.cpp">
       <Filter>src\scene</Filter>
     </ClCompile>
+    <ClCompile Include="src\utils\quadtree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="libraries\lib\glfw3.lib">

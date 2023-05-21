@@ -5,7 +5,7 @@
 namespace Physx2D {
 	World::World(Window* targetWindow) {
 		this->window = targetWindow;
-		this->sceneCamera = Camera(vec2(500.f), window->GetResolution());
+		this->sceneCamera = Camera();
 	}
 
 	World::~World()	{
@@ -254,7 +254,7 @@ namespace Physx2D {
 
 		for (auto& iter : shaders) {
 			iter.second->use();
-			sceneCamera.setValues(iter.second.get());
+			sceneCamera.setValues(iter.second.get(), window->GetResolution());
 			iter.second->setFloat("u_time", glfwGetTime());
 		}
 		

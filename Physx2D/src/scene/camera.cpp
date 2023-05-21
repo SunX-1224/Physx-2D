@@ -2,24 +2,22 @@
 #include "../core/Log.h"
 
 namespace Physx2D {
-	Camera::Camera(vec2 position, vec2 view_area) {
+	Camera::Camera(vec2 position, float fov) {
 		this->position = position;
-		this->view_area = view_area;
+		this->fov = fov;
 	}
 
-	mat3 Camera::get_matrices() {
-		mat3 mat = Math::get_ortho2d(vec2(), view_area * fov);
-		//mat.value[0][2] += -mat.value[0][0] * position.x;
-		//mat.value[1][2] += -mat.value[1][1] * position.y;
+	mat3 Camera::get_matrices(vec2 res) {
+		mat3 mat = Math::get_ortho2d(vec2(), res * fov);
+		mat.value[0][2] += -mat.value[0][0] * position.x;
+		mat.value[1][2] += -mat.value[1][1] * position.y;
 		return mat;
 	}
 
-	void Camera::setValues(Shader* shader) {
+	void Camera::setValues(Shader* shader, vec2 res) {
 		shader->setFloat("u_fov", fov);
-		shader->setMat3("u_camMatrices", get_matrices());
-		shader->setVec2("u_resolution", view_area);
-		
-		//LOG_INFO("CamPosition : (%f, %f)\n", position.x, position.y);
+		shader->setMat3("u_camMatrices", get_matrices(res));
+		shader->setVec2("u_resolution", res);
 	}
 
 	void Camera::handleInputs(GLFWwindow* window, float delta_time) {

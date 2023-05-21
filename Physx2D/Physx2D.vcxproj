@@ -134,6 +134,7 @@
     <ClCompile Include="src\renderer\vao.cpp" />
     <ClCompile Include="src\scene\entity.cpp" />
     <ClCompile Include="src\scene\world.cpp" />
+    <ClCompile Include="src\utils\quadtree.cpp" />
     <ClCompile Include="src\utils\time.cpp" />
     <ClCompile Include="src\window\window.cpp" />
     <ClCompile Include="stb_image.cpp" />
