@@ -1,8 +1,7 @@
 #pragma once
 
-#include<glad/glad.h>
 #include "../math/math.h"
-#include <vector>
+
 
 namespace Physx2D {
 

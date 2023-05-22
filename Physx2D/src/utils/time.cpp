@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "time.h"
 
 Physx2D::Time::Time() {
@@ -6,8 +7,7 @@ Physx2D::Time::Time() {
 }
 
 void Physx2D::Time::initTimer(){
-	current_time = glfwGetTime();
-	last_time = current_time;
+	current_time = last_time = glfwGetTime();
 }
 
 double Physx2D::Time::get_time(){
@@ -15,16 +15,13 @@ double Physx2D::Time::get_time(){
 }
 
 int Physx2D::Time::get_fps(){
-	double del = current_time - last_time;
-	return del == 0.0 ? 0 : (int)(1.0 / del);
+	return current_time < last_time ? 0 : (1.f / (current_time - last_time));
 }
 
 double Physx2D ::Time::get_delta_time() {
-	double del = current_time - last_time;
-	return del < 0.0 ? 0.0 : del;
+	return current_time < last_time ? 0.0 :(current_time - last_time);
 }
 
 void Physx2D::Time::update(){
-	last_time = current_time;
-	current_time = glfwGetTime();
+	last_time = current_time, current_time = glfwGetTime();
 }

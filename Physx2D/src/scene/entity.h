@@ -2,7 +2,7 @@
 
 #include "world.h"
 #include "components.h"
-#include "../core/Log.h"
+
 
 namespace Physx2D {
 	class PHYSX2D_API World;

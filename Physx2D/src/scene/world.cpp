@@ -1,6 +1,7 @@
+#include "pch.h"
 #include "world.h"
 #include "entity.h"
-#include "../core/Log.h"
+#include "../utils/time.h"
 
 namespace Physx2D {
 	World::World(Window* targetWindow) {

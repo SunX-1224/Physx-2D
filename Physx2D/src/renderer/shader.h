@@ -1,13 +1,6 @@
 #pragma once
 
 #include <glad/glad.h>
-
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <cerrno>
-#include "../core/core.h"
 #include "../math/math.h"
 
 namespace Physx2D {
@@ -21,8 +14,8 @@ namespace Physx2D {
 		Shader();
 		Shader(const char* vertexPath, const char* fragmentPath);
 
-		void use();
-		void del();
+		inline void use();
+		inline void del();
 		void setBool(const char*, bool);
 		void setInt(const char*, int);
 		void setFloat(const char*, float);

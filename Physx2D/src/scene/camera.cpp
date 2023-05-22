@@ -1,5 +1,5 @@
+#include "pch.h"
 #include "camera.h"
-#include "../core/Log.h"
 
 namespace Physx2D {
 	Camera::Camera(vec2 position, float fov) {

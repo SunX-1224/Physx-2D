@@ -7,12 +7,12 @@ Agent::Agent(World* world, vec2 pos, float fov, float speed) {
 	this->speed = speed;
 
 	self = world->CreateEntity();
-	self->AddComponent<SpriteRenderer>(TRIANGLE, Color(Math::random(pos.x),Math::random(pos.y), Math::random(pos.x+pos.y), 1.0f));
+	self->AddComponent<SpriteRenderer>(TRIANGLE, Color(Math::random(pos.x),Math::random(pos.y), Math::random(pos.x+pos.y), 1.0f)); //
 	
 	Transform* tfr = self->GetComponent<Transform>();
 	tfr->Position = pos;
-	tfr->Scale = vec2(10.f, 5.f);
-	tfr->Rotation = Math::random(0) * Math::PI * 2.f;
+	tfr->Scale = vec2(10.f, 4.f);
+	tfr->Rotation = Math::random(pos.x + pos.y) * Math::PI * 2.f;
 
 	self->AddComponent<RigidBody2D>(KINETIC); 
 }
@@ -64,7 +64,7 @@ void Boid::update(float delta_time) {
 		//vec2 drive = vec2(50.f, 100.f) - trf->Position;
 
 		float del = atan2(res.y, res.x) + atan2(cen.y, cen.x) + avg - 3.f * trf->Rotation;
-		float rr = (Math::random(TIME) - 0.5f) * agents[i].fov;
+		float rr = (Math::random(TIME*1000) - 0.5f) * agents[i].fov;
 
 		float w8 = 0.5f;
 		del = del * w8 + rr * (1.f - w8);

@@ -1,5 +1,5 @@
+#include "pch.h"
 #include "window.h"
-#include "../core/Log.h"
 
 namespace Physx2D {
 
@@ -57,8 +57,7 @@ namespace Physx2D {
     }
 
     void Window::SetTitle(const char* title){
-        properties.TITLE = title;
-        glfwSetWindowTitle(m_window, title);
+        glfwSetWindowTitle(m_window, properties.TITLE = title);
     }
 
     void Window::UpdateEvents() {

@@ -1,9 +1,6 @@
 #pragma once
-#include "../core/core.h"
 #include "vao.h"
 #include "shader.h"
-
-#include <vector>
 
 namespace Physx2D {
 	class PHYSX2D_API Renderer2D {

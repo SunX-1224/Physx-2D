@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "physics2d.h"
 
 namespace Physx2D{
@@ -279,11 +280,7 @@ namespace Physx2D{
 	{
 		vec2 axis = (t1->Position + c1->Offset) - (t2->Position + c2->Offset);
 		float overlap = axis.length() + c1->Radius - c2->Radius;
-		
-		if (overlap > 0.f) 
-			return CollisionData(true, axis.normalized() * overlap);
-		else 
-			return CollisionData();
+		return CollisionData(overlap>0.f, axis.normalized() * overlap);
 	}
 
 	CollisionData PhysicsHandler::_check(BoxCollider2D* c1, Transform* t1, AABB* c2, Transform* t2)

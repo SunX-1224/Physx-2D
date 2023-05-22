@@ -1,10 +1,5 @@
 #pragma once
-
-#include <iostream>
-#include <unordered_map>
-#include <vector>
-#include <typeindex>
-#include "components.h"
+#include "../pch.h"
 
 namespace Physx2D {
 	using EntityID = uint32_t;
@@ -13,9 +8,8 @@ namespace Physx2D {
 
 	public:
 
-		const EntityID  CreateEntity() {
-			const EntityID entity = nextEntity++;
-			return entity;
+		const inline EntityID  CreateEntity() {
+			return nextEntity++;
 		}
 
 		template<typename T>
@@ -43,7 +37,8 @@ namespace Physx2D {
 		}
 
 		template<typename T>
-		bool hasComponent(EntityID entity) {
+		inline bool hasComponent(EntityID entity) {
+			if (entity < 0 || entity >= nextEntity) throw("Invalid entity ID");
 
 			std::vector<void*>& componentVector = componentStorage[std::type_index(typeid(T))];
 			return entity < componentVector.size() && componentVector[entity] ;
@@ -51,7 +46,6 @@ namespace Physx2D {
 
 		template<typename T>
 		T* getComponent(EntityID entity) {
-			
 			if (entity < 0 || entity >= nextEntity) throw("Invalid entity ID");
 
 			std::vector<void*>& componentVector = componentStorage[std::type_index(typeid(T))];
@@ -59,12 +53,11 @@ namespace Physx2D {
 			if (entity < componentVector.size()) {
 				return static_cast<T*>(componentVector[entity]);
 			}
-			T* cptr = nullptr;
-			return cptr;
+			return nullptr;
 		}
 
 		template<typename T>
-		const std::vector<void*>& getAllComponents() {
+		const inline std::vector<void*>& getAllComponents() {
 			return componentStorage[std::type_index(typeid(T))];
 		}
 

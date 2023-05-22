@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "shader.h"
 #include "../core/Log.h"
 
@@ -17,8 +18,7 @@ namespace Physx2D {
 			in.close();
 			return(contents);
 		}
-		LOG_ERROR("ERROR : Invalid file path %s\n", filename);
-		throw(errno);
+		throw("ERROR : Invalid file path %s\n", filename); //TODO
 	}
 
 	unsigned int Shader::compile_shader(const char* source, GLenum type) {

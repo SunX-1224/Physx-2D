@@ -1,5 +1,4 @@
 #pragma once
-#include "../core/core.h"
 #include "renderer2D.h"
 
 namespace Physx2D {

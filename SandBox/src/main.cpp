@@ -22,13 +22,13 @@ public:
 			tfr->Scale = window->GetResolution();
 			entity->AddComponent<AABB>(vec2(), tfr->Scale);
 			entity->AddComponent<RigidBody2D>();
-			entity->AddComponent<SpriteRenderer>(QUAD, Color(0.2f));
+			entity->AddComponent<SpriteRenderer>(QUAD, Color(0.1f));
 		}*/
 		
 		Entity* entity = world->CreateEntity(std::string("entity"));
-		entity->AddComponent<ScriptComponent>(new Boid(4000));
+		entity->AddComponent<ScriptComponent>(new Boid(5000));
 		
-		//world->loadTexture("res/container2.png", "test", TRIANGLE);
+		//world->loadTexture("res/container2.png", "test", QUAD);
 		
 		world->Initialize();
 	}

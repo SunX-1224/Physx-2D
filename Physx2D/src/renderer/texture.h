@@ -20,11 +20,11 @@ namespace Physx2D {
 			int _height = 800
 		);
 
-		void texUnit(Shader* shader, const char* uniform);
-		void bind(int slot = -1);
-		static void unbind();
-		void del();
-		void set_property(GLenum target, GLenum pname, GLenum parameter);
+		inline void texUnit(Shader* shader, const char* uniform);
+		inline void bind(int slot = -1);
+		static inline void unbind();
+		inline void del();
+		inline void set_property(GLenum target, GLenum pname, GLenum parameter);
 		uint32_t ID();
 	private:
 		GLuint m_ID;

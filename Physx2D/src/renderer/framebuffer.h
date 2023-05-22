@@ -1,9 +1,6 @@
 #pragma once
 
-#include<iostream>
-#include "../core/core.h"
 #include "texture.h"
-#include "shader.h"
 #include "vao.h"
 #include "../utils/defaults.h"
 
@@ -20,10 +17,10 @@ namespace Physx2D {
 		);
 		void del();
 
-		void Clear(float r = 0.f, float g = 0.f, float b = 0.f, float a = 1.f);
-		void ActivateAsTexture(int slot = -1);
-		void Bind();
-		static void Unbind();
+		inline void Clear(float r = 0.f, float g = 0.f, float b = 0.f, float a = 1.f);
+		inline void ActivateAsTexture(int slot = -1);
+		inline void Bind();
+		static inline void Unbind();
 		void Draw(Shader& shader);
 
 	private:

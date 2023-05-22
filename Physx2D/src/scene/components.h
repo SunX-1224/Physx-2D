@@ -1,7 +1,6 @@
 #pragma once
-#include "../core/core.h"
+
 #include "../utils/defaults.h"
-#include <typeindex>
 
 namespace Physx2D {
 	class Entity;

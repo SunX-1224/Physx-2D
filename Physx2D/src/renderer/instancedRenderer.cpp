@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "instancedRenderer.h"
 
 namespace Physx2D {

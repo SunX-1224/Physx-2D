@@ -82,6 +82,7 @@
     <ClInclude Include="src\core\Log.h">
       <Filter>src\core</Filter>
     </ClInclude>
+    <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -152,16 +153,15 @@
     <ClCompile Include="src\window\window.cpp">
       <Filter>src\window</Filter>
     </ClCompile>
-    <ClCompile Include="glad.c">
-      <Filter>vendors</Filter>
-    </ClCompile>
-    <ClCompile Include="stb_image.cpp">
+    <ClCompile Include="libraries\src\glad.c">
       <Filter>vendors</Filter>
     </ClCompile>
     <ClCompile Include="src\scene\camera.cpp">
       <Filter>src\scene</Filter>
     </ClCompile>
     <ClCompile Include="src\utils\quadtree.cpp" />
+    <ClCompile Include="src\pch.cpp" />
+    <ClCompile Include="libraries\src\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="libraries\lib\glfw3.lib">

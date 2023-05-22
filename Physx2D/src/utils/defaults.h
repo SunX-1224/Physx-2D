@@ -1,13 +1,9 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
 #include "../math/math.h"
-#include <vector>
-#include "../core/core.h"
 
 #define SCREEN_WIDTH 1536
 #define SCREEN_HEIGHT 800
-#define TIME glfwGetTime()
 #define arrayLength(a) (sizeof(a)/sizeof(a[0]))
 #define initVectorFromArray(arr, type) std::vector<type>(arr, arr + arrayLength(arr))
 #define max(a, b) (a>b?a:b)

@@ -1,6 +1,7 @@
 #pragma once
 #include "../renderer/shader.h"
 #include "../math/math.h"
+#include <GLFW/glfw3.h>
 
 namespace Physx2D {
 

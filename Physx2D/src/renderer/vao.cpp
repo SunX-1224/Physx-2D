@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "vao.h"
 
 namespace Physx2D {

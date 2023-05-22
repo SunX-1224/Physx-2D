@@ -1,11 +1,7 @@
 #pragma once
-#include "../core/core.h"
 
 #include<glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <iostream>
-
-#include "../math/math.h"
 #include "../utils/defaults.h"
 
 namespace Physx2D{
@@ -22,13 +18,13 @@ namespace Physx2D{
 			);
 
 			void Init();
-			bool ShouldClose();
-			void SetClose(bool value);
-			vec2 GetResolution();
-			void FillScreen(Color color = Color(0.0f, 0.0f, 0.0f, 1.0f));
-			void SetTitle(const char* title);
-			void UpdateEvents();
-			void Update();
-			void Destroy();
+			inline bool ShouldClose();
+			inline void SetClose(bool value);
+			inline vec2 GetResolution();
+			inline void FillScreen(Color color = Color(0.0f, 0.0f, 0.0f, 1.0f));
+			inline void SetTitle(const char* title);
+			inline void UpdateEvents();
+			inline void Update();
+			inline void Destroy();
 	};
 }

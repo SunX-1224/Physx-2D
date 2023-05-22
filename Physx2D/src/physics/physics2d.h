@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../scene/components.h"
-#include <iostream>
 
 namespace Physx2D{
 		

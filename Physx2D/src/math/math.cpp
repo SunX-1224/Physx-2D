@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "math.h"
 
 namespace Physx2D{
@@ -6,7 +7,7 @@ namespace Physx2D{
 	const float Math::MAX_float = 3.40282e+038f;
 	const float Math::MIN_float = -3.40282e+038f;
 
-	float Math::dot(vec2 u, vec2 v){
+	inline float Math::dot(vec2 u, vec2 v){
 		return (u.x * v.x + u.y * v.y);
 	}
 
@@ -31,14 +32,108 @@ namespace Physx2D{
 	}
 
 	float Math::random(uint32_t seed) {
-		seed ^= seed << 17;
-		seed ^= seed >> 23;
-		seed ^= seed << 5;
-		float rn = (float)seed / 0xffffffff;
+		uint32_t r = seed * seed * 637432847 + 748357345;
+		r *= r + 78457834;
+		float rn = (float)r / 0xffffffff;
 		return rn;
 	}
-	int Math::randint(int a, int b){
-		float x = (random(a) + random(b) + random(glfwGetTime() * 10000000))/3.f;
+
+	inline int Math::randint(int a, int b){
+		float x = (random(a) + random(b))/2.f;
 		return a + (int)(x * (b - a));
+	}
+
+	inline vec2 vec2::normalized()
+	{
+		return this->length() > 0.00001f ? (*this) * vec2(1.f / this->length()) : vec2(0.0f);
+	}
+
+	inline float vec2::length()	{
+		return sqrt(x * x + y * y);
+	}
+	vec2 vec2::rotate(float a)
+	{
+		float c = cos(a);
+		float s = sin(a);
+		vec2 n(0.f);
+		n.x = x * c - y * s;
+		n.y = x * s + y * c;
+		return n;
+	}
+	vec2 vec2::operator=(vec2 v)
+	{
+		x = v.x;
+		y = v.y;
+		return v;
+	}
+	vec2 vec2::operator-()
+	{
+		return vec2(-x, -y);
+	}
+	vec2 vec2::operator+(vec2 v)
+	{
+		return vec2(x + v.x, y + v.y);
+	}
+	void vec2::operator+=(vec2 v)
+	{
+		x = x + v.x;
+		y = y + v.y;
+	}
+	vec2 vec2::operator-(vec2 v)
+	{
+		return vec2(x - v.x, y - v.y);
+	}
+	void vec2::operator-=(vec2 v)
+	{
+		x -= v.x;
+		y -= v.y;
+	}
+	vec2 vec2::operator*(vec2 v)
+	{
+		return vec2(x * v.x, y * v.y);
+	}
+	void vec2::operator*=(vec2 a)
+	{
+		x *= a.x;
+		y *= a.y;
+	}
+	vec4 vec4::operator+(vec4 v)
+	{
+		return vec4(x + v.x, y + v.y, z + v.z, w + v.w);
+	}
+	void vec4::operator+=(vec4 v)
+	{
+		x += v.x; y += v.y; z += v.z; w += v.w;
+	}
+	vec4 vec4::operator-(vec4 v)
+	{
+		return vec4(x - v.x, y - v.y, z - v.z, w - v.w);
+	}
+	void vec4::operator-=(vec4 v)
+	{
+		x -= v.x; y -= v.y; z -= v.z; w -= v.w;
+	}
+	vec4 vec4::operator*(vec4 v)
+	{
+		return vec4(x * v.x, y * v.y, z * v.z, w * v.w);
+	}
+	void vec4::operator*=(vec4 a)
+	{
+		x *= a.x;
+		y *= a.y;
+		z *= a.z;
+		w *= a.w;
+	}
+	inline bool centerRect::contains(vec2 point)
+	{
+		return point.x > (x - w * 0.5f) && point.x<(x + w * 0.5f) && point.y >(y - h * 0.5f) && point.y < (h * 0.5f + y);
+	}
+	inline bool centerRect::intersects(centerRect n)
+	{
+		return abs(x - n.x) < ((w + n.w) * 0.5f) && abs(y - n.y) < ((h + n.h) * 0.5f);
+	}
+	inline centerRect centerRect::getPart(float xp, float yp)
+	{
+		return centerRect(x + xp * 0.5f * w, y + yp * 0.5f * h, abs(xp) * w, abs(yp) * h);
 	}
 }
