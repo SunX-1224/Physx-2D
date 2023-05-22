@@ -16,7 +16,7 @@ class Boid :public ScriptObject {
 	public:
 		uint32_t n_agents;
 		std::vector<Agent> agents;
-		const float aware_radius = 60.f;
+		const float aware_radius = 100.f;
 
 		Boid(uint32_t n);
 

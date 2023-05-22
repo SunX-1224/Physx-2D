@@ -31,14 +31,14 @@ namespace Physx2D{
 	}
 
 	float Math::random(uint32_t seed) {
-		uint32_t r = seed *seed* 637432847 + 748357345;
-		r *= r + 78457834;
-		r *= (glfwGetTime() * 1000000000);
-		float rn = (float)r / 0xffffffff;
+		seed ^= seed << 17;
+		seed ^= seed >> 23;
+		seed ^= seed << 5;
+		float rn = (float)seed / 0xffffffff;
 		return rn;
 	}
 	int Math::randint(int a, int b){
-		float x = (random(a) + random(b) + random(glfwGetTime() * 1000000))/3.f;
+		float x = (random(a) + random(b) + random(glfwGetTime() * 10000000))/3.f;
 		return a + (int)(x * (b - a));
 	}
 }
