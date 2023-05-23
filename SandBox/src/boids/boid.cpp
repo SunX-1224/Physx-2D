@@ -11,10 +11,62 @@ Agent::Agent(World* world, vec2 pos, float fov, float speed) {
 	
 	Transform* tfr = self->GetComponent<Transform>();
 	tfr->Position = pos;
-	tfr->Scale = vec2(10.f, 4.f);
+	tfr->Scale = vec2(10.f, 5.f);
 	tfr->Rotation = Math::random(pos.x + pos.y) * Math::PI * 2.f;
 
-	self->AddComponent<RigidBody2D>(KINETIC); 
+	self->AddComponent<RigidBody2D>(KINETIC); //, vec2(speed * cos(tfr->Rotation), speed * sin(tfr->Rotation))
+}
+
+void Agent::align(std::vector<void*>& agents) {
+	vec2 res;
+	for (auto& ag : agents) {
+		Agent* agent = (Agent*)ag;
+		res += agent->self->GetComponent<RigidBody2D>()->Velocity;
+	}
+	res *= 1.f / agents.size();
+	res = res.normalized() * speed;
+	
+	RigidBody2D* rgb = self->GetComponent<RigidBody2D>();
+	rgb->Acceleration += res - rgb->Velocity;
+}
+
+void Agent::cohesion(std::vector<void*>& agents) {
+	vec2 res;
+	for (auto& ag : agents) {
+		Agent* agent = (Agent*)ag;
+		res += agent->self->GetComponent<Transform>()->Position;
+	}
+	res *= 1.f / agents.size();
+	res -= self->GetComponent<Transform>()->Position;
+	res = res.normalized() * speed;
+
+	RigidBody2D* rgb = self->GetComponent<RigidBody2D>();
+	rgb->Acceleration += res - rgb->Velocity;
+}
+
+void Agent::separation(std::vector<void*>& agents) {
+	vec2 res;
+	for (auto& ag : agents) {
+		Agent* agent = (Agent*)ag;
+		vec2 del = self->GetComponent<Transform>()->Position - agent->self->GetComponent<Transform>()->Position;
+		del *= 1000.f / max(0.001, Math::dot(del, del));
+		res += del;
+	}
+	res *= 1.f / agents.size();
+	res = res.normalized() * speed;
+	
+	RigidBody2D* rgb = self->GetComponent<RigidBody2D>();
+	rgb->Acceleration += res - rgb->Velocity;
+}
+
+void Agent::bounds() {
+	Transform* trf = self->GetComponent<Transform>();
+
+	if (trf->Position.x > 770.f) trf->Position.x = -770.f;
+	else if (trf->Position.x < -770.f) trf->Position.x = 770.f;
+
+	if (trf->Position.y > 400.f) trf->Position.y = -400.f;
+	else if (trf->Position.y < -400.f) trf->Position.y = 400.f;
 }
 
 Boid::Boid(uint32_t n) : n_agents(n){
@@ -23,54 +75,30 @@ Boid::Boid(uint32_t n) : n_agents(n){
 
 void Boid::setup() {
 	for (uint32_t i = 0; i < n_agents; i++) {
-		agents.push_back(Agent(self->m_world, vec2((Math::random(i*200) - 0.5f) * 1500.f, (Math::random(i*300) - 0.5f) * 900.f), 1.f, 15.f));
+		agents.push_back(Agent(self->m_world, vec2((Math::random(i*200) - 0.5f) * 1000.f, (Math::random(i*300) - 0.5f) * 800.f), 3.14f, 100.f));
 	}
 }
 
 void Boid::update(float delta_time) {
-	QuadTree<uint32_t> i_qtree(centerRect(0.f, 0.f, 5000.f, 5000.f));
-	for (int i = 0; i < n_agents; i++)
-		i_qtree.insert(agents[i].self->GetComponent<Transform>()->Position, i);
-	
-	std::vector<uint32_t> inds;
-	inds.reserve(n_agents);
+	QuadTree<void*> i_qtree(centerRect(0.f, 0.f, 2000.f, 2000.f));
+	for (int i = 0; i < n_agents; i++) 
+		i_qtree.insert(agents[i].self->GetComponent<Transform>()->Position, &agents[i]);
+
+	std::vector<void*> others;
+	others.reserve(n_agents);
 	
 	for (uint32_t i = 0; i < n_agents; i++) {
-		Transform* trf = agents[i].self->GetComponent<Transform>();
+		others.clear();
+		i_qtree.query(centerRect(agents[i].self->GetComponent<Transform>()->Position,vec2(aware_radius)),others);
 
-		inds.clear();
-		i_qtree.query(centerRect(trf->Position, vec2(aware_radius)), inds);
-		if (inds.size() == 0) continue;
+		if (others.size() <= 1) continue;
 
-		vec2 res;
-		float avg = 0;
-		vec2 cen;
+		agents[i].align(others);
+		agents[i].cohesion(others);
+		agents[i].separation(others);
+		agents[i].bounds();
 
-		for (auto& j : inds) {
-			Transform* ntrf = agents[j].self->GetComponent<Transform>();
-			avg += ntrf->Rotation;
-			cen += ntrf->Position;
-
-			if (i == j) continue;
-
-			vec2 del = trf->Position - ntrf->Position;
-			res += del * (1.f / Math::dot(del, del));
-		}
-
-		cen *= 1.f / inds.size();
-		cen -= trf->Position;
-		avg /= inds.size();
-
-		//vec2 drive = vec2(50.f, 100.f) - trf->Position;
-
-		float del = atan2(res.y, res.x) + atan2(cen.y, cen.x) + avg - 3.f * trf->Rotation;
-		float rr = (Math::random(TIME*1000) - 0.5f) * agents[i].fov;
-
-		float w8 = 0.5f;
-		del = del * w8 + rr * (1.f - w8);
-
-		trf->Rotation += del * delta_time;
-		
-		agents[i].self->GetComponent<RigidBody2D>()->Velocity =  vec2(cos(trf->Rotation), sin(trf->Rotation)) * agents[i].speed;
+		RigidBody2D* rgb = agents[i].self->GetComponent<RigidBody2D>();
+		agents[i].self->GetComponent<Transform>()->Rotation = atan2(rgb->Velocity.y, rgb->Velocity.x);
 	}
 }

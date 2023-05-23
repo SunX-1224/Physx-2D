@@ -26,7 +26,7 @@ public:
 		}*/
 		
 		Entity* entity = world->CreateEntity(std::string("entity"));
-		entity->AddComponent<ScriptComponent>(new Boid(5000));
+		entity->AddComponent<ScriptComponent>(new Boid(3000));
 		
 		//world->loadTexture("res/container2.png", "test", QUAD);
 		

@@ -37,8 +37,10 @@ namespace Physx2D {
 		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 			position.x += speed.x * delta_time;
 
-		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
 			position = vec2();
+			fov = 1.f;
+		}
 
 		if (glfwGetKey(window, GLFW_KEY_KP_SUBTRACT) == GLFW_PRESS && fov < 5.f )
 			fov += delta_time * sensitivity;
