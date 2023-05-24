@@ -33,7 +33,7 @@ namespace Physx2D {
 		glGetShaderiv(id, GL_COMPILE_STATUS, &success);
 		if (not success) {
 			glGetShaderInfoLog(id, 512, NULL, infoLog);
-			LOG_ERROR("ERROR: %s Shader did not compiled successfully\n LOG : %s\n", type == GL_VERTEX_SHADER ? "Vertex" : "Fragment", infoLog);
+			LOG_ERROR("ERROR: %s Shader did not compiled successfully\n LOG : %s\n", (type == GL_VERTEX_SHADER ? "Vertex" : "Fragment"), infoLog);
 		}
 		return id;
 	}

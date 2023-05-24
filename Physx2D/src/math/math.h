@@ -64,6 +64,21 @@ namespace Physx2D {
 			mat3(float x = 0.0f) :value{ {x, 0.f, 0.f}, {0.f, x, 0.f}, {0.f, 0.f, x} } {}
 		};
 
+	class PHYSX2D_API Random {
+		public:
+			Random(uint32_t seed);
+
+			inline uint32_t rand_i();
+			inline int randr_i(int a, int b);
+
+			inline float rand_f();
+			inline float randr_f(float a, float b);
+
+		private:
+			uint32_t seed_i;
+			uint32_t seed_f;
+	};
+
 	class PHYSX2D_API Math {
 	public:
 		static const double PI;
@@ -73,8 +88,11 @@ namespace Physx2D {
 		static inline float dot(vec2 u, vec2 b);
 		static mat3 get_ortho2d(vec2 center, vec2 area);
 		static mat3 get_view2d(vec2 pos);
-
-		static float random(uint32_t seed);
-		static inline int randint(int a, int b);
+		
+		static inline float random_i(uint32_t seed);
+		static inline float random_f(uint32_t seed);
+		
+		static inline int randomr_i(int a, int b);
+		static inline float randomr_f(float a, float b);
 	};
 }

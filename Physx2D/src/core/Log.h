@@ -9,8 +9,17 @@
 
 #else
 
-#define LOG_INFO
-#define LOG_WARN
-#define LOG_ERROR
+#define LOG_INFO(form, ...)
+#define LOG_WARN(form, ...)
+#define LOG_ERROR(form, ...)
 
+#endif
+
+#define __VA_ARGS0__(x, ...) x
+#define __VA_ARGSN0__(x, ...) __VA_ARGS__
+
+#ifdef PHSX_ASSERT_ENABLE
+#define PHSX_ASSERT(x, ...) { if(!(x)) {LOG_ERROR("ASSERTION FAILED : " __VA_ARGS0__(__VA_ARGS__), __VA_ARGSN0__(__VA_ARGS__)); __debugbreak(); } }
+#else
+#define PHSX_ASSERT(x, ...)
 #endif

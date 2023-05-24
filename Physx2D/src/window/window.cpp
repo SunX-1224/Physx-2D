@@ -7,20 +7,20 @@ namespace Physx2D {
         properties = props;
         VERSION_MAJOR = version_major;
         VERSION_MINOR = version_minor;
-        m_window = NULL;
-    }
 
-    void Window::Init() {
+
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, VERSION_MAJOR);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, VERSION_MINOR);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#ifdef __APPLE__
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-        glfwWindowHint(GLFW_RESIZABLE, properties.RESIZABLE);
 
-        m_window = glfwCreateWindow(properties.WIDTH, properties.HEIGHT, properties.TITLE, properties.FULLSCREEN_MODE ? glfwGetPrimaryMonitor() : NULL, NULL);
+        #ifdef __APPLE__
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+        #endif
+
+        glfwWindowHint(GLFW_RESIZABLE, true);
+
+        m_window = glfwCreateWindow(properties.WIDTH, properties.HEIGHT, properties.TITLE, NULL, NULL);
         glfwMakeContextCurrent(m_window);
 
         glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
@@ -28,12 +28,13 @@ namespace Physx2D {
             glViewport(0, 0, width, height);
             });
 
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-            LOG_ERROR("Failed to initialize glad%s", "\n");
-        }
+        glfwSwapInterval(1);
 
+        PHSX_ASSERT( gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialize glad%s", "\n");
+    }
+
+    void Window::OnInit() {
         glViewport(0, 0, properties.WIDTH, properties.HEIGHT);
-
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
@@ -51,24 +52,31 @@ namespace Physx2D {
         return vec2(properties.WIDTH, properties.HEIGHT);
     }
 
-    void Window::FillScreen(Color color) {
+    inline int Window::GetWidth()
+    {
+        return GetResolution().x;
+    }
+
+    inline int Window::GetHeight()
+    {
+        return GetResolution().y;
+    }
+
+    inline void Window::FillScreen(Color color) {
         glClearColor(color.x, color.y, color.z, color.w);
         glClear(GL_COLOR_BUFFER_BIT);
     }
 
-    void Window::SetTitle(const char* title){
+    inline void Window::SetTitle(const char* title){
         glfwSetWindowTitle(m_window, properties.TITLE = title);
     }
 
-    void Window::UpdateEvents() {
+    inline void Window::OnUpdate() {
         glfwPollEvents();
-    }
-
-    void Window::Update() {
         glfwSwapBuffers(m_window);
     }
 
-    void Window::Destroy() {
+    Window::~Window() {
         glfwDestroyWindow(m_window);
     }
 

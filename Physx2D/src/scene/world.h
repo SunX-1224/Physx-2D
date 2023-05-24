@@ -1,5 +1,5 @@
 #pragma once
-
+#include "pch.h"
 #include "../window/window.h"
 #include "ecsmanager.h"
 #include "../physics/physics2d.h"

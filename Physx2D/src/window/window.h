@@ -16,15 +16,16 @@ namespace Physx2D{
 				uint32_t version_major = 4,
 				uint32_t version_minor = 6
 			);
-
-			void Init();
+			~Window();
+			void OnInit();
 			inline bool ShouldClose();
 			inline void SetClose(bool value);
 			inline vec2 GetResolution();
+			inline int GetWidth();
+			inline int GetHeight();
 			inline void FillScreen(Color color = Color(0.0f, 0.0f, 0.0f, 1.0f));
 			inline void SetTitle(const char* title);
-			inline void UpdateEvents();
-			inline void Update();
-			inline void Destroy();
+			inline void OnUpdate();
+			
 	};
 }

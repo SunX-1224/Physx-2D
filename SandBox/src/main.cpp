@@ -6,54 +6,31 @@ using namespace Physx2D;
 class SandBox :public Application {
 
 public:
-	Window* window;
-	World* world;
+	std::unique_ptr<World> world;
 
 	SandBox() {
-		window = new Window();
-		window->Init();
-
-		world = new World(window);
-		
-		//bounds
-		/*{
-			Entity* entity = world->CreateEntity();
-			Transform* tfr = entity->GetComponent<Transform>();
-			tfr->Scale = window->GetResolution();
-			entity->AddComponent<AABB>(vec2(), tfr->Scale);
-			entity->AddComponent<RigidBody2D>();
-			entity->AddComponent<SpriteRenderer>(QUAD, Color(0.1f));
-		}*/
+		world = std::unique_ptr<World>(new World(m_window.get()));
 		
 		Entity* entity = world->CreateEntity(std::string("entity"));
-		entity->AddComponent<ScriptComponent>(new Boid(3000));
-		
-		//world->loadTexture("res/container2.png", "test", QUAD);
-		
+		entity->AddComponent<ScriptComponent>(new Boid(2000));
+				
 		world->Initialize();
-	}
-	~SandBox() {
-		delete world;
-		delete window;
 	}
 
 	virtual void Run() override {
 		Time clock;
 		clock.initTimer();
 
-		while (!window->ShouldClose()) {
-			window->UpdateEvents();
-
+		while (!m_window->ShouldClose()) {
 			world->Update(clock.get_delta_time());
 
-			window->FillScreen(Color(0.05f, 0.05f, 0.05f, 1.f));
+			m_window->FillScreen(Color(0.05f, 0.05f, 0.05f, 1.f));
 			world->Render();
 			
-			window->Update();
+			m_window->OnUpdate();
 			clock.update();
-			window->SetTitle((std::to_string(clock.get_fps())).c_str());
+			m_window->SetTitle((std::to_string(clock.get_fps())).c_str());
 		}
-		window->Destroy();
 	}
 };
 

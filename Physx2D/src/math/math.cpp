@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "math.h"
 
-namespace Physx2D{
+namespace Physx2D {
 
 	const double Math::PI = 3.1415926535897932384626433832795028841971693993751058209749445923078164062;
 	const float Math::MAX_float = 3.40282e+038f;
 	const float Math::MIN_float = -3.40282e+038f;
 
-	inline float Math::dot(vec2 u, vec2 v){
+	inline float Math::dot(vec2 u, vec2 v) {
 		return (u.x * v.x + u.y * v.y);
 	}
 
@@ -19,8 +19,8 @@ namespace Physx2D{
 		ortho.value[0][0] = 2.0f / (top_right.x - btm_left.x);
 		ortho.value[1][1] = 2.0f / (top_right.y - btm_left.y);
 
-		ortho.value[0][2] = - (btm_left.x + top_right.x)/(btm_left.x - top_right.x);
-		ortho.value[1][2] = - (btm_left.y + top_right.y)/(btm_left.y - top_right.y);
+		ortho.value[0][2] = -(btm_left.x + top_right.x) / (btm_left.x - top_right.x);
+		ortho.value[1][2] = -(btm_left.y + top_right.y) / (btm_left.y - top_right.y);
 		return ortho;
 	}
 
@@ -31,16 +31,27 @@ namespace Physx2D{
 		return view;
 	}
 
-	float Math::random(uint32_t seed) {
+	inline float Math::random_i(uint32_t seed)
+	{
 		uint32_t r = seed * seed * 637432847 + 748357345;
 		r *= r + 78457834;
-		float rn = (float)r / 0xffffffff;
-		return rn;
+
+		return r;
 	}
 
-	inline int Math::randint(int a, int b){
-		float x = (random(a) + random(b))/2.f;
+	inline float Math::random_f(uint32_t seed) {
+		return random_i(seed) / 0xffffffff;
+	}
+
+	inline int Math::randomr_i(int a, int b) {
+		float x = (random_f(a) + random_f(b)) / 2.f;
 		return a + (int)(x * (b - a));
+	}
+
+	inline float Math::randomr_f(float a, float b)
+	{
+		float x = (random_f(a * 1000) + random_f(b * 2000)) / 2.f;
+		return a + x * (b - a);
 	}
 
 	inline vec2 vec2::normalized()
@@ -48,7 +59,7 @@ namespace Physx2D{
 		return this->length() > 0.00001f ? (*this) * vec2(1.f / this->length()) : vec2(0.0f);
 	}
 
-	inline float vec2::length()	{
+	inline float vec2::length() {
 		return sqrt(x * x + y * y);
 	}
 	vec2 vec2::rotate(float a)
@@ -135,5 +146,25 @@ namespace Physx2D{
 	inline centerRect centerRect::getPart(float xp, float yp)
 	{
 		return centerRect(x + xp * 0.5f * w, y + yp * 0.5f * h, abs(xp) * w, abs(yp) * h);
+	}
+
+	Random::Random(uint32_t seed) : seed_i(seed), seed_f(seed) {}
+
+	inline uint32_t Random::rand_i()
+	{
+		return Math::random_i(seed_i++);
+	}
+	inline int Random::randr_i(int a, int b)
+	{
+		return a + Math::random_f(seed_i++) * (b - a);
+	}
+	inline float Random::rand_f()
+	{
+		return Math::random_f(seed_f++);
+	}
+
+	inline float Random::randr_f(float a, float b)
+	{
+		return a + Math::random_f(seed_f) * (b - a);
 	}
 }

@@ -7,12 +7,12 @@ Agent::Agent(World* world, vec2 pos, float fov, float speed) {
 	this->speed = speed;
 
 	self = world->CreateEntity();
-	self->AddComponent<SpriteRenderer>(TRIANGLE, Color(Math::random(pos.x),Math::random(pos.y), Math::random(pos.x+pos.y), 1.0f)); //
+	self->AddComponent<SpriteRenderer>(TRIANGLE, Color(Math::random_f(pos.x),Math::random_f(pos.y), Math::random_f(pos.x+pos.y), 1.0f)); //
 	
 	Transform* tfr = self->GetComponent<Transform>();
 	tfr->Position = pos;
 	tfr->Scale = vec2(10.f, 5.f);
-	tfr->Rotation = Math::random(pos.x + pos.y) * Math::PI * 2.f;
+	tfr->Rotation = Math::random_f(pos.x + pos.y) * Math::PI * 2.f;
 
 	self->AddComponent<RigidBody2D>(KINETIC); //, vec2(speed * cos(tfr->Rotation), speed * sin(tfr->Rotation))
 }
@@ -41,7 +41,7 @@ void Agent::cohesion(std::vector<void*>& agents) {
 	res = res.normalized() * speed;
 
 	RigidBody2D* rgb = self->GetComponent<RigidBody2D>();
-	rgb->Acceleration += res - rgb->Velocity;
+	rgb->Acceleration += (res - rgb->Velocity) * 0.96f;
 }
 
 void Agent::separation(std::vector<void*>& agents) {
@@ -49,7 +49,7 @@ void Agent::separation(std::vector<void*>& agents) {
 	for (auto& ag : agents) {
 		Agent* agent = (Agent*)ag;
 		vec2 del = self->GetComponent<Transform>()->Position - agent->self->GetComponent<Transform>()->Position;
-		del *= 1000.f / max(0.001, Math::dot(del, del));
+		del *= 100.f / max(0.001, Math::dot(del, del));
 		res += del;
 	}
 	res *= 1.f / agents.size();
@@ -75,7 +75,13 @@ Boid::Boid(uint32_t n) : n_agents(n){
 
 void Boid::setup() {
 	for (uint32_t i = 0; i < n_agents; i++) {
-		agents.push_back(Agent(self->m_world, vec2((Math::random(i*200) - 0.5f) * 1000.f, (Math::random(i*300) - 0.5f) * 800.f), 3.14f, 100.f));
+		agents.push_back(
+			Agent(
+				self->m_world, 
+				vec2((Math::random_f(i*200) - 0.5f) * 1000.f, (Math::random_f(i*300) - 0.5f) * 800.f),
+				3.14f,
+				250.f)
+		);
 	}
 }
 

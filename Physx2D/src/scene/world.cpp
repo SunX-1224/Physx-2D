@@ -19,32 +19,9 @@ namespace Physx2D {
 			if(iter.second)
 				iter.second.reset();;
 		}
+		for (auto& ent : entities)
+			delete ent;
 		shaders.clear();
-		for (auto& entity : entities) {
-			if (entity->HasComponent<Transform>())
-				entity->RemoveComponent<Transform>();
-			if (entity->HasComponent<Tag>())
-				entity->RemoveComponent<Tag>();
-			if (entity->HasComponent<RigidBody2D>())
-				entity->RemoveComponent<RigidBody2D>();
-			if (entity->HasComponent<SpriteRenderer>())
-				entity->RemoveComponent<SpriteRenderer>();
-			if (entity->HasComponent<ScriptComponent>()) 
-				entity->RemoveComponent<ScriptComponent>();
-			if (entity->HasComponent<Collider>()) {
-				Collider* cldr = entity->GetComponent<Collider>();
-
-				if (cldr->typeIndex == std::type_index(typeid(CircleCollider)))
-					delete ((CircleCollider*)cldr);
-				else if (cldr->typeIndex == std::type_index(typeid(BoxCollider2D)))
-					delete ((BoxCollider2D*)cldr);
-				else if (cldr->typeIndex == std::type_index(typeid(BoundingCircle)))
-					delete ((BoundingCircle*)cldr);
-				else
-					delete ((AABB*)cldr);
-			}
-			delete entity;
-		}
 		renderData.clear();
 	}
 
@@ -88,7 +65,7 @@ namespace Physx2D {
 
 	Entity* World::CreateEntity(std::string name) {
 		EntityID id = manager.CreateEntity();
-		Entity* ent = new Entity(id, this);
+		Entity* ent =new Entity(id, this);
 
 		ent->AddComponent<Transform>();
 		ent->AddComponent<Tag>(name.empty()?"Entity":name);

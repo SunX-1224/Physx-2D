@@ -2,7 +2,7 @@
 
 #include "world.h"
 #include "components.h"
-
+#include "../core/Log.h"
 
 namespace Physx2D {
 	class PHYSX2D_API World;
@@ -14,17 +14,17 @@ namespace Physx2D {
 			Entity() = default;
 			Entity(EntityID id, World* world_);
 
+			~Entity();
+
 			template<typename T, typename... Args>
 			T* AddComponent(Args... args) {
 
 				if constexpr(std::is_base_of_v<Collider, T>) {
-					if(m_world->manager.hasComponent<Collider>(m_ID))
-						throw("Component already exists");
+					PHSX_ASSERT(!m_world->manager.hasComponent<Collider>(m_ID) , "Component already exists%c", '\n');
 					return  static_cast<T*>(m_world->manager.addComponent<Collider>(m_ID, new T(args...)));
 				}
 				else {
-					if(m_world->manager.hasComponent<T>(m_ID)) 
-						throw("Component already exists");
+					PHSX_ASSERT(!m_world->manager.hasComponent<Collider>(m_ID), "Component already exists%c", '\n');
 					T* comp = new T(args...);
 					if constexpr (std::is_same_v<T, ScriptComponent>) {
 						comp->script->self = this;
@@ -51,13 +51,11 @@ namespace Physx2D {
 			void RemoveComponent() {
 				
 				if constexpr(std::is_base_of_v<Collider, T>) {
-					if(!m_world->manager.hasComponent<Collider>(m_ID))
-						throw("Component doesnot exist");
+					PHSX_ASSERT(m_world->manager.hasComponent<Collider>(m_ID), "Component doesnot exist%c", '\n');
 					m_world->manager.removeComponent<Collider>(m_ID);
 				}
 				else {
-					if(!m_world->manager.hasComponent<T>(m_ID)) 
-						throw("Component doesnot exist");
+					PHSX_ASSERT(m_world->manager.hasComponent<Collider>(m_ID), "Component doesnot exist%c", '\n');
 					m_world->manager.removeComponent<T>(m_ID);
 				}
 			}
@@ -74,13 +72,11 @@ namespace Physx2D {
 				T* cptr;
 				if constexpr(std::is_base_of_v<Collider, T>) {
 					cptr = m_world->manager.getComponent<Collider>(m_ID);
-					if(cptr == nullptr )
-						LOG_ERROR("Invalid Component%s", "\n");
+					PHSX_ASSERT(cptr, "Component doesnot exist%c", '\n');
 				}
 				else {
 					cptr = m_world->manager.getComponent<T>(m_ID);
-					if (cptr == nullptr)
-						LOG_ERROR("Invalid Component%s", "\n");
+					PHSX_ASSERT(cptr, "Component doesnot exist%c", '\n');
 				}
 				return cptr;
 			}

@@ -1,6 +1,6 @@
 #pragma once
-
-#include "core.h"
+#include "pch.h"
+#include "../window/window.h"
 
 namespace Physx2D {
 	class PHYSX2D_API Application {
@@ -9,10 +9,13 @@ namespace Physx2D {
 
 		~Application();
 
-		virtual void Run() {
-			while (1);
-		}
+		virtual void Run();
+
+	protected:
+		std::unique_ptr<Window> m_window;
 	};
 
 	Application* CreateApplication();
+
+
 }

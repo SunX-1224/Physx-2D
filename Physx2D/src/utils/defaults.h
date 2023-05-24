@@ -41,21 +41,16 @@ namespace Physx2D {
 
 	struct PHYSX2D_API WindowProps {
 		uint32_t WIDTH, HEIGHT;
-		bool RESIZABLE, FULLSCREEN_MODE;
 		const char* TITLE;
 
 		WindowProps(
 			uint32_t width = SCREEN_WIDTH,
 			uint32_t height = SCREEN_HEIGHT,
-			const char* title = "Physx2D Window",
-			bool resizable = true,
-			bool fullscreen = false
+			const char* title = "Physx2D Window"
 		) {
 			WIDTH = width;
 			HEIGHT = height;
 			TITLE = title;
-			RESIZABLE = resizable;
-			FULLSCREEN_MODE = fullscreen;
 		}
 	};
 

@@ -59,7 +59,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>PHSX_BUILD_DLL;PHSX_PLATFORM_WINDOWS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);PHSX_PLATFORM_WINDOWS;PHSX_PLATFORM_WINDOWS;PHSX_BUILD_DLL</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PHSX_BUILD_DLL;PHSX_PLATFORM_WINDOWS;PHSX_ASSERT_ENABLE;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);PHSX_PLATFORM_WINDOWS;PHSX_PLATFORM_WINDOWS;PHSX_BUILD_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Physx2D\libraries\include;$(ProjectDir)src;;$(ProjectDir)src;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -79,7 +79,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>PHSX_BUILD_DLL;PHSX_PLATFORM_WINDOWS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);PHSX_PLATFORM_WINDOWS;PHSX_PLATFORM_WINDOWS;PHSX_BUILD_DLL</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PHSX_BUILD_DLL;PHSX_PLATFORM_WINDOWS;PHSX_ASSERT_ENABLE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);PHSX_PLATFORM_WINDOWS;PHSX_PLATFORM_WINDOWS;PHSX_BUILD_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Physx2D\libraries\include;;$(ProjectDir)src;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -142,8 +142,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\core\Application.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\math\math.cpp" />
     <ClCompile Include="src\physics\physics2d.cpp" />
