@@ -1,4 +1,4 @@
-#include "boids/boid.h"
+#include "cellular_autmata/CA.h"
 #include "core/entry.h"
 
 using namespace Physx2D;
@@ -11,8 +11,8 @@ public:
 	SandBox() {
 		world = std::unique_ptr<World>(new World(m_window.get()));
 		
-		Entity* entity = world->CreateEntity(std::string("entity"));
-		entity->AddComponent<ScriptComponent>(new Boid(2000));
+		Entity* entity = world->CreateEntity();
+		entity->AddComponent<ScriptComponent>(new CA(400, 400, vec2(2.f)));
 				
 		world->Initialize();
 	}

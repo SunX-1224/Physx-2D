@@ -17,7 +17,8 @@ namespace Physx2D {
 			const char* type,
 			unsigned int slot,
 			int _width = 800,
-			int _height = 800
+			int _height = 800,
+			GLenum target_format = GL_RGBA
 		);
 
 		inline void texUnit(Shader* shader, const char* uniform);

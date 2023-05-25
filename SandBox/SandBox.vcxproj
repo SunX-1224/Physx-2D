@@ -96,6 +96,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\cellular_autmata\CA.cpp" />
     <ClCompile Include="src\boids\boid.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -118,7 +119,11 @@
     <None Include="res\vert.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\cellular_autmata\CA.h" />
     <ClInclude Include="src\boids\boid.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\container2.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

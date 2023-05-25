@@ -15,7 +15,7 @@ namespace Physx2D {
 		void IndexData(void* data, uint32_t count, size_t size_i);
 		void VertexDataLayout(uint32_t location, uint32_t count, GLenum type, GLsizei size_i, uint32_t offset);
 		virtual void Draw(Shader* shader);
-		void del();
+		virtual void del();
 
 	protected:
 		VAO m_vao;

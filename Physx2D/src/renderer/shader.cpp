@@ -65,7 +65,7 @@ namespace Physx2D {
 			glGetProgramiv(m_ID, GL_LINK_STATUS, &success);
 			if (not success) {
 				glGetProgramInfoLog(m_ID, 512, NULL, infoLog);
-				LOG_ERROR("ERROR : Shader program did not link successfully, paths : vertex_shader : %s , fragment_shader : %s\n", vertexPath, fragmentPath);
+				LOG_ERROR("ERROR : Shader program did not link successfully, paths : vertex_shader : %s , fragment_shader : %s\nLOG:%s\n", vertexPath, fragmentPath, infoLog);
 			}
 		}
 

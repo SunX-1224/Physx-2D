@@ -28,8 +28,8 @@ namespace Physx2D {
 		);
 
 		void InstanceData(void* data, uint32_t count, size_t size_i);
-		void Draw(Shader* shader);
-		void del();
+		void Draw(Shader* shader) override;
+		void del() override;
 
 	protected:
 		uint32_t m_ivbo;

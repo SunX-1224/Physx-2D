@@ -26,6 +26,7 @@ namespace Physx2D {
 	}
 
 	void World::Initialize() {
+		//defaults
 		addInstancedRenderer(LINE, initVectorFromArray(LINE_VERTICES, float), 2, GL_LINES);
 		addInstancedRenderer(TRIANGLE, initVectorFromArray(TRIANGLE_VERTICES, float), 3, GL_TRIANGLES);
 		addInstancedRenderer(QUAD, initVectorFromArray(QUAD_VERTICES, float), 6, GL_TRIANGLES);
@@ -43,14 +44,14 @@ namespace Physx2D {
 	void World::Update(double delta_time) {
 		float time = TIME;
 		handleCollisions();
-		LOG_INFO("%f\n", (TIME - time) * 1000.f); time = TIME;
+		LOG_INFO("\nCollisions : %f\n", (TIME - time) * 1000.f); time = TIME;
 		sceneCamera.handleInputs(window->m_window, delta_time);
 		handleScriptUpdate(delta_time);
-		LOG_INFO("%f\n", (TIME - time) * 1000.f); time = TIME;
+		LOG_INFO("Script Update : %f\n", (TIME - time) * 1000.f); time = TIME;
 		handlePhysics(delta_time);
-		LOG_INFO("%f\n", (TIME - time) * 1000.f); time = TIME;
+		LOG_INFO("Physics Update : %f\n", (TIME - time) * 1000.f); time = TIME;
 		updateRenderData();
-		LOG_INFO("%f\n", (TIME - time) * 1000.f); time = TIME;
+		LOG_INFO("RenderData update : %f\n", (TIME - time) * 1000.f); time = TIME;
 	}
 
 	void World::Render() {
@@ -233,7 +234,7 @@ namespace Physx2D {
 		for (auto& iter : shaders) {
 			iter.second->use();
 			sceneCamera.setValues(iter.second.get(), window->GetResolution());
-			iter.second->setFloat("u_time", glfwGetTime());
+			//iter.second->setFloat("u_time", glfwGetTime());
 		}
 		
 		for (auto& renderer : renderers) {
