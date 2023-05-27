@@ -25,6 +25,46 @@ namespace Physx2D {
 		void operator *= (vec2 a);
 	};
 
+	template<class T>
+	struct PHYSX2D_API vec3 {
+		T x;
+		T y;
+		T z;
+
+		vec3(T a = 0.0f) : x(a), y(a),z(a) {}
+		vec3(T _x, T _y, T _z) : x(_x), y(_y), z(_z) {}
+
+		vec3 operator=(vec3 v)
+		{
+			x = v.x, y = v.y, z = v.z;
+			return *this;
+		}
+		vec3 operator-()
+		{
+			return vec3(-x, -y, -z);
+		}
+		vec3 operator+(vec3 v)
+		{
+			return vec3(x + v.x, y + v.y, z + v.z);
+		}
+		void operator+=(vec3 v) {
+			x += v.x, y += v.y, z += v.z;
+		}
+		vec3 operator-(vec3 v)
+		{
+			return vec3(x - v.x, y - v.y, z - v.z);
+		}
+		void operator-=(vec3 v) {
+			x -= v.x, y -= v.y, z -= v.z;
+		}
+		vec3 operator*(vec3 v) {
+			return vec3(x * v.x, y * v.y, z * v.z);
+		}
+		void operator*=(vec3 a) {
+			x * -a.x, y *= a.y, z *= a.z;
+		}
+	};
+
 	struct PHYSX2D_API vec4 {
 		float x;
 		float y;

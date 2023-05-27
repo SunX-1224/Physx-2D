@@ -16,17 +16,21 @@
     <ClCompile Include="src\cellular_autmata\CA.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\compute_shader_test\ray_tracing.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\circle.glsl" />
-    <None Include="res\quad.glsl" />
-    <None Include="res\vert.glsl" />
+    <None Include="res\shaders\circle.glsl" />
+    <None Include="res\shaders\quad.glsl" />
+    <None Include="res\shaders\vert.glsl" />
+    <None Include="res\c_shaders\ray_trace.glsl" />
+    <None Include="res\shaders\f_vert.glsl" />
+    <None Include="res\shaders\f_frag.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\boids\boid.h" />
     <ClInclude Include="src\cellular_autmata\CA.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\container2.png" />
+    <ClInclude Include="src\compute_shader_test\ray_tracing.h" />
   </ItemGroup>
 </Project>

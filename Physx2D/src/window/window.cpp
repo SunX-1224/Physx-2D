@@ -28,7 +28,7 @@ namespace Physx2D {
             glViewport(0, 0, width, height);
             });
 
-        glfwSwapInterval(1);
+        glfwSwapInterval(0);
 
         PHSX_ASSERT( gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialize glad%s", "\n");
     }
@@ -37,6 +37,10 @@ namespace Physx2D {
         glViewport(0, 0, properties.WIDTH, properties.HEIGHT);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
+
+    inline void Window::SetVsync(bool value) {
+            glfwSwapInterval(value);
     }
 
     bool Window::ShouldClose() {

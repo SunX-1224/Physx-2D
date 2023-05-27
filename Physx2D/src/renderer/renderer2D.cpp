@@ -43,7 +43,7 @@ namespace Physx2D {
 
 	void Renderer2D::VertexData(void* data, uint32_t count, size_t size_i) {
 		m_vao.bind();
-		glBindBuffer(GL_ARRAY_BUFFER, m_ebo);
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 		glBufferData(GL_ARRAY_BUFFER, size_i * count, data, GL_STATIC_DRAW);
 		m_vao.unbind();
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -67,8 +67,8 @@ namespace Physx2D {
 	}
 
 	void Renderer2D::Draw(Shader* shader) {
-		m_vao.bind();
 		shader->use();
+		m_vao.bind();
 		if(arrayMode) 
 			glDrawArrays(m_renderMode, 0, p_count);
 		else

@@ -83,6 +83,8 @@
       <Filter>src\core</Filter>
     </ClInclude>
     <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\utils\utils.h" />
+    <ClInclude Include="src\utils\ComputeShader.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -162,6 +164,8 @@
     <ClCompile Include="src\utils\quadtree.cpp" />
     <ClCompile Include="src\pch.cpp" />
     <ClCompile Include="libraries\src\stb_image.cpp" />
+    <ClCompile Include="src\utils\utils.cpp" />
+    <ClCompile Include="src\utils\ComputeShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="libraries\lib\glfw3.lib">

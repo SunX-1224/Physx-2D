@@ -5,7 +5,7 @@
 
 namespace Physx2D {
 
-	std::string get_file_content(const char*);
+	
 
 	class PHYSX2D_API Shader {
 	public:
@@ -16,11 +16,10 @@ namespace Physx2D {
 
 		inline void use();
 		inline void del();
-		void setBool(const char*, bool);
-		void setInt(const char*, int);
-		void setFloat(const char*, float);
-		void setVec2(const char*, vec2);
-		void setMat3(const char*, mat3);
-		static unsigned int compile_shader(const char*, GLenum);
+		inline void setBool(const char*, bool);
+		inline void setInt(const char*, int);
+		inline void setFloat(const char*, float);
+		inline void setVec2(const char*, vec2);
+		inline void setMat3(const char*, mat3);
 	};
 }

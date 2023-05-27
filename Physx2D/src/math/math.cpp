@@ -56,7 +56,7 @@ namespace Physx2D {
 
 	inline vec2 vec2::normalized()
 	{
-		return this->length() > 0.00001f ? (*this) * vec2(1.f / this->length()) : vec2(0.0f);
+		return this->length() > 1e-6f ? (*this) * vec2(1.f / this->length()) : vec2(0.0f);
 	}
 
 	inline float vec2::length() {
@@ -167,4 +167,7 @@ namespace Physx2D {
 	{
 		return a + Math::random_f(seed_f) * (b - a);
 	}
+
+	template class PHYSX2D_API vec3<int>;
+	template class PHYSX2D_API vec3<float>;
 }

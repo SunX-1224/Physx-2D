@@ -18,6 +18,7 @@ namespace Physx2D{
 			);
 			~Window();
 			void OnInit();
+			inline void SetVsync(bool value);
 			inline bool ShouldClose();
 			inline void SetClose(bool value);
 			inline vec2 GetResolution();

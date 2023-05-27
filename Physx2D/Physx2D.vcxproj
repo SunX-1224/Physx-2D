@@ -120,10 +120,12 @@
     <ClInclude Include="src\scene\ecsmanager.h" />
     <ClInclude Include="src\scene\entity.h" />
     <ClInclude Include="src\scene\world.h" />
+    <ClInclude Include="src\utils\ComputeShader.h" />
     <ClInclude Include="src\utils\defaults.h" />
     <ClInclude Include="src\utils\quadtree.h" />
     <ClInclude Include="src\utils\time.h" />
     <ClInclude Include="src\window\window.h" />
+    <ClInclude Include="src\utils\utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="libraries\src\stb_image.cpp">
@@ -161,9 +163,11 @@
     <ClCompile Include="src\renderer\vao.cpp" />
     <ClCompile Include="src\scene\entity.cpp" />
     <ClCompile Include="src\scene\world.cpp" />
+    <ClCompile Include="src\utils\ComputeShader.cpp" />
     <ClCompile Include="src\utils\quadtree.cpp" />
     <ClCompile Include="src\utils\time.cpp" />
     <ClCompile Include="src\window\window.cpp" />
+    <ClCompile Include="src\utils\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="libraries\lib\glfw3.lib" />

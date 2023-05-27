@@ -1,4 +1,4 @@
-#include "cellular_autmata/CA.h"
+#include "compute_shader_test/ray_tracing.h"
 #include "core/entry.h"
 
 using namespace Physx2D;
@@ -9,24 +9,26 @@ public:
 	std::unique_ptr<World> world;
 
 	SandBox() {
-		world = std::unique_ptr<World>(new World(m_window.get()));
-		
-		Entity* entity = world->CreateEntity();
-		entity->AddComponent<ScriptComponent>(new CA(400, 400, vec2(2.f)));
-				
-		world->Initialize();
+		/*world = std::unique_ptr<World>(new World(m_window.get()));
+		Entity* ent = world->CreateEntity();
+		ent->AddComponent<ScriptComponent>(new Boid(2000));
+
+		world->Initialize();*/
 	}
 
 	virtual void Run() override {
+		ray_tracing rtx(m_window->GetResolution());
+
 		Time clock;
 		clock.initTimer();
-
 		while (!m_window->ShouldClose()) {
-			world->Update(clock.get_delta_time());
+			//rld->Update(clock.get_delta_time());
 
-			m_window->FillScreen(Color(0.05f, 0.05f, 0.05f, 1.f));
-			world->Render();
+			rtx.dispatch();
+			m_window->FillScreen(Color(0.05f, 0.15f, 0.05f, 1.f));
+			rtx.render();
 			
+			//rld->Render();
 			m_window->OnUpdate();
 			clock.update();
 			m_window->SetTitle((std::to_string(clock.get_fps())).c_str());

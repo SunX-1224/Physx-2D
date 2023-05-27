@@ -21,6 +21,15 @@ namespace Physx2D {
 			-.5f,  .5f, 0.f, 1.f,
 	};
 
+	const float FRAME_QUAD[24]{
+			-1.f, -1.f, 0.f, 0.f,
+			 1.f, -1.f, 1.f, 0.f,
+			-1.f,  1.f, 0.f, 1.f,
+			 1.f, -1.f, 1.f, 0.f,
+			 1.f,  1.f, 1.f, 1.f,
+			-1.f,  1.f, 0.f, 1.f,
+	};
+
 	const vec2 UNIT_RECT[4]{
 			vec2(-.5f, -.5f),
 			vec2( .5f, -.5f),

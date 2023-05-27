@@ -17,7 +17,7 @@ namespace Physx2D {
 		renderers.clear();
 		for (auto& iter : shaders) {
 			if(iter.second)
-				iter.second.reset();;
+				iter.second.reset();
 		}
 		for (auto& ent : entities)
 			delete ent;
@@ -32,8 +32,8 @@ namespace Physx2D {
 		addInstancedRenderer(QUAD, initVectorFromArray(QUAD_VERTICES, float), 6, GL_TRIANGLES);
 		addInstancedRenderer(CIRCLE, initVectorFromArray(QUAD_VERTICES, float), 6, GL_TRIANGLES);
 
-		std::shared_ptr<Shader> s1 = std::make_shared<Shader>(Shader("res/vert.glsl", "res/quad.glsl"));
-		std::shared_ptr<Shader> s2 = std::make_shared<Shader>(Shader("res/vert.glsl", "res/circle.glsl"));
+		std::shared_ptr<Shader> s1 = std::make_shared<Shader>(Shader("res/shaders/vert.glsl", "res/shaders/quad.glsl"));
+		std::shared_ptr<Shader> s2 = std::make_shared<Shader>(Shader("res/shaders/vert.glsl", "res/shaders/circle.glsl"));
 
 		shaders[QUAD] = s1;
 		shaders[CIRCLE] = s2;
