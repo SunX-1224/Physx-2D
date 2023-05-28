@@ -85,6 +85,7 @@
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\utils\utils.h" />
     <ClInclude Include="src\utils\ComputeShader.h" />
+    <ClInclude Include="src\renderer\Buffer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -166,6 +167,7 @@
     <ClCompile Include="libraries\src\stb_image.cpp" />
     <ClCompile Include="src\utils\utils.cpp" />
     <ClCompile Include="src\utils\ComputeShader.cpp" />
+    <ClCompile Include="src\renderer\Buffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="libraries\lib\glfw3.lib">

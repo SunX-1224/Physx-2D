@@ -165,7 +165,7 @@ namespace Physx2D {
 
 	inline float Random::randr_f(float a, float b)
 	{
-		return a + Math::random_f(seed_f) * (b - a);
+		return a + Math::random_f(seed_f++) * (b - a);
 	}
 
 	template class PHYSX2D_API vec3<int>;

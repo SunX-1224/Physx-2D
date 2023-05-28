@@ -13,6 +13,9 @@ namespace Physx2D {
 			inline void waitUntilFinish(GLbitfield barrier);
 			inline void use();
 
+			inline void setInt(const char* u_name, int value);
+			inline void setFloat(const char* u_name, float value);
+
 			inline vec3<int> getWorkGrpCount();
 			inline vec3<int> getWorkGrpSize();
 			inline int maxLocalWorkGrpInv();

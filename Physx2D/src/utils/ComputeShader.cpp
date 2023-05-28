@@ -25,7 +25,7 @@ namespace Physx2D {
 				LOG_ERROR("ERROR : Compute Shader program did not link successfully, path : %s\nLOG:%s\n", path, infoLog);
 			}
 		}
-		glDeleteShader(shader); // FLAG: If any errors, remove this line
+		glDeleteShader(shader);
 
 	}
 
@@ -44,6 +44,20 @@ ComputeShader::~ComputeShader() {
 
 	inline void ComputeShader::use() {
 		glUseProgram(m_ID);
+	}
+
+	inline void ComputeShader::setInt(const char* u_name, int value) {
+		if (glGetUniformLocation(m_ID, u_name) >= 0)
+			glUniform1i(glGetUniformLocation(m_ID, u_name), value);
+		else
+			LOG_WARN("WARNING : location of integer %s not found\n", u_name);
+	}
+
+	inline void ComputeShader::setFloat(const char* u_name, float value) {
+		if (glGetUniformLocation(m_ID, u_name) >= 0)
+			glUniform1f(glGetUniformLocation(m_ID, u_name), value);
+		else
+			LOG_WARN("WARNING : location of float %s not found\n", u_name);
 	}
 
 	inline vec3<int> ComputeShader::getWorkGrpCount()
