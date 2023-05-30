@@ -16,8 +16,8 @@ namespace Physx2D {
 			inline void setInt(const char* u_name, int value);
 			inline void setFloat(const char* u_name, float value);
 
-			inline vec3<int> getWorkGrpCount();
-			inline vec3<int> getWorkGrpSize();
+			inline tvec3<int> getWorkGrpCount();
+			inline tvec3<int> getWorkGrpSize();
 			inline int maxLocalWorkGrpInv();
 
 		private:

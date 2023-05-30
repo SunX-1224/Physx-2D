@@ -3,12 +3,13 @@
 
 using namespace Physx2D;
 
+using ivec3 = tvec3<int>;
+
 struct RayCastMat {
-	Color color;
+	vec4 color;
 };
 struct Sphere {
-	vec3<float> position;
-	float radius;
+	vec4 pos_rad;
 	RayCastMat material;
 };
 

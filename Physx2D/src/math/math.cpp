@@ -168,6 +168,6 @@ namespace Physx2D {
 		return a + Math::random_f(seed_f++) * (b - a);
 	}
 
-	template class PHYSX2D_API vec3<int>;
-	template class PHYSX2D_API vec3<float>;
+	template class PHYSX2D_API tvec3<int>;
+	template class PHYSX2D_API tvec3<float>;
 }

@@ -15,7 +15,7 @@ ray_tracing::ray_tracing(vec2 _res) : res(_res) {
 
 	buffer = new Buffer(GL_SHADER_STORAGE_BUFFER);
 
-	vec3<int> t = compute->getWorkGrpCount();
+	ivec3 t = compute->getWorkGrpCount();
 	LOG_INFO("WG_count : %d, %d, %d\n", t.x, t.y, t.z);
 	t = compute->getWorkGrpSize();
 	LOG_INFO("WG_size : %d, %d, %d\n", t.x, t.y, t.z);
@@ -42,10 +42,9 @@ void ray_tracing::setup(uint32_t size) {
 
 	for (int i = 0; i < size; i++) {
 		Sphere sp = {
-			.position = vec3<float>(randm.randr_f(-res.x*0.5f, res.x*.5f), randm.randr_f(-res.y * 0.5f, res.y * .5f), randm.rand_f() * 1000.f),
-			.radius = randm.randr_f(100.f, 150.f),
+			.pos_rad = vec4(i*100.f, 300.f, 200.f, 50.f),
 			.material = RayCastMat(
-				Color(Math::random_f(i * 200), Math::random_f(i * 300), 0.f, 1.0f)
+				vec4(1.f , 3.f, 0.2f, 1.f)
 			)
 		};
 

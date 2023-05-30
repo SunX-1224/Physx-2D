@@ -29,7 +29,7 @@ public:
 			//rtx.compute->use();
 			//rtx.compute->setFloat("u_time", clock.get_time());
 			rtx.dispatch();
-			m_window->FillScreen(Color(0.05f, 0.15f, 0.05f, 1.f));
+			m_window->FillScreen(Color(0.f, 0.f, 0.f, 1.f));
 			rtx.render();
 			
 			//world->Render();

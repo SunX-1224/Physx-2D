@@ -60,9 +60,9 @@ ComputeShader::~ComputeShader() {
 			LOG_WARN("WARNING : location of float %s not found\n", u_name);
 	}
 
-	inline vec3<int> ComputeShader::getWorkGrpCount()
+	inline tvec3<int> ComputeShader::getWorkGrpCount()
 	{
-		vec3<int> tmp;
+		tvec3<int> tmp;
 		glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 0, &tmp.x);
 		glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 1, &tmp.y);
 		glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 2, &tmp.z);
@@ -70,9 +70,9 @@ ComputeShader::~ComputeShader() {
 		return tmp;
 	}
 
-	inline vec3<int> ComputeShader::getWorkGrpSize()
+	inline tvec3<int> ComputeShader::getWorkGrpSize()
 	{
-		vec3<int> tmp;
+		tvec3<int> tmp;
 		glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 0, &tmp.x);
 		glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 1, &tmp.y);
 		glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 2, &tmp.z);
