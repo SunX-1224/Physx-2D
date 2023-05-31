@@ -9,6 +9,8 @@ Inside this different options related to 2D rendering is implemented, which are 
 * Framebuffer
 * Textures
 * Shaders
+* General Buffers
+* Compute Shaders (newly added)
 
 Not everything is very flexible and can be implemented in any form, but development and optimizations are going on.
 
@@ -44,3 +46,16 @@ A Physx-2D world handles objects according to their components (data oriented de
      {An object can have only one type of collider at a time}
 * RigidBody2D
 * ScriptComponent
+
+# SandBox
+Time to time, some interesting simulations are added here. This is a general playground for anyone using it. With compute shaders added now, multiple processings for simulations can be now performed in parallel in GPU. Some simulations added till now are : 
+
+* Autonomous agents : Boids
+* Cellular Automata : Conway's game of life
+* Ray tracing : **incomplete**
+
+
+# TODO
+
+* Event System
+* Camera in simulations

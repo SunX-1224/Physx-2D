@@ -38,7 +38,7 @@ void CA_gpu::update() {
 	cur->bindImageTextureMode(GL_READ_WRITE, GL_R8, 1);
 	cur->bind();
 	prev->bind();
-	compute->dispatch(w, h);
+	compute->dispatch(w/16, h/16);
 }
 
 void CA_gpu::draw() {

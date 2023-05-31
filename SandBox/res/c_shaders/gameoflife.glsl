@@ -1,6 +1,6 @@
 #version 460 core
 
-layout(local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
+layout(local_size_x = 16, local_size_y = 16, local_size_z = 1) in;
 
 layout (r8, binding = 0) coherent uniform image2D img_out;
 layout (r8, binding = 1) coherent uniform image2D img_in;
