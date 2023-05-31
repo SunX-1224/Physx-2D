@@ -1,4 +1,4 @@
-#include "compute_shader_test/ray_tracing.h"
+#include "cellular_automata/CA_gpu.h"
 #include "core/entry.h"
 
 using namespace Physx2D;
@@ -17,21 +17,19 @@ public:
 	}
 
 	virtual void Run() override {
-		ray_tracing rtx(m_window->GetResolution());
+		CA_gpu ca;
 
 		Time clock;
 		clock.initTimer();
-
-		rtx.setup();
+		
+		ca.setup();
 		while (!m_window->ShouldClose()) {
 			//world->Update(clock.get_delta_time());
 
-			//rtx.compute->use();
-			//rtx.compute->setFloat("u_time", clock.get_time());
-			rtx.dispatch();
+			ca.update();
 			m_window->FillScreen(Color(0.f, 0.f, 0.f, 1.f));
-			rtx.render();
-			
+			ca.draw();
+
 			//world->Render();
 			m_window->OnUpdate();
 			clock.update();

@@ -33,10 +33,11 @@ namespace Physx2D {
 
 	inline float Math::random_i(uint32_t seed)
 	{
-		uint32_t r = seed * seed * 637432847 + 748357345;
-		r *= r + 78457834;
+		seed = seed * 747796405 + 2891336453;
+		uint32_t result = ((seed >> ((seed >> 28) + 4)) ^ seed) * 277803737;
+		result = (result >> 22) ^ result;
 
-		return r;
+		return result;
 	}
 
 	inline float Math::random_f(uint32_t seed) {

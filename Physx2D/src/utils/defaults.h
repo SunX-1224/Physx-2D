@@ -2,8 +2,8 @@
 
 #include "../math/math.h"
 
-#define SCREEN_WIDTH 1536
-#define SCREEN_HEIGHT 800
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 760
 #define arrayLength(a) (sizeof(a)/sizeof(a[0]))
 #define initVectorFromArray(arr, type) std::vector<type>(arr, arr + arrayLength(arr))
 #define max(a, b) (a>b?a:b)

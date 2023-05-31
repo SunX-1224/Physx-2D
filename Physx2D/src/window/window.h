@@ -5,6 +5,9 @@
 #include "../utils/defaults.h"
 
 namespace Physx2D{
+	
+	inline PHYSX2D_API void  GetError();
+	
 	class PHYSX2D_API Window {
 		public:
 			GLFWwindow* m_window;

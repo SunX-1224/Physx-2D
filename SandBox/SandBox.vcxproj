@@ -96,8 +96,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\cellular_automata\CA_gpu.cpp" />
     <ClCompile Include="src\compute_shader_test\ray_tracing.cpp" />
-    <ClCompile Include="src\cellular_autmata\CA.cpp" />
+    <ClCompile Include="src\cellular_automata\CA.cpp" />
     <ClCompile Include="src\boids\boid.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -115,6 +116,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\c_shaders\gameoflife.glsl" />
     <None Include="res\c_shaders\ray_trace.glsl" />
     <None Include="res\shaders\circle.glsl" />
     <None Include="res\shaders\f_frag.glsl" />
@@ -123,8 +125,9 @@
     <None Include="res\shaders\vert.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\cellular_automata\CA_gpu.h" />
     <ClInclude Include="src\compute_shader_test\ray_tracing.h" />
-    <ClInclude Include="src\cellular_autmata\CA.h" />
+    <ClInclude Include="src\cellular_automata\CA.h" />
     <ClInclude Include="src\boids\boid.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -84,4 +84,9 @@ namespace Physx2D {
         glfwDestroyWindow(m_window);
     }
 
+    inline void GetError()
+    {
+        LOG_ERROR("ERROR : %d\n", glGetError());
+    }
+
 }

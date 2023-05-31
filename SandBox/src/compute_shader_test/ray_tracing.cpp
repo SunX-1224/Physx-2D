@@ -38,13 +38,14 @@ void ray_tracing::setup(uint32_t size) {
 	std::vector<Sphere> spheres;
 	spheres.reserve(size);
 
-	Random randm = Random(0x5656f4c4);
+	Random randm = Random(0x20581224);
 
 	for (int i = 0; i < size; i++) {
 		Sphere sp = {
-			.pos_rad = vec4(i*100.f, 300.f, 200.f, 50.f),
+			.pos_rad = vec4(-600.f + 150.f * i, 0.f, -400.f + 150.f * (i % 3), 80.f),
 			.material = RayCastMat(
-				vec4(1.f , 3.f, 0.2f, 1.f)
+				i==0?vec4(1.f):vec4(randm.rand_f(),randm.rand_f(),randm.rand_f(), 1.f),
+				vec4(i==0? 1.f: 0.f)
 			)
 		};
 
@@ -57,7 +58,7 @@ void ray_tracing::setup(uint32_t size) {
 
 void ray_tracing::dispatch() {
 	buffer->bindBase(1);
-	texture->bind(0);
+	texture->bind();
 	compute->dispatch(res.x/16, res.y/16);
 }
 

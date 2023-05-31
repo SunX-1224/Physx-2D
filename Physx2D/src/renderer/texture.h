@@ -16,13 +16,14 @@ namespace Physx2D {
 			const char* path,
 			const char* type,
 			unsigned int slot,
-			int _width = 800,
-			int _height = 800,
 			GLenum src_type = GL_UNSIGNED_BYTE,
-			GLenum target_format = GL_RGBA
+			GLenum target_format = GL_RGBA,
+			int _width = 800,
+			int _height = 800
 		);
 
-		inline void bindImageTextureMode(GLenum mode, GLenum type);
+		inline void bindImageTextureMode(GLenum mode, GLenum type, int slot = -1);
+		inline void unbindImageTextureMode(GLenum mode, GLenum type, int slot = -1);
 		inline void texUnit(Shader* shader, const char* uniform);
 		inline void bind(int slot = -1);
 		static inline void unbind();

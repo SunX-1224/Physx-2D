@@ -3,7 +3,7 @@
 #include "../core/Log.h"
 
 namespace Physx2D {
-	Texture::Texture(const char* path, const char* type, unsigned int slot, int _width, int _height, GLenum src_type, GLenum target_format) {
+	Texture::Texture(const char* path, const char* type, unsigned int slot, GLenum src_type, GLenum target_format, int _width, int _height) {
 		unsigned char* data;
 		GLenum src_format = GL_RGBA;
 
@@ -47,10 +47,14 @@ namespace Physx2D {
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	inline void Texture::bindImageTextureMode(GLenum mode, GLenum type) {
+	inline void Texture::bindImageTextureMode(GLenum mode, GLenum type, int slot) {
 		bind();
-		glBindImageTexture(0, m_ID, 0, GL_FALSE, 0, mode, type);
+		glBindImageTexture(slot<0?m_slot:slot, m_ID, 0, GL_FALSE, 0, mode, type);
 		unbind();
+	}
+
+	inline void Texture::unbindImageTextureMode(GLenum mode, GLenum type, int slot) {
+		glBindImageTexture(slot < 0 ? m_slot : slot, 0, 0, GL_FALSE, 0, mode, type);
 	}
 
 	void Texture::texUnit(Shader* shader, const char* uniform) {

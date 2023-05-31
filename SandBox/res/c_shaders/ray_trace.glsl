@@ -2,8 +2,7 @@
  
 struct RayCastMat{
 	vec4 color;
-	//vec4 e_color;
-	//float e_strength;
+	vec4 e_cs;
 };
 
 struct Sphere{
@@ -46,40 +45,50 @@ float random(inout uint seed);
 float randomnd(inout uint seed);
 vec3 randomdir(inout uint seed);
 vec3 randomhemi(vec3 normal, uint seed);
-vec3 traceRay(Ray ray, uint seed);
+vec3 traceRay(Ray ray, inout uint seed);
 
 void main(){
 	Camera camera;
-	camera.position = vec3(0.f, 0.f, -10000.f);
-	camera.direction = vec3(0.f, 0.f, 1.f);
+	camera.position = vec3(0.f, 0.f, 600.f);
+	camera.direction = vec3(0.f, 0.f, -1.f);
 
 	ivec2 coords = ivec2(gl_GlobalInvocationID.xy);
 	ivec2 size = imageSize(img_output);
 
 	Ray ray;
 	ray.origin = camera.position;
-	vec3 scrpos = vec3(float(coords.x * 2.f - size.x), float(coords.y * 2.f - size.y), 0.f);
+	vec3 scrpos = vec3(float(coords.x  - size.x* .5f), float(coords.y  - size.y * .5f), 0.f);
 	ray.direction = normalize(scrpos - camera.position);
 
-	vec3 color = traceRay(ray, coords.x + coords.y * size.x);
+	vec3 color = vec3(0.f);
+
+	int raysPerPixel = 8;
+	uint seed = coords.x + coords.y * size.x;
+	for(int i=0; i<2; i++)
+		color += traceRay(ray, seed);
+	color /= float(raysPerPixel);
+
 	imageStore(img_output, coords, vec4(color ,1.f));
 }
 
-vec3 traceRay(Ray ray, uint seed){
+vec3 traceRay(Ray ray, inout uint seed){
 	vec3 ray_color = vec3(1.f);
 	vec3 incoming = vec3(0.f);
 
-	for(int i=0; i<1;i++){
+	for(int i=0; i<4;i++){
 		HitInfo info = calculateRayCollision(ray);
 
 		if(info.hit){
 			ray.origin = info.point;
 			ray.direction = randomhemi(info.normal, seed);
+			//ray.direction = reflect(ray.direction, info.normal);
 
-			//incoming += ray_color * info.material.color.xyz;
+			vec3 emitted =  info.material.e_cs.rgb * info.material.e_cs.a;
+			incoming += ray_color * emitted;
 			ray_color *= info.material.color.xyz;
-			incoming = info.normal;
+			//incoming = info.normal;// * vec3(1.f, 1.f, -1.f);
 		}else{
+			incoming *= vec3(1.f, 1.f, 1.4f);
 			break;
 		}
 	}
@@ -123,7 +132,7 @@ HitInfo checkIntersect_sphere(vec3 position, float radius, Ray ray){
 			hitInfo.hit = true;
 			hitInfo.dist = dist;
 			hitInfo.point = ray.origin + ray.direction * dist;
-			hitInfo.normal = hitInfo.point - position;
+			hitInfo.normal = normalize(hitInfo.point - position);
 		}
 	}
 	return hitInfo;
@@ -145,8 +154,8 @@ float randomnd(inout uint seed){
 }
 
 float random(inout uint seed){
-	seed *= 45546654;
-	seed *= seed * 32423 + 4535645;
-	
-	return float(seed)/4294967295.f;
+	seed = seed * 747796405 + 2891336453;
+	uint result = ((seed >> ((seed >> 28) + 4)) ^ seed) * 277803737;
+	result = (result >> 22) ^ result;
+	return float(result) / 4294967295.0f;
 }
