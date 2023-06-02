@@ -22,7 +22,7 @@ public:
 
 		Time clock;
 		clock.initTimer();
-		
+		//LOG_INFO("%d, %d\n", m_window->GetWidth(), m_window->GetHeight());
 		ca.setup();
 		while (!m_window->ShouldClose()) {
 			//world->Update(clock.get_delta_time());

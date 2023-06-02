@@ -31,6 +31,7 @@
     <None Include="res\shaders\f_vert.glsl" />
     <None Include="res\shaders\f_frag.glsl" />
     <None Include="res\c_shaders\gameoflife.glsl" />
+    <None Include="res\c_shaders\wolfram.glsl" />
     <None Include="res\c_shaders\dla.glsl" />
   </ItemGroup>
   <ItemGroup>

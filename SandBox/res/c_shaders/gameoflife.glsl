@@ -19,6 +19,7 @@ void main() {
     float value = imageLoad(img_in, coords).r;
     if(value > 0.1f){
         if(n<2 || n>3) value = 0.f;
+        //else value -= 0.005f;       //uncomment to implement aging
     }else{
         if(n==3) value = 1.f;
     }

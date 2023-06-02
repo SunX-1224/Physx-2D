@@ -117,6 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\c_shaders\dla.glsl" />
+    <None Include="res\c_shaders\wolfram.glsl" />
     <None Include="res\c_shaders\gameoflife.glsl" />
     <None Include="res\c_shaders\ray_trace.glsl" />
     <None Include="res\shaders\circle.glsl" />

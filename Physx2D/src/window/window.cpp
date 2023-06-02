@@ -13,6 +13,7 @@ namespace Physx2D {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, VERSION_MAJOR);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, VERSION_MINOR);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
 
         #ifdef __APPLE__
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -34,6 +35,7 @@ namespace Physx2D {
     }
 
     void Window::OnInit() {
+        glfwGetWindowSize(m_window, (int*)&properties.WIDTH, (int*)&properties.HEIGHT);
         glViewport(0, 0, properties.WIDTH, properties.HEIGHT);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
