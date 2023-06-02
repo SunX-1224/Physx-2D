@@ -10,7 +10,7 @@ class CA_gpu{
 		Renderer2D* renderer;
 		Shader* shader;
 
-		CA_gpu();
+		CA_gpu(const char* compute_shader, const char* initial_state_texture);
 		~CA_gpu();
 
 		void setup();

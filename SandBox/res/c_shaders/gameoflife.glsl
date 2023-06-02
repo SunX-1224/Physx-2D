@@ -1,9 +1,8 @@
 #version 460 core
 
 layout(local_size_x = 16, local_size_y = 16, local_size_z = 1) in;
-
-layout (r8, binding = 0) coherent uniform image2D img_out;
-layout (r8, binding = 1) coherent uniform image2D img_in;
+layout (rgba32f, binding = 0) coherent uniform image2D img_out;
+layout (rgba32f, binding = 1) coherent uniform image2D img_in;
 
 void main() {
     ivec2 coords = ivec2(gl_GlobalInvocationID.xy);

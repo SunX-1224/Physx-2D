@@ -1,4 +1,5 @@
 #include "cellular_automata/CA_gpu.h"
+//#include "boids/boid.h"
 #include "core/entry.h"
 
 using namespace Physx2D;
@@ -17,7 +18,7 @@ public:
 	}
 
 	virtual void Run() override {
-		CA_gpu ca;
+		CA_gpu ca("res/c_shaders/dla.glsl", "res/images/test2.png");
 
 		Time clock;
 		clock.initTimer();

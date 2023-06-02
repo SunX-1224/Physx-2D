@@ -1,15 +1,15 @@
 #include "CA_gpu.h"
 
-CA_gpu::CA_gpu() {
-	cur = new Texture("res/images/test.png", "ca", 0, GL_UNSIGNED_BYTE, GL_R8);
-	prev = new Texture("res/images/test.png", "ca", 1, GL_UNSIGNED_BYTE, GL_R8);
+CA_gpu::CA_gpu(const char* compute_shader, const char* instate_path) {
+	cur = new Texture(instate_path, "ca", 0, GL_UNSIGNED_BYTE, GL_RGBA32F);
+	prev = new Texture(instate_path, "ca", 1, GL_UNSIGNED_BYTE, GL_RGBA32F);
 	
 	w = prev->m_width;
 	h = prev->m_height;
 
 	shader = new Shader("res/shaders/f_vert.glsl", "res/shaders/f_frag.glsl");
 	
-	compute = new ComputeShader("res/c_shaders/gameoflife.glsl");
+	compute = new ComputeShader(compute_shader);
 
 	renderer = new Renderer2D(initVectorFromArray(FRAME_QUAD, float), 6, GL_TRIANGLES);
 	renderer->VertexDataLayout(0, 2, GL_FLOAT, 2 * sizeof(vec2), 0);
@@ -34,10 +34,8 @@ void CA_gpu::setup() {
 }
 
 void CA_gpu::update() {
-	prev->bindImageTextureMode(GL_READ_WRITE, GL_R8, 0);
-	cur->bindImageTextureMode(GL_READ_WRITE, GL_R8, 1);
-	cur->bind();
-	prev->bind();
+	prev->bindImageTextureMode(GL_READ_WRITE, GL_RGBA32F, 0);
+	cur->bindImageTextureMode(GL_READ_WRITE, GL_RGBA32F, 1);
 	compute->dispatch(w/16, h/16);
 }
 
