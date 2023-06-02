@@ -18,7 +18,7 @@ public:
 	}
 
 	virtual void Run() override {
-		CA_gpu ca("res/c_shaders/dla.glsl", "res/images/test2.png");
+		CA_gpu ca("res/c_shaders/b_reaction.glsl", "res/images/test2.png");
 
 		Time clock;
 		clock.initTimer();
