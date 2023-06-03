@@ -18,13 +18,12 @@ void main() {
 float updateCell(ivec2 coords){
     ivec2 size = imageSize(img_out);
     
-    int rule = 110;
+    int rule = 90;
 
     int state = 0;
     for(int i=-1; i<=1; i++){
         ivec2 c = ivec2(coords.x+i, coords.y+1);
-        c.x = c.x % size.x;
-        c.y = c.y % size.y;
+        c%=size;
         state = (state << 1) | int(imageLoad(img_in, c).r > 0.1f);
     }
 

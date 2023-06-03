@@ -1,4 +1,4 @@
-#include "cellular_automata/CA_gpu.h"
+#include "cellular_automata/mnca.h"
 //#include "boids/boid.h"
 #include "core/entry.h"
 
@@ -15,22 +15,23 @@ public:
 		ent->AddComponent<ScriptComponent>(new Boid(2000));
 
 		world->Initialize();*/
+		//LOG_INFO("%d, %d\n", m_window->GetWidth(), m_window->GetHeight());
 	}
 
 	virtual void Run() override {
-		CA_gpu ca("res/c_shaders/b_reaction.glsl", "res/images/test2.png");
-
 		Time clock;
 		clock.initTimer();
-		//LOG_INFO("%d, %d\n", m_window->GetWidth(), m_window->GetHeight());
+		
+		mnca ca("res/c_shaders/mnca.glsl", "res/images/reactionState.png", "res/images/neighborhoods/bacteria", 4);
+		//CA_gpu ca("res/c_shaders/reaction.glsl", "res/images/reactionState.png");
 		ca.setup();
 		while (!m_window->ShouldClose()) {
 			//world->Update(clock.get_delta_time());
-
 			ca.update();
-			m_window->FillScreen(Color(0.f, 0.f, 0.f, 1.f));
-			ca.draw();
 
+			m_window->FillScreen(Color(0.f, 0.f, 0.f, 1.f));
+
+			ca.draw();
 			//world->Render();
 			m_window->OnUpdate();
 			clock.update();

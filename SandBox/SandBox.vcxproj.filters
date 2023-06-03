@@ -13,13 +13,13 @@
     <ClCompile Include="src\boids\boid.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\cellular_automata\CA.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\compute_shader_test\ray_tracing.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\cellular_automata\CA_gpu.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cellular_automata\mnca.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -33,11 +33,14 @@
     <None Include="res\c_shaders\gameoflife.glsl" />
     <None Include="res\c_shaders\wolfram.glsl" />
     <None Include="res\c_shaders\dla.glsl" />
+    <None Include="res\c_shaders\b_reaction.glsl" />
+    <None Include="res\c_shaders\reaction.glsl" />
+    <None Include="res\c_shaders\mnca.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\boids\boid.h" />
-    <ClInclude Include="src\cellular_automata\CA.h" />
     <ClInclude Include="src\compute_shader_test\ray_tracing.h" />
     <ClInclude Include="src\cellular_automata\CA_gpu.h" />
+    <ClInclude Include="src\cellular_automata\mnca.h" />
   </ItemGroup>
 </Project>
