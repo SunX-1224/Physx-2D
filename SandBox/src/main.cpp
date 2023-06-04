@@ -1,4 +1,5 @@
 #include "cellular_automata/mnca.h"
+//#include "cellular_automata/CA_gpu.h"
 //#include "boids/boid.h"
 #include "core/entry.h"
 
