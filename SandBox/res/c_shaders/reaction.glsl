@@ -23,9 +23,9 @@ vec2 updateCell(ivec2 coords){
         .05f, .2f, .05f
     };
     ivec2 size = imageSize(img_out);
-    float feedrate = 0.021f;
-    float killrate =  0.0486f;
-    vec2 diffrate = vec2(0.5f, .2f);
+    float feedrate = 0.014f;   //0.021f;
+    float killrate =  0.0395f;  //0.0486f;
+    vec2 diffrate = vec2(0.21f, 0.11f);//vec2(0.25f, .11f);
 
     vec2 state = imageLoad(img_in, coords).rg;
 

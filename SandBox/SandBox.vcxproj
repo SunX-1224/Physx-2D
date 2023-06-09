@@ -135,6 +135,12 @@
     <ClInclude Include="src\compute_shader_test\ray_tracing.h" />
     <ClInclude Include="src\boids\boid.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\images\reactionState.png" />
+    <Image Include="res\images\test.png" />
+    <Image Include="res\images\test2.png" />
+    <Image Include="res\images\wolfram.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

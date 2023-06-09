@@ -43,4 +43,10 @@
     <ClInclude Include="src\cellular_automata\CA_gpu.h" />
     <ClInclude Include="src\cellular_automata\mnca.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\images\reactionState.png" />
+    <Image Include="res\images\test.png" />
+    <Image Include="res\images\test2.png" />
+    <Image Include="res\images\wolfram.png" />
+  </ItemGroup>
 </Project>
