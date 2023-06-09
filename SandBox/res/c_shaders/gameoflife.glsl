@@ -9,46 +9,36 @@ vec3 conwaysgameoflife(ivec2 coords);
 vec3 evanslargerthanife(ivec2 coords);
 vec3 smoothlife(ivec2 coords);
 
-//helper functions
-float updateValue(float, float, float);
-float updateSmooth(float csm, float nsm);
 
 void main() {
     ivec2 coords = ivec2(gl_GlobalInvocationID.xy);
     
-    vec3 value = evanslargerthanife(coords);
+    vec3 value = smoothlife(coords);
     imageStore(img_out, coords, vec4(value, 1.f));
 }
 
 vec3 smoothlife(ivec2 coords){
-    ivec2 nrad = ivec2(4, 4);
+    vec3 value = conwaysgameoflife(coords);
+    
+
+    return value;
+}
+
+vec3 conwaysgameoflife(ivec2 coords){
     ivec2 size = imageSize(img_in);
+    
+    float value = imageLoad(img_in, coords).r;
+    float n = -value;
 
-    vec2 cst = imageLoad(img_in, coords).rg;
-    vec2 nst = vec2(0.f);
-
-    for(int y=-nrad.y; y<=nrad.y; y++){
-        for(int x=-nrad.x; x<=nrad.x; x++){
-            if(x==0 && y==0) continue;
-            ivec2 c = (coords + ivec2(x,y))%size;
-            nst += imageLoad(img_in, c).rg;
+    for(int y=-1; y<=1; y++){
+        for(int x=-1; x<=1; x++){
+            n += imageLoad(img_in, (coords+ivec2(x,y))%size).r;
         }
     }
-
-    cst.r = updateValue(cst.r, cst.g, nst.r);
-    cst.g = updateSmooth(cst.g, nst.g);
-
-    return vec3(cst, 0.f);
-}
-
-float updateValue(float cval, float csm, float nval){
-    if(cval>0.5f && (nval < 2.f || nval > 3.5f)) return 0.f;
-    else if(cval<0.5f && abs(nval-3.f) < 0.2f) return 1.f;
-    return cval<0.5f?0.f:1.f;
-}
-
-float updateSmooth(float csm, float nsm){
-    return (csm+nsm)/9.f;
+    
+    if(value>0.5f && !(n>=2.f && n<=3.f)) return vec3(0.f);
+    if(value<0.5f && abs(n-3.f)<0.1f) return vec3(1.f);
+    return vec3(value);
 }
 
 vec3 evanslargerthanife(ivec2 coords){
@@ -71,19 +61,3 @@ vec3 evanslargerthanife(ivec2 coords){
     return vec3(value*0.99f, value*1.01f, value*3.f);
 }
 
-vec3 conwaysgameoflife(ivec2 coords){
-    ivec2 size = imageSize(img_in);
-    
-    float value = imageLoad(img_in, coords).r;
-    float n = -value;
-
-    for(int y=-1; y<=1; y++){
-        for(int x=-1; x<=1; x++){
-            n += imageLoad(img_in, (coords+ivec2(x,y))%size).r;
-        }
-    }
-    
-    if(value>0.5f && !(n>=2.f && n<=3.f)) return vec3(0.f);
-    if(value<0.5f && abs(n-3.f)<0.1f) return vec3(1.f);
-    return vec3(value);
-}

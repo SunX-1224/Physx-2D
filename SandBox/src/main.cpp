@@ -24,13 +24,13 @@ public:
 		clock.initTimer();
 		
 		//mnca ca("res/c_shaders/mnca.glsl", "res/images/reactionState.png", "res/images/neighborhoods/mitosis", 4);
-		CA_gpu ca("res/c_shaders/reaction.glsl", "res/images/reactionState.png");
+		CA_gpu ca("res/c_shaders/wolfram.glsl", "res/images/wolfram.png");
 		ca.setup();
 		while (!m_window->ShouldClose()) {
 			//world->Update(clock.get_delta_time());
 			ca.update();
 
-			m_window->FillScreen(Color(0.f, 0.f, 0.f, 1.f));
+			//m_window->FillScreen(Color(0.f, 0.f, 0.f, 1.f));
 
 			ca.draw();
 			//world->Render();
