@@ -11,8 +11,7 @@ namespace Physx2D {
 		Renderer2D(std::vector<float> vertices, std::vector<uint32_t> indices, GLenum mode = GL_TRIANGLES);
 		Renderer2D(std::vector<float> vertices, uint32_t numPoints, GLenum mode = GL_TRIANGLES);
 
-		void VertexData(void* data, uint32_t count, size_t size_i);
-		void IndexData(void* data, uint32_t count, size_t size_i);
+		void BufferData(GLenum type, void* data, size_t size, GLenum usemode = GL_STATIC_DRAW);
 		void VertexDataLayout(uint32_t location, uint32_t count, GLenum type, GLsizei stride, uint32_t offset);
 		virtual void Draw(Shader* shader);
 		virtual void del();

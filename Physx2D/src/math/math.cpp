@@ -7,13 +7,17 @@ namespace Physx2D {
 	const float Math::MAX_float = 3.40282e+038f;
 	const float Math::MIN_float = -3.40282e+038f;
 
-	inline float Math::dot(vec2 u, vec2 v) {
-		return (u.x * v.x + u.y * v.y);
+	inline float Math::dot(tvec2<int> u, tvec2<int> b) {
+		return u.x * u.x + u.y * u.y;
 	}
 
-	mat3 Math::get_ortho2d(vec2 center, vec2 area) {
-		vec2 btm_left = center - area * 0.5f;
-		vec2 top_right = center + area * 0.5f;
+	inline float Math::dot(tvec2<float> u, tvec2<float> b) {
+		return u.x * u.x + u.y * u.y;
+	}
+
+	mat3 Math::get_ortho2d(tvec2<float> center, tvec2<float> area) {
+		tvec2 btm_left = center - area * 0.5f;
+		tvec2 top_right = center + area * 0.5f;
 
 		mat3 ortho = mat3(1.0f);
 		ortho.value[0][0] = 2.0f / (top_right.x - btm_left.x);
@@ -24,7 +28,7 @@ namespace Physx2D {
 		return ortho;
 	}
 
-	mat3 Math::get_view2d(vec2 pos) {
+	mat3 Math::get_view2d(tvec2<float> pos) {
 		mat3 view = mat3(1.0f);
 		view.value[0][2] = -pos.x;
 		view.value[1][2] = -pos.y;
@@ -54,89 +58,8 @@ namespace Physx2D {
 		float x = (random_f(a * 1000) + random_f(b * 2000)) / 2.f;
 		return a + x * (b - a);
 	}
-
-	inline vec2 vec2::normalized()
-	{
-		return this->length() > 1e-6f ? (*this) * vec2(1.f / this->length()) : vec2(0.0f);
-	}
-
-	inline float vec2::length() {
-		return sqrt(x * x + y * y);
-	}
-	vec2 vec2::rotate(float a)
-	{
-		float c = cos(a);
-		float s = sin(a);
-		vec2 n(0.f);
-		n.x = x * c - y * s;
-		n.y = x * s + y * c;
-		return n;
-	}
-	vec2 vec2::operator=(vec2 v)
-	{
-		x = v.x;
-		y = v.y;
-		return v;
-	}
-	vec2 vec2::operator-()
-	{
-		return vec2(-x, -y);
-	}
-	vec2 vec2::operator+(vec2 v)
-	{
-		return vec2(x + v.x, y + v.y);
-	}
-	void vec2::operator+=(vec2 v)
-	{
-		x = x + v.x;
-		y = y + v.y;
-	}
-	vec2 vec2::operator-(vec2 v)
-	{
-		return vec2(x - v.x, y - v.y);
-	}
-	void vec2::operator-=(vec2 v)
-	{
-		x -= v.x;
-		y -= v.y;
-	}
-	vec2 vec2::operator*(vec2 v)
-	{
-		return vec2(x * v.x, y * v.y);
-	}
-	void vec2::operator*=(vec2 a)
-	{
-		x *= a.x;
-		y *= a.y;
-	}
-	vec4 vec4::operator+(vec4 v)
-	{
-		return vec4(x + v.x, y + v.y, z + v.z, w + v.w);
-	}
-	void vec4::operator+=(vec4 v)
-	{
-		x += v.x; y += v.y; z += v.z; w += v.w;
-	}
-	vec4 vec4::operator-(vec4 v)
-	{
-		return vec4(x - v.x, y - v.y, z - v.z, w - v.w);
-	}
-	void vec4::operator-=(vec4 v)
-	{
-		x -= v.x; y -= v.y; z -= v.z; w -= v.w;
-	}
-	vec4 vec4::operator*(vec4 v)
-	{
-		return vec4(x * v.x, y * v.y, z * v.z, w * v.w);
-	}
-	void vec4::operator*=(vec4 a)
-	{
-		x *= a.x;
-		y *= a.y;
-		z *= a.z;
-		w *= a.w;
-	}
-	inline bool centerRect::contains(vec2 point)
+	
+	inline bool centerRect::contains(tvec2<float> point)
 	{
 		return point.x > (x - w * 0.5f) && point.x<(x + w * 0.5f) && point.y >(y - h * 0.5f) && point.y < (h * 0.5f + y);
 	}
@@ -168,7 +91,12 @@ namespace Physx2D {
 	{
 		return a + Math::random_f(seed_f++) * (b - a);
 	}
+	template class PHYSX2D_API tvec2<int>;
+	template class PHYSX2D_API tvec2<float>;
 
 	template class PHYSX2D_API tvec3<int>;
 	template class PHYSX2D_API tvec3<float>;
+
+	template class PHYSX2D_API tvec4<int>;
+	template class PHYSX2D_API tvec4<float>;
 }

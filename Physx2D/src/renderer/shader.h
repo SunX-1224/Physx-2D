@@ -1,11 +1,18 @@
 #pragma once
 
+/*
+	Shader object currently manages the vertex and fragment shaders only. Shaders can 
+	written in any file format but the language must be glsl.
+	Functionalities : 
+		> use : use the current shader
+		> del : delete the shader program
+		> set**** : set the **** value of uniform variable
+*/
+
 #include <glad/glad.h>
 #include "../math/math.h"
 
 namespace Physx2D {
-
-	
 
 	class PHYSX2D_API Shader {
 	public:

@@ -24,7 +24,7 @@ namespace Physx2D{
 			inline void SetVsync(bool value);
 			inline bool ShouldClose();
 			inline void SetClose(bool value);
-			inline vec2 GetResolution();
+			inline ivec2 GetResolution();
 			inline int GetWidth();
 			inline int GetHeight();
 			inline void FillScreen(Color color = Color(0.0f, 0.0f, 0.0f, 1.0f));

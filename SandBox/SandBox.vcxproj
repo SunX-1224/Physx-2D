@@ -96,6 +96,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="applications\boid_sim.h" />
+    <ClCompile Include="applications\cellularAutomata.h" />
+    <ClCompile Include="applications\WaveFuncCollapseApp.h" />
     <ClCompile Include="src\cellular_automata\mnca.cpp" />
     <ClCompile Include="src\cellular_automata\CA_gpu.cpp" />
     <ClCompile Include="src\compute_shader_test\ray_tracing.cpp" />
@@ -108,6 +111,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\wavefcollapse\WFC.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,15 +137,18 @@
     <None Include="res\shaders\vert.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="applications\MNCA.h" />
     <ClInclude Include="src\cellular_automata\mnca.h" />
     <ClInclude Include="src\cellular_automata\CA_gpu.h" />
     <ClInclude Include="src\compute_shader_test\ray_tracing.h" />
     <ClInclude Include="src\boids\boid.h" />
+    <ClInclude Include="src\wavefcollapse\WFC.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\images\reactionState.png" />
     <Image Include="res\images\test.png" />
     <Image Include="res\images\test2.png" />
+    <Image Include="res\images\textures\test.png" />
     <Image Include="res\images\wolfram.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

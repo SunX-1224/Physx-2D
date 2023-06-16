@@ -5,6 +5,7 @@ using namespace Physx2D;
 
 using ivec3 = tvec3<int>;
 
+
 struct RayCastMat {
 	vec4 color;
 	vec4 e_color_strength;

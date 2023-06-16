@@ -7,6 +7,8 @@ namespace Physx2D {
 	World::World(Window* targetWindow) {
 		this->window = targetWindow;
 		this->sceneCamera = Camera();
+
+		loadShader("res/shaders/vert.glsl", "res/shaders/quad.glsl", DEFAULT);
 	}
 
 	World::~World()	{
@@ -25,20 +27,30 @@ namespace Physx2D {
 		renderData.clear();
 	}
 
-	void World::Initialize() {
-		//defaults
-		addInstancedRenderer(LINE, initVectorFromArray(LINE_VERTICES, float), 2, GL_LINES);
-		addInstancedRenderer(TRIANGLE, initVectorFromArray(TRIANGLE_VERTICES, float), 3, GL_TRIANGLES);
-		addInstancedRenderer(QUAD, initVectorFromArray(QUAD_VERTICES, float), 6, GL_TRIANGLES);
-		addInstancedRenderer(CIRCLE, initVectorFromArray(QUAD_VERTICES, float), 6, GL_TRIANGLES);
+	void World::loadDefaultRenderer(RenderType type) {
+		
+		switch (type)
+		{
+			case LINE:
+				addInstancedRenderer(LINE, initVectorFromArray(LINE_VERTICES, float), 2, GL_LINES);
+				break;
 
-		std::shared_ptr<Shader> s1 = std::make_shared<Shader>(Shader("res/shaders/vert.glsl", "res/shaders/quad.glsl"));
-		std::shared_ptr<Shader> s2 = std::make_shared<Shader>(Shader("res/shaders/vert.glsl", "res/shaders/circle.glsl"));
+			case TRIANGLE:
+				addInstancedRenderer(TRIANGLE, initVectorFromArray(TRIANGLE_VERTICES, float), 3, GL_TRIANGLES);
+				break;
 
-		shaders[QUAD] = s1;
-		shaders[CIRCLE] = s2;
-		shaders[TRIANGLE] = s1;
-		shaders[LINE] = s1;
+			case CIRCLE:
+				addInstancedRenderer(CIRCLE, initVectorFromArray(QUAD_VERTICES, float), 6, GL_TRIANGLES);
+				break;
+
+			case QUAD:
+				addInstancedRenderer(QUAD, initVectorFromArray(QUAD_VERTICES, float), 6, GL_TRIANGLES);
+				break;
+			case DEFAULT:
+			default:
+				addInstancedRenderer(DEFAULT, initVectorFromArray(QUAD_VERTICES, float), 6, GL_TRIANGLES);
+				break;
+		}
 	}
 
 	void World::Update(double delta_time) {
@@ -46,7 +58,7 @@ namespace Physx2D {
 		handleCollisions();
 		LOG_INFO("\nCollisions : %f\n", (TIME - time) * 1000.f); time = TIME;
 		sceneCamera.handleInputs(window->m_window, delta_time);
-		handleScriptUpdate(delta_time);
+		handleScripts(delta_time);
 		LOG_INFO("Script Update : %f\n", (TIME - time) * 1000.f); time = TIME;
 		handlePhysics(delta_time);
 		LOG_INFO("Physics Update : %f\n", (TIME - time) * 1000.f); time = TIME;
@@ -56,11 +68,14 @@ namespace Physx2D {
 
 	void World::Render() {
 		for (auto& iter : renderers) {
-			if (textures[iter.first] != nullptr) {
+			if (textures.find(iter.first) != textures.end()) {
 				textures[iter.first]->bind();
 				textures[iter.first]->texUnit(shaders[iter.first].get(), "u_texture");
 			}
-			iter.second.Draw(shaders[iter.first].get());
+			if (shaders.find(iter.first) != shaders.end())
+				iter.second.Draw(shaders[iter.first].get());
+			else
+				iter.second.Draw(shaders[0].get());
 		}
 	}
 
@@ -75,11 +90,11 @@ namespace Physx2D {
 		return ent;
 	}
 
-	void World::loadShader(const char* vert, const char* frag, uint32_t ID) {
+	inline void World::loadShader(const char* vert, const char* frag, uint32_t ID) {
 		shaders[ID] = std::make_shared<Shader>(Shader(vert, frag));
 	}
 
-	void World::loadTexture(const char* path, const char* type, uint32_t ID, uint32_t slot) {
+	inline void World::loadTexture(const char* path, const char* type, uint32_t ID, uint32_t slot) {
 		textures[ID] = std::make_shared<Texture>(Texture(path, type, slot));
 	}
 
@@ -136,10 +151,17 @@ namespace Physx2D {
 		return &renderers[type];
 	}
 
-	void World::handleScriptUpdate(float delta_time) {
+	void World::handleScripts(float delta_time) {
 		for (auto& entity : entities) {
 			if (entity->HasComponent<ScriptComponent>()) {
-				entity->GetComponent<ScriptComponent>()->script->update(delta_time);
+				ScriptComponent *scr = entity->GetComponent<ScriptComponent>();
+				if (!scr->__setup) {
+					scr->script->setup();
+					scr->__setup = true;
+				}
+				else {
+					scr->script->update(delta_time);
+				}
 			}
 		}
 	}
@@ -153,7 +175,7 @@ namespace Physx2D {
 	}
 
 	void World::handleCollisions() {
-		centerRect treesize = centerRect(vec2(0.f), window->GetResolution());
+		centerRect treesize = centerRect(vec2(0.f), vec2(window->GetWidth(), window->GetHeight()));
 		vec2 range(10.f, 10.f);
 		
 		QuadTree<Entity*> qtree(treesize);
@@ -233,7 +255,7 @@ namespace Physx2D {
 
 		for (auto& iter : shaders) {
 			iter.second->use();
-			sceneCamera.setValues(iter.second.get(), window->GetResolution());
+			sceneCamera.setValues(iter.second.get(), vec2(window->GetWidth(), window->GetHeight()));
 			//iter.second->setFloat("u_time", glfwGetTime());
 		}
 		

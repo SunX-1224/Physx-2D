@@ -18,7 +18,7 @@ void main() {
 float updateCell(ivec2 coords){
     ivec2 size = imageSize(img_out);
     
-    int rule = 18;
+    int rule = 54;
 
     int state = 0;
     for(int i=-1; i<=1; i++){

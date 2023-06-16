@@ -26,11 +26,8 @@ namespace Physx2D {
 				else {
 					PHSX_ASSERT(!m_world->manager.hasComponent<Collider>(m_ID), "Component already exists%c", '\n');
 					T* comp = new T(args...);
-					if constexpr (std::is_same_v<T, ScriptComponent>) {
+					if constexpr (std::is_same_v<T, ScriptComponent>)
 						comp->script->self = this;
-						comp->script->setup();
-					}
-					
 					return  m_world->manager.addComponent<T>(m_ID, comp);
 				}
 			}

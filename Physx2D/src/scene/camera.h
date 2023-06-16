@@ -4,7 +4,6 @@
 #include <GLFW/glfw3.h>
 
 namespace Physx2D {
-
 	class PHYSX2D_API Camera {
 
 		public:

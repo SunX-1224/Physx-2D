@@ -1,5 +1,23 @@
 #pragma once
 
+/*
+	Textures can be loaded from file or just be allocated for future. 
+	If the path is specified, there is no need for specifying width and height of the texture.
+	The source and target format also can be specified or use the default value.
+
+	Functionalities :
+		> bindImageTextureMode bind the image texture in specified mode i.e. write_only, read_only, read_write_mode, etc
+			type is the data type in which the texture image is binded and slot is the texture slot(0->16) in which texture
+			is to be bound.
+		> unbindImagetextureMode unbinds image texture
+		> texUnit sets the uniform variable of sampler2D or image2D in the shader to the texture's slot
+		> bind : binds the texture in the specified slot
+		> unbind : unbind the texture in the slot
+		> del : deletes the shader program
+		> setProperty sets the texture's property
+		> ID returns the ID of the texture
+*/
+
 #include "shader.h"
 #include<stb/stb_image.h>
 

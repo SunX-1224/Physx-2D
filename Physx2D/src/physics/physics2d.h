@@ -1,5 +1,12 @@
 #pragma once
+/*
+	Physics part of the application is handled here. Functions like checkCollision, collisionPhysics and updateRigidbody are 
+	defined here inside PhysicsHandler. The working of the functions is rather data oriented than object oriented.
 
+	> checkCollision : checks the collision between two colliders and resolves the collision and returns CollisionData
+	> collisionPhysics : handles the physics of the collision if the rigidbody is attached to both colliders
+	> updateRigidBody : updates the transform nad rigidbody components according to rigidbody component
+*/
 #include "../scene/components.h"
 
 namespace Physx2D{

@@ -13,7 +13,7 @@ struct Agent {
 	void align(std::vector<void*>& agents);
 	void cohesion(std::vector<void*>& agents);
 	void separation(std::vector<void*>& agents);
-	void bounds();
+	void bounds(ivec2 size);
 };
 
 class Boid :public ScriptObject {
@@ -22,8 +22,9 @@ class Boid :public ScriptObject {
 		std::vector<Agent> agents;
 
 		const float aware_radius = 30.f;
+		ivec2 bounds;
 
-		Boid(uint32_t n);
+		Boid(uint32_t n, ivec2 bounds = ivec2(760, 400));
 
 		virtual void setup() override;
 

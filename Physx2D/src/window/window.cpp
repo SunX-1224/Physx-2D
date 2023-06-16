@@ -53,9 +53,9 @@ namespace Physx2D {
         glfwSetWindowShouldClose(m_window, value);
     }
 
-    vec2 Window::GetResolution() {
+    ivec2 Window::GetResolution() {
         glfwGetWindowSize(m_window, (int*)&properties.WIDTH, (int*)&properties.HEIGHT);
-        return vec2(properties.WIDTH, properties.HEIGHT);
+        return ivec2(properties.WIDTH, properties.HEIGHT);
     }
 
     inline int Window::GetWidth()

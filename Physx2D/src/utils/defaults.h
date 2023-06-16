@@ -12,41 +12,15 @@
 namespace Physx2D {
 	typedef vec4 Color;
 
-	const float QUAD_VERTICES[24]{
-			-.5f, -.5f, 0.f, 0.f,
-			 .5f, -.5f, 1.f, 0.f,
-			-.5f,  .5f, 0.f, 1.f,
-			 .5f, -.5f, 1.f, 0.f,
-			 .5f,  .5f, 1.f, 1.f,
-			-.5f,  .5f, 0.f, 1.f,
-	};
+	extern float PHYSX2D_API QUAD_VERTICES[24];
 
-	const float FRAME_QUAD[24]{
-			-1.f, -1.f, 0.f, 0.f,
-			 1.f, -1.f, 1.f, 0.f,
-			-1.f,  1.f, 0.f, 1.f,
-			 1.f, -1.f, 1.f, 0.f,
-			 1.f,  1.f, 1.f, 1.f,
-			-1.f,  1.f, 0.f, 1.f,
-	};
+	extern float PHYSX2D_API FRAME_QUAD[24];
 
-	const vec2 UNIT_RECT[4]{
-			vec2(-.5f, -.5f),
-			vec2( .5f, -.5f),
-			vec2( .5f,  .5f),
-			vec2(-.5f,  .5f),
-	};
+	extern vec2 PHYSX2D_API UNIT_RECT[4];
 
-	const float TRIANGLE_VERTICES[12] {
-		 0.5f,    0.0f,   1.0f, 0.5f,
-		 -0.25f,  0.433f, 0.25f, 0.933f,
-		 -0.25f, -0.433f, 0.25f, 0.066f,
-	};
+	extern float PHYSX2D_API TRIANGLE_VERTICES[12];
 
-	const float LINE_VERTICES[8]{
-		0.0f, 0.f, 0.f, 0.f,
-		1.0f, 0.f, 1.f, 0.f,
-	};
+	extern float PHYSX2D_API LINE_VERTICES[8];
 
 	struct PHYSX2D_API WindowProps {
 		uint32_t WIDTH, HEIGHT;

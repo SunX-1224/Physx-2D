@@ -1,28 +1,82 @@
 #pragma once
+/*
+	Extra math functions available in the applications are listed as :
+		> vec2
+		> ivec2
+		> vec3
+		> ivec3
+		> vec4
+		> ivec4
+		> centerRect which is a rect defined with center and size
+		> mat3 which is a 3x3 matrix of floats
+		> Random : seeded random number generator with auto seed change at each generation
+		> Math class which contains few static functionalities like random numbers, dot product and getOrtho2D and getView2D
+*/
 #include "pch.h"
 #include "core/core.h"
 
 namespace Physx2D {
 
-	struct PHYSX2D_API vec2 {
-		float x;
-		float y;
+	template <class T>
+	struct PHYSX2D_API tvec2 {
+		T x;
+		T y;
 
-		vec2(float a = 0.0f) : x(a), y(a) {}
-		vec2(float _x, float _y): x(_x), y(_y) {}
+		tvec2(T a = 0.0f) : x(a), y(a) {}
+		tvec2(T _x, T _y): x(_x), y(_y) {}
 
-		inline vec2 normalized();
-		inline float length();
-		vec2 rotate(float a);
+		inline tvec2 normalized() {
+			return this->length() > 1e-8f ? (*this) / this->length() : tvec2();
+		}
+		inline float length(){
+			return sqrt(x * x + y * y);
+		}
+		inline tvec2 rotate(T a) {
+			float c = cos(a);
+			float s = sin(a);
+			return tvec2(x * c - y * s, x * s + y * c);
+		}
+		
+		inline tvec2 operator =(tvec2 v) {
+			x = v.x;
+			y = v.y;
+			return v;
+		}
+		inline tvec2 operator -() {
+			return tvec2<T>(-x, -y);
+		}
+		inline tvec2 operator +(tvec2 v){
+			return tvec2<T>(x + v.x, y + v.y);
+		}
+		inline void operator +=(tvec2 v){
+			x = x + v.x;
+			y = y + v.y;
+		}
+		inline tvec2 operator -(tvec2 v){
+			return tvec2(x - v.x, y - v.y);
+		}
+		inline void operator -=(tvec2 v) {
+			x -= v.x;
+			y -= v.y;
+		}
+		inline tvec2 operator *(tvec2 v) {
+			return tvec2(x * v.x, y * v.y);
+		}
+		inline tvec2 operator /(tvec2 v) {
+			return tvec2(x / v.x, y / v.y);
+		}
+		inline void operator *= (tvec2 a){
+			x *= a.x;
+			y *= a.y;
+		}
+		inline void operator /= (tvec2 a) {
+			x /= a.x;
+			y /= a.y;
+		}
 
-		vec2 operator =(vec2 v);
-		vec2 operator -();
-		vec2 operator +(vec2 v);
-		void operator +=(vec2 v);
-		vec2 operator -(vec2 v);
-		void operator -=(vec2 v);
-		vec2 operator *(vec2 v);
-		void operator *= (vec2 a);
+		bool operator<(const tvec2<T>& v) const{
+			return y == v.y ? x < v.x : y < v.y;
+		}
 	};
 
 	template<class T>
@@ -34,52 +88,101 @@ namespace Physx2D {
 		tvec3(T a = 0) : x(a), y(a),z(a) {}
 		tvec3(T _x, T _y, T _z) : x(_x), y(_y), z(_z) {}
 
-		tvec3 operator=(tvec3 v)
+		inline tvec3 normalized() {
+			return this->length() > 1e-8f ? (*this) / this->length() : tvec3();
+		}
+		inline float length() {
+			return sqrt(x * x + y * y + z * z);
+		}
+
+		inline tvec3 operator =(tvec3 v)
 		{
 			x = v.x, y = v.y, z = v.z;
 			return *this;
 		}
-		tvec3 operator-()
+		inline tvec3 operator -()
 		{
 			return tvec3(-x, -y, -z);
 		}
-		tvec3 operator+(tvec3 v)
+		inline tvec3 operator +(tvec3 v)
 		{
 			return tvec3(x + v.x, y + v.y, z + v.z);
 		}
-		void operator+=(tvec3 v) {
+		inline void operator +=(tvec3 v) {
 			x += v.x, y += v.y, z += v.z;
 		}
-		tvec3 operator-(tvec3 v)
+		inline tvec3 operator -(tvec3 v)
 		{
 			return tvec3(x - v.x, y - v.y, z - v.z);
 		}
-		void operator-=(tvec3 v) {
+		inline void operator -=(tvec3 v) {
 			x -= v.x, y -= v.y, z -= v.z;
 		}
-		tvec3 operator*(tvec3 v) {
+		inline tvec3 operator *(tvec3 v) {
 			return tvec3(x * v.x, y * v.y, z * v.z);
 		}
-		void operator*=(tvec3 a) {
+		inline void operator *=(tvec3 a) {
 			x * -a.x, y *= a.y, z *= a.z;
+		}
+		inline tvec3 operator /(tvec3 v) {
+			return tvec3<T>(x / v.x, y / v.y, z/v.z);
+		}
+		inline void operator /=(tvec3 v) {
+			x /= v.x;
+			y /= v.y;
+		}
+
+		bool operator<(const tvec3<T>& v) const {
+			return z == v.z ? (y==v.y?x<v.x:y<v.y) : z<v.z;
 		}
 	};
 
-	struct PHYSX2D_API vec4 {
+	template<class T>
+	struct PHYSX2D_API tvec4 {
 		float x;
 		float y;
 		float z;
 		float w;
 
-		vec4(float a = 0.0f) : x(a), y(a), z(a), w(a) {}
-		vec4(float _x, float _y, float _z, float _w) :x(_x), y(_y), z(_z), w(_w) {}
+		tvec4(T a = 0) : x(a), y(a), z(a), w(a) {}
+		tvec4(T _x, T _y, T _z, T _w) :x(_x), y(_y), z(_z), w(_w) {}
 
-		vec4 operator +(vec4 v);
-		void operator +=(vec4 v);
-		vec4 operator -(vec4 v);
-		void operator -=(vec4 v);
-		vec4 operator *(vec4 v);
-		void operator *= (vec4 a);
+		inline tvec4 normalized() {
+			float l = this->length();
+			return l > 1e-8f ? (*this) / l : tvec4<T>();
+		}
+		inline float length() {
+			return sqrt(x * x + y * y + z * z + w * w);
+		}
+
+		inline tvec4 operator +(tvec4 v){
+			return tvec4(x + v.x, y + v.y, z + v.z, w + v.w);
+		}
+		inline void operator +=(tvec4 v) {
+			x += v.x, y += v.y, z += v.z, w += v.w;
+		}
+		inline tvec4 operator -(tvec4 v) {
+			return tvec4(x - v.x, y - v.y, z - v.z, w - v.w);
+		}
+		inline void operator -=(tvec4 v){
+			x -= v.x, y -= v.y, z -= v.z, w -= v.w;
+		}
+		inline tvec4 operator *(tvec4 v){
+			return tvec4(x * v.x, y * v.y, z * v.z, w * v.w);
+		}
+		inline void operator *= (tvec4 a){
+			x *= a.x,y *= a.y,z *= a.z,w *= a.w;
+		}
+		inline tvec4 operator /(tvec4 v) {
+			return tvec4(x / v.x, y / v.y, z / v.z, w / v.w);
+		}
+		inline void operator /= (tvec4 v) {
+			x /= v.x, y /= v.y, z /= v.z, w /= v.w;
+		}
+
+		bool operator<(const tvec4<T>& v) const {
+			return w == v.w ? (z == v.z ? (y == v.y ? x < v.x : y < v.y) : z < v.z) : w < v.w;
+		}
 	};
 
 	struct PHYSX2D_API centerRect {
@@ -89,14 +192,14 @@ namespace Physx2D {
 		float h;
 
 		centerRect(float x_, float y_, float w_, float h_) :x(x_), y(y_), w(w_), h(h_) {}
-		centerRect(vec2 cen, vec2 res) :x(cen.x), y(cen.y), w(res.x), h(res.y) {}
+		centerRect(tvec2<float> cen, tvec2<float> res) :x(cen.x), y(cen.y), w(res.x), h(res.y) {}
 
-		inline bool contains(vec2 point);
+		inline bool contains(tvec2<float> point);
 
 		inline bool intersects(centerRect n);
 
 		inline centerRect getPart(float xp, float yp);
-	};		
+	};
 		
 	struct PHYSX2D_API mat3 {
 			float value[3][3];
@@ -125,9 +228,11 @@ namespace Physx2D {
 		static const float MAX_float;
 		static const float MIN_float;
 
-		static inline float dot(vec2 u, vec2 b);
-		static mat3 get_ortho2d(vec2 center, vec2 area);
-		static mat3 get_view2d(vec2 pos);
+		static inline float dot(tvec2<int> u, tvec2<int> b);
+		static inline float dot(tvec2<float> u, tvec2<float> b);
+
+		static mat3 get_ortho2d(tvec2<float> center, tvec2<float> area);
+		static mat3 get_view2d(tvec2<float> pos);
 		
 		static inline float random_i(uint32_t seed);
 		static inline float random_f(uint32_t seed);
@@ -135,4 +240,12 @@ namespace Physx2D {
 		static inline int randomr_i(int a, int b);
 		static inline float randomr_f(float a, float b);
 	};
+
+	using vec2 = tvec2<float>;
+	using vec3 = tvec3<float>;
+	using vec4 = tvec4<float>;
+
+	using ivec2 = tvec2<int>;
+	using ivec3 = tvec3<int>;
+	using ivec4 = tvec4<int>;
 }

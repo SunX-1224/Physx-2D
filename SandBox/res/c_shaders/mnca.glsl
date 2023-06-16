@@ -122,7 +122,7 @@ uint checkNeighbour(layout(r8) image2D n, ivec2 coords, ivec2 tgrs){
             ivec2 c = coords + ivec2(x, y)-size/2;
             c %= tgrs;
             vec3 value = imageLoad(img_in, c).rgb;
-           if((value.r+value.g+value.b)/3.f > 0.5f)
+            if((value.r+value.g+value.b)/3.f > 0.5f)
                 count++;
         }
     }

@@ -2,7 +2,6 @@
 #include "renderer2D.h"
 
 namespace Physx2D {
-
 	Renderer2D::Renderer2D() {
 		m_vbo = 0;
 		m_ebo = 0;
@@ -16,46 +15,25 @@ namespace Physx2D {
 		m_vao.bind();
 
 		glGenBuffers(1, &m_vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vec2), vertices.data(), GL_STATIC_DRAW);
+		BufferData(GL_ARRAY_BUFFER, vertices.data(), vertices.size() * sizeof(vertices[0]));
 
 		glGenBuffers(1, &m_ebo);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint32_t), indices.data(), GL_STATIC_DRAW);
-
-		m_vao.unbind();
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		BufferData(GL_ELEMENT_ARRAY_BUFFER, indices.data(), indices.size() * sizeof(indices[0]));
 	}
 
 	Renderer2D::Renderer2D(std::vector<float> vertices, uint32_t numPoints, GLenum mode) 
 		:m_renderMode(mode), arrayMode(true), p_count(numPoints), m_ebo(0)
 	{
-		m_vao.bind();
-
 		glGenBuffers(1, &m_vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vec2), vertices.data(), GL_STATIC_DRAW);
-
-		m_vao.unbind();
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		BufferData(GL_ARRAY_BUFFER, vertices.data(), vertices.size() * sizeof(vertices[0]));
 	}
 
-	void Renderer2D::VertexData(void* data, uint32_t count, size_t size_i) {
+	inline void Renderer2D::BufferData(GLenum type, void* data, size_t size, GLenum usemode) {
 		m_vao.bind();
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-		glBufferData(GL_ARRAY_BUFFER, size_i * count, data, GL_STATIC_DRAW);
+		glBindBuffer(type, type==GL_ELEMENT_ARRAY_BUFFER?m_ebo:m_vbo); //********FLAG**********
+		glBufferData(type, size, data, usemode);
 		m_vao.unbind();
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	}
-
-	void Renderer2D::IndexData(void* data, uint32_t count, size_t size_i) {
-		p_count = count;
-		m_vao.bind();
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size_i * count, data, GL_STATIC_DRAW);
-		m_vao.unbind();
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glBindBuffer(type, 0);
 	}
 
 	void Renderer2D::VertexDataLayout(uint32_t location, uint32_t count, GLenum type, GLsizei stride, uint32_t offset) {

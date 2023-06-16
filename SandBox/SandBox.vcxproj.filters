@@ -22,6 +22,18 @@
     <ClCompile Include="src\cellular_automata\mnca.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\wavefcollapse\WFC.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="applications\boid_sim.h">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="applications\cellularAutomata.h">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="applications\WaveFuncCollapseApp.h">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\circle.glsl" />
@@ -42,11 +54,14 @@
     <ClInclude Include="src\compute_shader_test\ray_tracing.h" />
     <ClInclude Include="src\cellular_automata\CA_gpu.h" />
     <ClInclude Include="src\cellular_automata\mnca.h" />
+    <ClInclude Include="src\wavefcollapse\WFC.h" />
+    <ClInclude Include="applications\MNCA.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\images\reactionState.png" />
     <Image Include="res\images\test.png" />
     <Image Include="res\images\test2.png" />
     <Image Include="res\images\wolfram.png" />
+    <Image Include="res\images\textures\test.png" />
   </ItemGroup>
 </Project>

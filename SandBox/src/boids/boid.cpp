@@ -41,7 +41,7 @@ void Agent::cohesion(std::vector<void*>& agents) {
 	res = res.normalized() * speed;
 
 	RigidBody2D* rgb = self->GetComponent<RigidBody2D>();
-	rgb->Acceleration += (res - rgb->Velocity) * 0.96f;
+	rgb->Acceleration += (res - rgb->Velocity);
 }
 
 void Agent::separation(std::vector<void*>& agents) {
@@ -59,17 +59,22 @@ void Agent::separation(std::vector<void*>& agents) {
 	rgb->Acceleration += res - rgb->Velocity;
 }
 
-void Agent::bounds() {
+void Agent::bounds(ivec2 ss) {
+	/*
+		TODO:
+			> Bounds not working properly
+	*/
+	ss /= 10;
 	Transform* trf = self->GetComponent<Transform>();
 
-	if (trf->Position.x > 770.f) trf->Position.x = -770.f;
-	else if (trf->Position.x < -770.f) trf->Position.x = 770.f;
+	if (trf->Position.x > ss.x) trf->Position.x = -ss.x;
+	else if (trf->Position.x < -ss.x) trf->Position.x = ss.x;
 
-	if (trf->Position.y > 400.f) trf->Position.y = -400.f;
-	else if (trf->Position.y < -400.f) trf->Position.y = 400.f;
+	if (trf->Position.y > ss.y) trf->Position.y = -ss.y;
+	else if (trf->Position.y < -ss.y) trf->Position.y = ss.y;
 }
 
-Boid::Boid(uint32_t n) : n_agents(n){
+Boid::Boid(uint32_t n, ivec2 bnd) : n_agents(n), bounds(bnd){
 	agents.reserve(n);
 }
 
@@ -86,7 +91,7 @@ void Boid::setup() {
 }
 
 void Boid::update(float delta_time) {
-	QuadTree<void*> i_qtree(centerRect(0.f, 0.f, 2000.f, 2000.f));
+	QuadTree<void*> i_qtree(centerRect(0.f, 0.f, bounds.x*2.f, bounds.y*2.f));
 	for (int i = 0; i < n_agents; i++) 
 		i_qtree.insert(agents[i].self->GetComponent<Transform>()->Position, &agents[i]);
 
@@ -99,10 +104,10 @@ void Boid::update(float delta_time) {
 
 		if (others.size() <= 1) continue;
 
-		agents[i].align(others);
-		agents[i].cohesion(others);
-		agents[i].separation(others);
-		agents[i].bounds();
+		//agents[i].align(others);
+		//agents[i].cohesion(others);
+		//agents[i].separation(others);
+		agents[i].bounds(bounds);
 
 		RigidBody2D* rgb = agents[i].self->GetComponent<RigidBody2D>();
 		agents[i].self->GetComponent<Transform>()->Rotation = atan2(rgb->Velocity.y, rgb->Velocity.x);

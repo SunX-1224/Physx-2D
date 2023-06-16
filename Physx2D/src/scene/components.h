@@ -5,7 +5,7 @@
 namespace Physx2D {
 	class Entity;
 	enum PHYSX2D_API BodyType  { STATIC = 0, KINETIC};
-	enum PHYSX2D_API RenderType {LINE = 0, TRIANGLE, QUAD, CIRCLE};
+	enum PHYSX2D_API RenderType {DEFAULT = 0, LINE, TRIANGLE, QUAD, CIRCLE};
 
 	class PHYSX2D_API ScriptObject {
 	public:
@@ -39,11 +39,11 @@ namespace Physx2D {
 
 	struct PHYSX2D_API SpriteRenderer {
 		RenderType type;
-		vec4 color;
+		tvec4<float> color;
 		vec2 offset;
 		vec2 tiling;
 
-		SpriteRenderer(RenderType _type = QUAD, vec4 _color = vec4(1.0f), vec2 _offset = vec2(), vec2 _tiling = vec2(1.f), int _texSlot = 0) :
+		SpriteRenderer(RenderType _type = QUAD, tvec4<float> _color = tvec4(1.0f), vec2 _offset = vec2(), vec2 _tiling = vec2(1.f), int _texSlot = 0) :
 			type(_type), color(_color), offset(_offset), tiling(_tiling) {}
 	};
 
@@ -128,6 +128,7 @@ namespace Physx2D {
 
 	struct PHYSX2D_API ScriptComponent {
 		ScriptObject* script;
+		bool __setup = false;
 
 		ScriptComponent(ScriptObject* _script = nullptr) : script(_script) {}
 

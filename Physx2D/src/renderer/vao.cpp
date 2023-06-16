@@ -6,9 +6,9 @@ namespace Physx2D {
 		glGenVertexArrays(1, &m_ID);
 	}
 
-	void VAO::layout(GLuint location, GLuint size, GLenum type, GLuint stride, unsigned int offset) {
+	void VAO::layout(GLuint location, GLuint count, GLenum type, GLuint stride, unsigned int offset) {
 		glEnableVertexAttribArray(location);
-		glVertexAttribPointer(location, size, type, GL_FALSE, stride, (void*)offset);
+		glVertexAttribPointer(location, count, type, GL_FALSE, stride, (void*)offset);
 	}
 
 	void VAO::bind() {

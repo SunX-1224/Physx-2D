@@ -1,4 +1,10 @@
 #pragma once
+/*
+	Logging and Assertions are defined. During debugging mode, debug logs are enabled.
+	INFO are printed as green texts, Yellow for warnings and Red for errors. Debug logs
+	are all disabled in any other mode.
+	Assertions are enabled if PHSX_ASSERT_ENABLE is defined.
+*/
 #include "pch.h"
 
 #ifdef _DEBUG
