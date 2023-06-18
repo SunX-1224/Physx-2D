@@ -18,24 +18,49 @@ public:
 
 	void generateLevel() {
 		// for output
-		vec2 tilesize(0.33f, 0.5f);
+		vec2 tilesize(1.f/3.f, 0.5f);
 
 		//for WFC algo
-		ivec2 gridsize(12, 12);
-		std::vector<int> def_states = { 0,1,2,3,4 };
-		std::map<ivec2, std::vector<int>> init_states;
-		std::map<ivec2, int> fin_states;
-		std::map<int, std::vector<int>> rules;
-		{//assigning rules
-			rules[0] = {};
-			rules[1] = {};
-			rules[2] = {};
-			rules[3] = {};
-			rules[4] = {};
+		ivec2 gridsize(50, 40);
+		std::vector<int> def_states = {0,1,2,4,5};
+		std::map<ivec2, Tile> init_states;
+		for (int y = 0; y < gridsize.y; y++) {
+			for (int x = 0; x < gridsize.x; x++) {
+				init_states[ivec2(x, y)] = { false, def_states};
+			}
 		}
-		WaveFuncCollapse gen(gridsize, rules, init_states, def_states);
 
+		std::map<int, std::vector<int>[4]> rules;
+		{//assigning rules, dir_index : d = 0, l = 1, u = 2, r = 3
+			rules[0][0] = {1, 4, 5};
+			rules[0][1] = {4, 5};
+			rules[0][2] = {2, 5};
+			rules[0][3] = {1, 5};
+
+			rules[1][0] = {1, 4, 5};
+			rules[1][1] = {0, 4, 5};
+			rules[1][2] = {0, 4};
+			rules[1][3] = {2, 4};
+
+			rules[2][0] = {0, 2};
+			rules[2][1] = {1, 2};
+			rules[2][2] = {2, 5};
+			rules[2][3] = {2, 4};
+
+			rules[4][0] = {1, 4, 5};
+			rules[4][1] = {1, 2};
+			rules[4][2] = {0, 1, 4};
+			rules[4][3] = {0, 1, 5};
+
+			rules[5][0] = {0, 2};
+			rules[5][1] = {0, 4, 5};
+			rules[5][2] = {0, 1, 4};
+			rules[5][3] = {0, 1, 5};
+		}
+		WaveFuncCollapse gen(gridsize, rules, init_states);
 		gen.collapse();
+
+		std::map<ivec2, int> fin_states;
 		gen.getFinalState(fin_states);
 
 		//generate output after collapse
@@ -45,7 +70,7 @@ public:
 				Transform* tfr = ent->GetComponent<Transform>();
 				
 				tfr->Scale = vec2(50, 50);
-				tfr->Position = vec2((x-gridsize.x/2)*tfr->Scale.x, (y-gridsize.y/2)*tfr->Scale.y);
+				tfr->Position = vec2((x-gridsize.x/2)*(tfr->Scale.x+2.f), (y-gridsize.y/2)*(tfr->Scale.y+2.f));
 				
 				ent->AddComponent<SpriteRenderer>(
 					DEFAULT, 
@@ -58,7 +83,7 @@ public:
 	}
 
 	vec2 offset_from_ind(int i, ivec2 tilegrd) {
-		return vec2(float(i % tilegrd.x) / tilegrd.x, float(i / tilegrd.y) / tilegrd.y);
+		return vec2(float(i % tilegrd.x) / tilegrd.x, float(i / tilegrd.x) / tilegrd.y);
 	}
 
 	virtual void Run() override {

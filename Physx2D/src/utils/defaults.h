@@ -1,5 +1,9 @@
 #pragma once
 
+/*
+	Contains some default values used in many places in engine..
+*/
+
 #include "../math/math.h"
 
 #define SCREEN_WIDTH 1280

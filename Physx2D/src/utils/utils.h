@@ -1,4 +1,7 @@
 #pragma once
+/*
+	Contains some utility functions for the engine
+*/
 #include <glad/glad.h>
 
 namespace Physx2D {

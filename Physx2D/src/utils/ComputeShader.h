@@ -1,4 +1,17 @@
 #pragma once
+
+/*
+	Compute shaders can be used to perform computational operations parallely in gpu to speed up some processes.
+	Compute shader must be written in glsl and must follow the rules.
+	
+	Functionalities:
+		> dispatch (...dims...) : dispatches  the compute shader to gpu
+		> waitUntilFinish(barriesBits) : wait until the barrier is crossed
+		> use : activate the compute shader program
+		> set... : sets the uniform values
+		> getter functions  :work group count , work group size, max local work group invocations
+*/
+
 #include "utils.h"
 #include "math/math.h"
 

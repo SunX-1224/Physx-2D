@@ -1,4 +1,13 @@
 #pragma once
+
+/*
+	Camera is not fully implemented. Currently only zooming is allowed, there is no movement for the camera till now
+	
+	TODO : 
+		> Camera movement
+		> Bug fixes
+*/
+
 #include "../renderer/shader.h"
 #include "../math/math.h"
 #include <GLFW/glfw3.h>

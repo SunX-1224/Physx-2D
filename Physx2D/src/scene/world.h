@@ -1,4 +1,10 @@
 #pragma once
+
+/*
+	World is a global event handler for engine. It keeps track of all the entities, physics, collision, rendering, scripts, etc.
+	Plus it tracks all the shaders and textures of the application..
+*/
+
 #include "pch.h"
 #include "../window/window.h"
 #include "ecsmanager.h"

@@ -1,5 +1,9 @@
 #pragma once
 
+/*
+	Handles the window creation, update, resize, etc and also has some getter functions for window
+*/
+
 #include<glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "../utils/defaults.h"

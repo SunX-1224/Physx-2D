@@ -1,10 +1,10 @@
 #pragma once
 #include "../src/cellular_automata/mnca.h"
 
-class MultiNeighbourCA : public Application {
+class MNCA_App : public Application {
 public:
 
-	MultiNeighbourCA() {
+	MNCA_App() {
 		LOG_INFO("%d, %d\n", m_window->GetWidth(), m_window->GetHeight());
 	}
 

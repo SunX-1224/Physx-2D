@@ -1,5 +1,14 @@
 #pragma once
 
+/*
+	Time/Clock related functions...
+		> initTimer : resets/initializes the timer
+		> get_time : returns the duration passed since timer has been initialized
+		> get_fps : returns the fps when in loop
+		> get_delta_time : returns the time elapsed between frames in loop
+		> update : updates the values in loop
+*/
+
 #include "../core/core.h"
 #include <GLFW/glfw3.h>
 

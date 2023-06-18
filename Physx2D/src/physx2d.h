@@ -1,5 +1,9 @@
 #pragma once
 
+/*
+	Exports all the features of the engine
+*/
+
 #include "core/Application.h"
 
 #include "core/Log.h"

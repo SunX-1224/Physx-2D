@@ -222,6 +222,14 @@ namespace Physx2D {
 			uint32_t seed_f;
 	};
 
+	using vec2 = tvec2<float>;
+	using vec3 = tvec3<float>;
+	using vec4 = tvec4<float>;
+
+	using ivec2 = tvec2<int>;
+	using ivec3 = tvec3<int>;
+	using ivec4 = tvec4<int>;
+
 	class PHYSX2D_API Math {
 	public:
 		static const double PI;
@@ -231,7 +239,7 @@ namespace Physx2D {
 		static inline float dot(tvec2<int> u, tvec2<int> b);
 		static inline float dot(tvec2<float> u, tvec2<float> b);
 
-		static mat3 get_ortho2d(tvec2<float> center, tvec2<float> area);
+		static mat3 get_ortho2d(vec2 center, vec2 area);
 		static mat3 get_view2d(tvec2<float> pos);
 		
 		static inline float random_i(uint32_t seed);
@@ -241,11 +249,4 @@ namespace Physx2D {
 		static inline float randomr_f(float a, float b);
 	};
 
-	using vec2 = tvec2<float>;
-	using vec3 = tvec3<float>;
-	using vec4 = tvec4<float>;
-
-	using ivec2 = tvec2<int>;
-	using ivec3 = tvec3<int>;
-	using ivec4 = tvec4<int>;
 }

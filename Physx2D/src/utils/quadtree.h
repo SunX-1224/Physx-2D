@@ -1,7 +1,14 @@
 #pragma once
 
-#include "../math/math.h"
+/*
+	QuadTree is the data structure that divides the space into 4 partitions and stores the data in
+	there making it easy to get the data in specific area very quickly.
+	Functionalities : 
+		> insert : insert data in quadtree
+		> query : get all data in the specified area
+*/
 
+#include "../math/math.h"
 
 namespace Physx2D {
 
@@ -55,13 +62,6 @@ namespace Physx2D {
 				return false;
 			}
 
-			void subdivide() {
-				NW = new QuadTree(bounds.getPart(-0.5f,  0.5f));
-				NE = new QuadTree(bounds.getPart( 0.5f,  0.5f));
-				SW = new QuadTree(bounds.getPart(-0.5f, -0.5f));
-				SE = new QuadTree(bounds.getPart( 0.5f, -0.5f));
-			}
-
 			void query(centerRect range, std::vector<T>& result) {
 
 				if (!bounds.intersects(range))
@@ -86,6 +86,13 @@ namespace Physx2D {
 				delete NE;
 				delete SE;
 				delete SW;
+			}
+		private:
+			void subdivide() {
+				NW = new QuadTree(bounds.getPart(-0.5f, 0.5f));
+				NE = new QuadTree(bounds.getPart(0.5f, 0.5f));
+				SW = new QuadTree(bounds.getPart(-0.5f, -0.5f));
+				SE = new QuadTree(bounds.getPart(0.5f, -0.5f));
 			}
 	};
 }

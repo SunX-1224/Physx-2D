@@ -1,5 +1,9 @@
 #pragma once
 
+/*
+	Entity class : Has every functionality related to entity, like adding component, removing, checking if it has a component, etc
+*/
+
 #include "world.h"
 #include "components.h"
 #include "../core/Log.h"

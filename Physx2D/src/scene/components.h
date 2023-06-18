@@ -1,4 +1,15 @@
 #pragma once
+/*
+	Components and related enums are all defined here.
+
+	> RenderData : Data struct for passing data required for rendering on screen
+	> ScriptComponent : for adding custom scripts to entities.. Requires scriptobject
+	> Tag : for tagging the entities, may require for filtering of entities
+	> Transform : stores tranform of an object, every entities has it by default
+	> SqriteRenderer : for rendering 2d object/sprites on screen
+	> Rigidbody : for physics stuff
+	> Collider : base struct for collision detection : AABB, CircleCollider, BoxCollider, BoundingCircle
+*/
 
 #include "../utils/defaults.h"
 

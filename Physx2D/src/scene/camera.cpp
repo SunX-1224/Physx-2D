@@ -9,13 +9,12 @@ namespace Physx2D {
 
 	mat3 Camera::get_matrices(vec2 res) {
 		mat3 mat = Math::get_ortho2d(vec2(), res * fov);
-		mat.value[0][2] += -mat.value[0][0] * position.x;
-		mat.value[1][2] += -mat.value[1][1] * position.y;
+		mat.value[2][0] += -mat.value[0][0] * position.x;
+		mat.value[2][1] += -mat.value[1][1] * position.y;
 		return mat;
 	}
 
 	void Camera::setValues(Shader* shader, vec2 res) {
-		shader->setFloat("u_fov", fov);
 		shader->setMat3("u_camMatrices", get_matrices(res));
 		shader->setVec2("u_resolution", res);
 	}

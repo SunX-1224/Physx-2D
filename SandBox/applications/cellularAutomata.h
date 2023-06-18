@@ -3,9 +3,9 @@
 #include "../src/cellular_automata/CA_gpu.h"
 
 
-class CellularAutomata : public Application {
+class CellularAutomataApp : public Application {
  public:
-	CellularAutomata() {
+	CellularAutomataApp() {
 		LOG_INFO("%d, %d\n", m_window->GetWidth(), m_window->GetHeight());
 	}
 
@@ -14,9 +14,9 @@ class CellularAutomata : public Application {
 		clock.initTimer();
 
 		//CA_gpu ca("res/c_shaders/wolfram.glsl", "res/images/wolfram.png");
-		//CA_gpu ca("res/c_shaders/reaction.glsl", "res/images/reactionState.png");
+		 CA_gpu ca("res/c_shaders/reaction.glsl", "res/images/reactionState.png");
 		//CA_gpu ca("res/c_shaders/b_reaction.glsl", "res/images/reactionState.png");
-		CA_gpu ca("res/c_shaders/gameoflife.glsl", "res/images/test.png");
+		//CA_gpu ca("res/c_shaders/gameoflife.glsl", "res/images/test.png");
 		ca.setup();
 
 		while (!m_window->ShouldClose()) {

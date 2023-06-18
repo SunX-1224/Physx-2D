@@ -15,9 +15,9 @@ namespace Physx2D {
 		return u.x * u.x + u.y * u.y;
 	}
 
-	mat3 Math::get_ortho2d(tvec2<float> center, tvec2<float> area) {
-		tvec2 btm_left = center - area * 0.5f;
-		tvec2 top_right = center + area * 0.5f;
+	mat3 Math::get_ortho2d(vec2 center, vec2 area) {
+		vec2 btm_left = center - area * 0.5f;
+		vec2 top_right = center + area * 0.5f;
 
 		mat3 ortho = mat3(1.0f);
 		ortho.value[0][0] = 2.0f / (top_right.x - btm_left.x);

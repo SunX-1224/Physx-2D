@@ -1,4 +1,12 @@
 #pragma once
+
+/*
+	ECSManager is manager unit for Entity Component System of the engine.
+
+	> Every entity has EntityID which is just an uint32_t
+	> Data oriented approach is taken to reduce the problem of inheritance
+*/
+
 #include "../pch.h"
 
 namespace Physx2D {

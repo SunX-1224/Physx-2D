@@ -1,9 +1,14 @@
 #pragma once
 
+/*
+	Some precompiled headers used throughout the engine
+*/
+
 #include <iostream>
 #include <math.h>
 #include <vector>
 #include <unordered_map>
+#include <algorithm>
 #include <map>
 #include <memory>
 #include <typeindex>

@@ -7,7 +7,8 @@ Physx2D::Time::Time() {
 }
 
 void Physx2D::Time::initTimer(){
-	current_time = last_time = glfwGetTime();
+	current_time = last_time = 0;
+	glfwSetTime(0.0);
 }
 
 double Physx2D::Time::get_time(){
