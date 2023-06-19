@@ -24,12 +24,12 @@ public:
 	);
 	~WaveFuncCollapse();
 
-	void collapse();
+	void collapse_map();
 	void getFinalState(std::map<ivec2, int>& states);
-	
-private:
 	ivec2 lowest_entropy();
 	void collapse_tile(ivec2 tile);
+	
+private:
 	void filterState(std::vector<int> &trgStates, int state, int dir);
 	bool in(std::vector<int> trg, int val);
 };

@@ -23,7 +23,7 @@ void WaveFuncCollapse::getFinalState(std::map<ivec2, int>& states) {
     }
 }
 
-void WaveFuncCollapse::collapse() {
+void WaveFuncCollapse::collapse_map() {
     ivec2 lwst(-1);
     for (int i = 0; i < gridsize.x * gridsize.y; i++) {
         lwst = lowest_entropy();
@@ -55,13 +55,8 @@ void WaveFuncCollapse::collapse_tile(ivec2 pos) {
     tiles[pos].states.clear();
     tiles[pos].states.push_back(ns);
     
-    // TODO : update neighbour after collapse
-    //follow rules, dir_index : d = 0, l = 1, u = 2, r = 3
-
     for (int i = 0; i < 4; i++) {
         ivec2 npos = ivec2(i%2 * ((i/2)*2 - 1), (i+1)%2 * ((i+1)/2*2 - 1)) + pos;
-        if (npos.x >= gridsize.x || npos.y >= gridsize.y) continue;
-           
         filterState(tiles[npos].states, ns, i);
     }
 }
