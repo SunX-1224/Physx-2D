@@ -50,7 +50,7 @@ namespace Physx2D {
 
 	struct PHYSX2D_API SpriteRenderer {
 		RenderType type;
-		tvec4<float> color;
+		Color color;
 		vec2 offset;
 		vec2 tiling;
 

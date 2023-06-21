@@ -29,9 +29,14 @@ uint32_t Physx2D::compile_shader(const char* source, GLenum type) {
 	glCompileShader(id);
 
 	glGetShaderiv(id, GL_COMPILE_STATUS, &success);
-	if (not success) {
+	if (!success) {
 		glGetShaderInfoLog(id, 512, NULL, infoLog);
 		LOG_ERROR("ERROR: Shader :: Type :: ( %d ) did not compiled successfully\n LOG : %s\n", type, infoLog);
 	}
 	return id;
+}
+
+inline void Physx2D::GetError()
+{
+	LOG_ERROR("ERROR : %d\n", glGetError());
 }

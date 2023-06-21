@@ -3,8 +3,8 @@
 	This is the core of application where dll interface is defined.
 */
 
-#ifdef PHSX_PLATFORM_WINDOWS
-	#ifdef PHSX_BUILD_DLL
+#ifdef PHSX2D_PLATFORM_WINDOWS
+	#ifdef PHSX2D_BUILD_DLL
 		#define PHYSX2D_API _declspec(dllexport)
 	#else
 		#define	PHYSX2D_API _declspec(dllimport)

@@ -3,7 +3,6 @@
 	This is the entry point for the whole application. CreateApplication function which is
 	defined externally returns the application which is got by the main function and runs it.
 */
-#ifdef PHSX_PLATFORM_WINDOWS
 
 #include "Application.h"
 
@@ -17,4 +16,3 @@ int main(int argc, char** argv) {
 	delete app;
 }
 
-#endif

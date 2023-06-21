@@ -8,7 +8,6 @@ namespace Physx2D {
         VERSION_MAJOR = version_major;
         VERSION_MINOR = version_minor;
 
-
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, VERSION_MAJOR);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, VERSION_MINOR);
@@ -31,7 +30,7 @@ namespace Physx2D {
 
         glfwSwapInterval(0);
 
-        PHSX_ASSERT( gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialize glad%s", "\n");
+        PHSX2D_ASSERT( gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialize glad%s", "\n");
     }
 
     void Window::OnInit() {
@@ -85,10 +84,4 @@ namespace Physx2D {
     Window::~Window() {
         glfwDestroyWindow(m_window);
     }
-
-    inline void GetError()
-    {
-        LOG_ERROR("ERROR : %d\n", glGetError());
-    }
-
 }

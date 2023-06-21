@@ -22,7 +22,7 @@ namespace Physx2D {
 
 		template<typename T>
 		T* addComponent(EntityID entity, T* component) {
-			PHSX_ASSERT(entity >= 0 && entity < nextEntity, "Invalid entity ID : %d", entity);
+			PHSX2D_ASSERT(entity >= 0 && entity < nextEntity, "Invalid entity ID : %d", entity);
 
 			std::vector<void*>& componentVector = componentStorage[std::type_index(typeid(T))];
 			if (entity >= componentVector.size()) {
@@ -38,7 +38,7 @@ namespace Physx2D {
 
 		template<typename T>
 		void removeComponent(EntityID entity) {
-			PHSX_ASSERT(entity >= 0 && entity < nextEntity, "Invalid entity ID : %d", entity);
+			PHSX2D_ASSERT(entity >= 0 && entity < nextEntity, "Invalid entity ID : %d", entity);
 
 			std::vector<void*>& componentVector = componentStorage[std::type_index(typeid(T))];
 			delete ((T*)componentVector[entity]);
@@ -46,7 +46,7 @@ namespace Physx2D {
 
 		template<typename T>
 		inline bool hasComponent(EntityID entity) {
-			PHSX_ASSERT(entity >= 0 && entity < nextEntity, "Invalid entity ID : %d", entity);
+			PHSX2D_ASSERT(entity >= 0 && entity < nextEntity, "Invalid entity ID : %d", entity);
 
 			std::vector<void*>& componentVector = componentStorage[std::type_index(typeid(T))];
 			return entity < componentVector.size() && componentVector[entity] ;
@@ -54,7 +54,7 @@ namespace Physx2D {
 
 		template<typename T>
 		T* getComponent(EntityID entity) {
-			PHSX_ASSERT(entity >= 0 && entity < nextEntity, "Invalid entity ID : %d", entity);
+			PHSX2D_ASSERT(entity >= 0 && entity < nextEntity, "Invalid entity ID : %d", entity);
 
 			std::vector<void*>& componentVector = componentStorage[std::type_index(typeid(T))];
 

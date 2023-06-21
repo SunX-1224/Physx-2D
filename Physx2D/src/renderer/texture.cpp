@@ -19,7 +19,7 @@ namespace Physx2D {
 			int nrChannels = 1;
 			stbi_set_flip_vertically_on_load(true);
 			data = stbi_load(path, &m_width, &m_height, &nrChannels, 0);
-			PHSX_ASSERT(data, "ERROR : while loading the path %s\n", path);
+			PHSX2D_ASSERT(data, "ERROR : while loading the path %s\n", path);
 
 			if (nrChannels == 1)
 				src_format = GL_RED;

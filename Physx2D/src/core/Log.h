@@ -7,7 +7,7 @@
 */
 #include "pch.h"
 
-#ifdef _DEBUG
+#ifdef PHSX2D_DEBUG
 
 #define LOG_INFO(form, ...) {printf("\033[1;32m" form "\033[1;0m", __VA_ARGS__);}
 #define LOG_WARN(form, ...) {printf("\033[1;33m" form "\033[1;0m", __VA_ARGS__);}
@@ -24,8 +24,8 @@
 #define __VA_ARGS0__(x, ...) x
 #define __VA_ARGSN0__(x, ...) __VA_ARGS__
 
-#ifdef PHSX_ASSERT_ENABLE
+#ifdef PHSX2D_ASSERT_ENABLE
 #define PHSX_ASSERT(x, ...) { if(!(x)) {LOG_ERROR("ASSERTION FAILED : " __VA_ARGS0__(__VA_ARGS__), __VA_ARGSN0__(__VA_ARGS__)); __debugbreak(); } }
 #else
-#define PHSX_ASSERT(x, ...)
+#define PHSX2D_ASSERT(x, ...)
 #endif

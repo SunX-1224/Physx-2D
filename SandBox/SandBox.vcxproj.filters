@@ -1,67 +1,52 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="src">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="boids">
+      <UniqueIdentifier>{960B2B0F-0220-53C0-CBA1-F61F37754FF1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cellular_automata">
+      <UniqueIdentifier>{5437CA39-C04D-C8CF-09C5-53F1751A9957}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="compute_shader_test">
+      <UniqueIdentifier>{B789A00E-23EB-7D1C-AC58-C4CE18B9B4DB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="wavefcollapse">
+      <UniqueIdentifier>{B137971A-1DF8-1251-E632-5CCE52B2572D}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
+    <ClInclude Include="src\boids\boid.h">
+      <Filter>boids</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cellular_automata\CA_gpu.h">
+      <Filter>cellular_automata</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cellular_automata\mnca.h">
+      <Filter>cellular_automata</Filter>
+    </ClInclude>
+    <ClInclude Include="src\compute_shader_test\ray_tracing.h">
+      <Filter>compute_shader_test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\wavefcollapse\WFC.h">
+      <Filter>wavefcollapse</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="src\boids\boid.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\compute_shader_test\ray_tracing.cpp">
-      <Filter>src</Filter>
+      <Filter>boids</Filter>
     </ClCompile>
     <ClCompile Include="src\cellular_automata\CA_gpu.cpp">
-      <Filter>src</Filter>
+      <Filter>cellular_automata</Filter>
     </ClCompile>
     <ClCompile Include="src\cellular_automata\mnca.cpp">
-      <Filter>src</Filter>
+      <Filter>cellular_automata</Filter>
     </ClCompile>
+    <ClCompile Include="src\compute_shader_test\ray_tracing.cpp">
+      <Filter>compute_shader_test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\wavefcollapse\WFC.cpp">
-      <Filter>src</Filter>
+      <Filter>wavefcollapse</Filter>
     </ClCompile>
-    <ClCompile Include="applications\boid_sim.h">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="applications\cellularAutomata.h">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="applications\WaveFuncCollapseApp.h">
-      <Filter>src</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\shaders\circle.glsl" />
-    <None Include="res\shaders\quad.glsl" />
-    <None Include="res\shaders\vert.glsl" />
-    <None Include="res\c_shaders\ray_trace.glsl" />
-    <None Include="res\shaders\f_vert.glsl" />
-    <None Include="res\shaders\f_frag.glsl" />
-    <None Include="res\c_shaders\gameoflife.glsl" />
-    <None Include="res\c_shaders\wolfram.glsl" />
-    <None Include="res\c_shaders\dla.glsl" />
-    <None Include="res\c_shaders\b_reaction.glsl" />
-    <None Include="res\c_shaders\reaction.glsl" />
-    <None Include="res\c_shaders\mnca.glsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\boids\boid.h" />
-    <ClInclude Include="src\compute_shader_test\ray_tracing.h" />
-    <ClInclude Include="src\cellular_automata\CA_gpu.h" />
-    <ClInclude Include="src\cellular_automata\mnca.h" />
-    <ClInclude Include="src\wavefcollapse\WFC.h" />
-    <ClInclude Include="applications\MNCA.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\images\reactionState.png" />
-    <Image Include="res\images\test.png" />
-    <Image Include="res\images\test2.png" />
-    <Image Include="res\images\wolfram.png" />
-    <Image Include="res\images\textures\test.png" />
   </ItemGroup>
 </Project>

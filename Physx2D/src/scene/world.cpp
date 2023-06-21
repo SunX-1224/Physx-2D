@@ -106,7 +106,7 @@ namespace Physx2D {
 				break;
 			}
 		}
-		if (not createNew) { 
+		if (!createNew) { 
 			LOG_WARN("Renderer of the type %u already exists", type);
 			return &renderers[type];
 		}
@@ -133,7 +133,7 @@ namespace Physx2D {
 				break;
 			}
 		}
-		if (not createNew) {
+		if (!createNew) {
 			LOG_WARN("Renderer of the type %u already exists", type);
 			return &renderers[type];
 		}
@@ -249,7 +249,7 @@ namespace Physx2D {
 			if (entity->HasComponent<SpriteRenderer>()) {
 				Transform* trnf = entity->GetComponent<Transform>();
 				SpriteRenderer* rnc = entity->GetComponent<SpriteRenderer>();
-				renderData[rnc->type].push_back(RenderData(*trnf, rnc->color, rnc->offset, rnc->tiling)); // TODO : can be optimized
+				renderData[rnc->type].push_back({ *trnf, rnc->color, rnc->offset, rnc->tiling }); // TODO : can be optimized
 			}
 		}
 

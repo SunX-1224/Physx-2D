@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "defaults.h"
 
 namespace Physx2D {

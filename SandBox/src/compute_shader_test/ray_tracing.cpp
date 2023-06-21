@@ -42,11 +42,11 @@ void ray_tracing::setup(uint32_t size) {
 
 	for (int i = 0; i < size; i++) {
 		Sphere sp = {
-			.pos_rad = vec4(-600.f + 150.f * i, 0.f, -400.f + 150.f * (i % 3), 80.f),
-			.material = RayCastMat(
-				i==0?vec4(1.f):vec4(randm.rand_f(),randm.rand_f(),randm.rand_f(), 1.f),
-				vec4(i==0? 1.f: 0.f)
-			)
+			vec4(-600.f + 150.f * i, 0.f, -400.f + 150.f * (i % 3), 80.f),
+			{	
+				i == 0 ? vec4(1.f) : vec4(randm.rand_f(),randm.rand_f(),randm.rand_f(), 1.f),
+				vec4(i == 0 ? 1.f : 0.f)
+			}
 		};
 
 		spheres.push_back(sp);
