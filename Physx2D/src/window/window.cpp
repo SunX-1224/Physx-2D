@@ -22,19 +22,20 @@ namespace Physx2D {
 
         m_window = glfwCreateWindow(properties.WIDTH, properties.HEIGHT, properties.TITLE, NULL, NULL);
         glfwMakeContextCurrent(m_window);
+        
+        bool __glload = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+        PHSX2D_ASSERT( __glload, "Failed to initialize glad%s", "\n");
 
         glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
             glfwSetWindowSize(window, width, height);
             glViewport(0, 0, width, height);
             });
 
-        glfwSwapInterval(0);
-
-        PHSX2D_ASSERT( gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialize glad%s", "\n");
+        glfwSwapInterval(0);        
     }
 
     void Window::OnInit() {
-        glfwGetWindowSize(m_window, (int*)&properties.WIDTH, (int*)&properties.HEIGHT);
+        glfwGetWindowSize(m_window, &properties.WIDTH, &properties.HEIGHT);
         glViewport(0, 0, properties.WIDTH, properties.HEIGHT);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

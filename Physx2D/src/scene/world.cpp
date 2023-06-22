@@ -81,12 +81,13 @@ namespace Physx2D {
 
 	Entity* World::CreateEntity(std::string name) {
 		EntityID id = manager.CreateEntity();
-		Entity* ent =new Entity(id, this);
+		Entity* ent = new Entity(id, this);
 
 		ent->AddComponent<Transform>();
 		ent->AddComponent<Tag>(name.empty()?"Entity":name);
 
 		entities.push_back(ent);
+		LOG_INFO("Entity created %c", '\n');
 		return ent;
 	}
 

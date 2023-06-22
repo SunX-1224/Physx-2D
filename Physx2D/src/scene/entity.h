@@ -28,7 +28,7 @@ namespace Physx2D {
 					return  static_cast<T*>(m_world->manager.addComponent<Collider>(m_ID, new T(args...)));
 				}
 				else {
-					PHSX2D_ASSERT(!m_world->manager.hasComponent<Collider>(m_ID), "Component already exists%c", '\n');
+					PHSX2D_ASSERT(!m_world->manager.hasComponent<T>(m_ID), "Component already exists%c", '\n');
 					T* comp = new T(args...);
 					if constexpr (std::is_same_v<T, ScriptComponent>)
 						comp->script->self = this;
@@ -56,7 +56,7 @@ namespace Physx2D {
 					m_world->manager.removeComponent<Collider>(m_ID);
 				}
 				else {
-					PHSX2D_ASSERT(m_world->manager.hasComponent<Collider>(m_ID), "Component doesnot exist%c", '\n');
+					PHSX2D_ASSERT(m_world->manager.hasComponent<T>(m_ID), "Component doesnot exist%c", '\n');
 					m_world->manager.removeComponent<T>(m_ID);
 				}
 			}

@@ -16,11 +16,11 @@ workspace "Physx2D"
         cppdialect "C++20"
         staticruntime "off"
 
-        pchheader "pch.h"
-        pchsource "src/pch.cpp"
-
         targetdir ("bin/" .. outputdir .. "/%{prj.name}")
         objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+        pchheader "pch.h"
+        pchsource "%{prj.name}/src/pch.cpp"
 
         files {
             "%{prj.name}/src/**.*",
@@ -41,31 +41,33 @@ workspace "Physx2D"
             "opengl32.lib"
         }
 
+
         filter "system:windows"
             systemversion "latest"
+            
+            postbuildcommands {
+                "{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/SandBox",
+            }
 
             defines {
                 "PHSX2D_BUILD_DLL",
                 "PHSX2D_PLATFORM_WINDOWS",
             }
 
-        filter "files:glad.c or files:stb_image.cpp"
-            flags { "NoPCH" }
-
-        filter "files:pch.cpp"
-            buildoptions { "/Yc\"pch.h\"" }
-
         filter "configurations:Debug"
-            defines "PHSX2D_DEBUG"
+            defines {"PHSX2D_DEBUG", "PHSX2D_ASSERT_ENABLE"}
             symbols "on"
 
         filter "configurations:Release"
-            defines "PHSX2D_RELEASE"
+            defines {"PHSX2D_RELEASE", "PHSX2D_ASSERT_ENABLE"}
             optimize "on"
 
         filter "configurations:Dist"
             defines "PHSX2D_DIST"
             optimize "on"
+
+        filter "files:**/libraries/src/**.*"
+            flags { "NoPCH" }
 
     project "SandBox"
         location "SandBox"

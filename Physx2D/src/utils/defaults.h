@@ -27,12 +27,12 @@ namespace Physx2D {
 	extern float PHYSX2D_API LINE_VERTICES[8];
 
 	struct PHYSX2D_API WindowProps {
-		uint32_t WIDTH, HEIGHT;
+		int WIDTH, HEIGHT;
 		const char* TITLE;
 
 		WindowProps(
-			uint32_t width = SCREEN_WIDTH,
-			uint32_t height = SCREEN_HEIGHT,
+			int width = SCREEN_WIDTH,
+			int height = SCREEN_HEIGHT,
 			const char* title = "Physx2D Window"
 		) {
 			WIDTH = width;

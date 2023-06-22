@@ -79,7 +79,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>PHSX2D_BUILD_DLL;PHSX2D_PLATFORM_WINDOWS;PHSX2D_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PHSX2D_BUILD_DLL;PHSX2D_PLATFORM_WINDOWS;PHSX2D_DEBUG;PHSX2D_ASSERT_ENABLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>libraries\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -94,13 +94,16 @@
       <AdditionalLibraryDirectories>libraries\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\bin\Debug-windows-x86_64\Physx2D\Physx2D.lib</ImportLibrary>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST ..\bin\Debug-windows-x86_64\Physx2D\Physx2D.dll\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\Physx2D\Physx2D.dll ..\bin\Debug-windows-x86_64\SandBox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\Physx2D\Physx2D.dll ..\bin\Debug-windows-x86_64\SandBox &gt; nul)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>PHSX2D_BUILD_DLL;PHSX2D_PLATFORM_WINDOWS;PHSX2D_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PHSX2D_BUILD_DLL;PHSX2D_PLATFORM_WINDOWS;PHSX2D_RELEASE;PHSX2D_ASSERT_ENABLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>libraries\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -119,6 +122,9 @@
       <AdditionalLibraryDirectories>libraries\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\bin\Release-windows-x86_64\Physx2D\Physx2D.lib</ImportLibrary>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST ..\bin\Release-windows-x86_64\Physx2D\Physx2D.dll\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\Physx2D\Physx2D.dll ..\bin\Release-windows-x86_64\SandBox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\Physx2D\Physx2D.dll ..\bin\Release-windows-x86_64\SandBox &gt; nul)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <ClCompile>
@@ -144,6 +150,9 @@
       <AdditionalLibraryDirectories>libraries\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\bin\Dist-windows-x86_64\Physx2D\Physx2D.lib</ImportLibrary>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST ..\bin\Dist-windows-x86_64\Physx2D\Physx2D.dll\ (xcopy /Q /E /Y /I ..\bin\Dist-windows-x86_64\Physx2D\Physx2D.dll ..\bin\Dist-windows-x86_64\SandBox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist-windows-x86_64\Physx2D\Physx2D.dll ..\bin\Dist-windows-x86_64\SandBox &gt; nul)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="libraries\include\GLFW\glfw3.h" />
@@ -180,21 +189,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="libraries\src\glad.c">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="libraries\src\stb_image.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\core\Application.cpp" />
     <ClCompile Include="src\math\math.cpp" />
     <ClCompile Include="src\pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\physics\physics2d.cpp" />
     <ClCompile Include="src\renderer\Buffer.cpp" />

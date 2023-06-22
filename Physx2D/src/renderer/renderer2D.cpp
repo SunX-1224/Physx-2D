@@ -25,7 +25,7 @@ namespace Physx2D {
 		:m_renderMode(mode), arrayMode(true), p_count(numPoints), m_ebo(0)
 	{
 		glGenBuffers(1, &m_vbo);
-		BufferData(GL_ARRAY_BUFFER, vertices.data(), vertices.size() * sizeof(vertices[0]));
+		BufferData(GL_ARRAY_BUFFER, vertices.data(), vertices.size() * sizeof(float));
 	}
 
 	inline void Renderer2D::BufferData(GLenum type, void* data, size_t size, GLenum usemode) {

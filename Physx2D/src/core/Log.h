@@ -25,7 +25,7 @@
 #define __VA_ARGSN0__(x, ...) __VA_ARGS__
 
 #ifdef PHSX2D_ASSERT_ENABLE
-#define PHSX_ASSERT(x, ...) { if(!(x)) {LOG_ERROR("ASSERTION FAILED : " __VA_ARGS0__(__VA_ARGS__), __VA_ARGSN0__(__VA_ARGS__)); __debugbreak(); } }
+#define PHSX2D_ASSERT(x, ...) { if(!(x)) {LOG_ERROR("ASSERTION FAILED : " __VA_ARGS0__(__VA_ARGS__), __VA_ARGSN0__(__VA_ARGS__)); __debugbreak(); } }
 #else
 #define PHSX2D_ASSERT(x, ...)
 #endif
