@@ -11,7 +11,8 @@ CA_gpu::CA_gpu(const char* compute_shader, const char* instate_path) {
 	
 	compute = new ComputeShader(compute_shader);
 
-	renderer = new Renderer2D(initVectorFromArray(FRAME_QUAD, float), 6, GL_TRIANGLES);
+	std::vector<float> __verts = initVectorFromArray(FRAME_QUAD, float);
+	renderer = new Renderer2D(__verts, 6, GL_TRIANGLES);
 	renderer->VertexDataLayout(0, 2, GL_FLOAT, 2 * sizeof(vec2), 0);
 	renderer->VertexDataLayout(1, 2, GL_FLOAT, 2 * sizeof(vec2), sizeof(vec2));
 }

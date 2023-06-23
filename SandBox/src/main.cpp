@@ -6,5 +6,5 @@
 #include "core/entry.h"
 
 Physx2D::Application* Physx2D::CreateApplication() {
-	return new WaveFuncCollapseApp();
+	return new CellularAutomataApp();
 }

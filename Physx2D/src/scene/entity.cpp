@@ -7,12 +7,18 @@ Physx2D::Entity::Entity(EntityID id, World* world_) : m_ID(id), m_world(world_){
 
 Physx2D::Entity::~Entity() {
 	
+	if(HasComponent<Transform>())
 		RemoveComponent<Transform>();
+	if (HasComponent<Tag>())
 		RemoveComponent<Tag>();
+	if (HasComponent<RigidBody2D>())
 		RemoveComponent<RigidBody2D>();
+	if (HasComponent<SpriteRenderer>())
 		RemoveComponent<SpriteRenderer>();
+	if (HasComponent<ScriptComponent>())
 		RemoveComponent<ScriptComponent>();
 
+	if (HasComponent<Collider>()) {
 		Collider* cldr = GetComponent<Collider>();
 
 		if (cldr->typeIndex == std::type_index(typeid(CircleCollider)))
@@ -23,6 +29,5 @@ Physx2D::Entity::~Entity() {
 			delete ((BoundingCircle*)cldr);
 		else
 			delete ((AABB*)cldr);
-
-		LOG_INFO("deleted%c", '\n')
+	}
 }

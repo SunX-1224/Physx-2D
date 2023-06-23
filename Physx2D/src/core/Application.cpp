@@ -12,7 +12,7 @@ namespace Physx2D {
 	Application::~Application() {
 		LOG_INFO("Application Successfully Destroyed%s", "\n");
 	}
-	void Application::Run()
-	{
+
+	void Application::Run() {
 	}
 }

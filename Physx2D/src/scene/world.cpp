@@ -21,10 +21,12 @@ namespace Physx2D {
 			if(iter.second)
 				iter.second.reset();
 		}
-		for (auto& ent : entities)
+		for (auto& ent : entities) {
 			delete ent;
+		}
 		shaders.clear();
 		renderData.clear();
+		LOG_INFO("CLEARED !!!!! %c", '\n');
 	}
 
 	void World::loadDefaultRenderer(RenderType type) {
@@ -79,15 +81,14 @@ namespace Physx2D {
 		}
 	}
 
-	Entity* World::CreateEntity(std::string name) {
+	Entity* World::CreateEntity(const char* name) {
 		EntityID id = manager.CreateEntity();
 		Entity* ent = new Entity(id, this);
 
 		ent->AddComponent<Transform>();
-		ent->AddComponent<Tag>(name.empty()?"Entity":name);
+		//ent->AddComponent<Tag>(name.c_str());
 
 		entities.push_back(ent);
-		LOG_INFO("Entity created %c", '\n');
 		return ent;
 	}
 

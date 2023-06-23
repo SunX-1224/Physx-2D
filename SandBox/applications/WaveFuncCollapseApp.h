@@ -4,19 +4,23 @@
 
 class WaveFuncCollapseApp : public Application {
 public:
-	std::unique_ptr<World> world;
-	std::unique_ptr<WaveFuncCollapse> wfc;
+	World* world;
+	WaveFuncCollapse* wfc;
 	std::map<ivec2, Entity*> entities;
 	std::map<ivec2, int> fin_states;
 
 	WaveFuncCollapseApp() {
-		world = std::unique_ptr<World>(new World(m_window.get()));
+		world = new World(m_window.get());
 		world->loadTexture("res/images/textures/test.png", "wfc", DEFAULT);
 
 		initwfc();
 
 		world->loadDefaultRenderer();
 		LOG_INFO("%d, %d\n", m_window->GetWidth(), m_window->GetHeight());
+	}
+
+	~WaveFuncCollapseApp() {
+		LOG_INFO("Destructor called%c", '\n');
 	}
 
 	void initwfc() {
@@ -61,7 +65,7 @@ public:
 			rules[5][2] = {0, 1, 4};
 			rules[5][3] = {0, 1, 5};
 		}
-		wfc = std::unique_ptr<WaveFuncCollapse>(new WaveFuncCollapse(gridsize, rules, init_states));
+		wfc = new WaveFuncCollapse(gridsize, rules, init_states);
 		//gen.collapse();
 
 		wfc->getFinalState(fin_states);
@@ -75,8 +79,8 @@ public:
 				Transform* tfr = ent->GetComponent<Transform>();
 				
 				tfr->Scale = vec2(30, 30);
-				tfr->Position = vec2((x-gridsize.x/2)*tfr->Scale.x, (y-gridsize.y/2)*tfr->Scale.y);
-				//tfr->Position = vec2((x-gridsize.x/2)*(tfr->Scale.x+2.f), (y-gridsize.y/2)*(tfr->Scale.y+2.f));
+				//tfr->Position = vec2((x-gridsize.x/2)*tfr->Scale.x, (y-gridsize.y/2)*tfr->Scale.y);
+				tfr->Position = vec2((x-gridsize.x/2)*(tfr->Scale.x+2.f), (y-gridsize.y/2)*(tfr->Scale.y+2.f));
 				
 				ent->AddComponent<SpriteRenderer>(
 					DEFAULT, 
@@ -114,6 +118,9 @@ public:
 			clock.update();
 			m_window->SetTitle((std::to_string(clock.get_fps())).c_str());
 		}
+
+		delete world;
+		delete wfc;
 	}
 };
 /**/

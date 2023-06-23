@@ -16,7 +16,8 @@ mnca::mnca(const char* compute_shader, const char* instate_path, std::string nh_
 
 	compute = new ComputeShader(compute_shader);
 
-	renderer = new Renderer2D(initVectorFromArray(FRAME_QUAD, float), 6, GL_TRIANGLES);
+	auto __data = initVectorFromArray(FRAME_QUAD, float);
+	renderer = new Renderer2D(__data, 6, GL_TRIANGLES);
 	renderer->VertexDataLayout(0, 2, GL_FLOAT, 2 * sizeof(vec2), 0);
 	renderer->VertexDataLayout(1, 2, GL_FLOAT, 2 * sizeof(vec2), sizeof(vec2));
 }

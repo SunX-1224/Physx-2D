@@ -1,3 +1,4 @@
+
 #version 460 core
 
 layout(local_size_x = 16, local_size_y = 16, local_size_z = 1) in;
@@ -18,7 +19,7 @@ void main() {
 float updateCell(ivec2 coords){
     ivec2 size = imageSize(img_out);
     
-    int rule = 54;
+    int rule = 18;
 
     int state = 0;
     for(int i=-1; i<=1; i++){

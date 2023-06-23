@@ -80,7 +80,9 @@ workspace "Physx2D"
         objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
         files {
-            "%{prj.name}/src/**.*"
+            "%{prj.name}/src/**.*",
+            "%{prj.name}/res/**.*",
+            "%{prj.name}/applications/**.*"
         }
 
         includedirs {

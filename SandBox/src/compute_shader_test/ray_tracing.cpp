@@ -9,7 +9,8 @@ ray_tracing::ray_tracing(vec2 _res) : res(_res) {
 
 	shader = new Shader("res/shaders/f_vert.glsl", "res/shaders/f_frag.glsl");
 
-	renderer = new Renderer2D(initVectorFromArray(FRAME_QUAD, float), 6, GL_TRIANGLES);
+	auto __data = initVectorFromArray(FRAME_QUAD, float);
+	renderer = new Renderer2D(__data, 6, GL_TRIANGLES);
 	renderer->VertexDataLayout(0, 2, GL_FLOAT, 2 * sizeof(vec2), 0);
 	renderer->VertexDataLayout(1, 2, GL_FLOAT, 2 * sizeof(vec2), sizeof(vec2));
 

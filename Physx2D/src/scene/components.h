@@ -30,9 +30,9 @@ namespace Physx2D {
 	};
 	
 	struct PHYSX2D_API Tag {
-		std::string tag;
+		const char* tag;
 
-		Tag(std::string _tag = std::string()) :tag(_tag) {}
+		Tag(const char* _tag = NULL) :tag(_tag) {}
 	};
 
 	struct PHYSX2D_API Transform {

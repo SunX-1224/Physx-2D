@@ -24,14 +24,14 @@ namespace Physx2D {
 			Camera sceneCamera;
 
 			World(Window* targetWindow);
-			~World();
+			virtual ~World();
 
 			void loadDefaultRenderer(RenderType type = DEFAULT);
 
 			void Update(double delta_time);
 			void Render();
 
-			Entity* CreateEntity(std::string name = std::string());
+			Entity* CreateEntity(const char* name = "Entity");
 
 			inline void loadShader(const char* vertexPath, const char* fragPath, uint32_t ID = DEFAULT);
 			inline void loadTexture(const char* path, const char* type, uint32_t ID, uint32_t slot = 0);
