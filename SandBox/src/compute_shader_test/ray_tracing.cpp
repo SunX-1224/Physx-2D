@@ -24,14 +24,10 @@ ray_tracing::ray_tracing(vec2 _res) : res(_res) {
 }
 
 ray_tracing::~ray_tracing() {
-	texture->del();
 	delete texture;
-	shader->del();
 	delete shader;
-	renderer->del();
 	delete renderer;
 	delete compute;
-	buffer->del();
 	delete buffer;
 }
 

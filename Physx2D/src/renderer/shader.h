@@ -20,9 +20,9 @@ namespace Physx2D {
 
 		Shader();
 		Shader(const char* vertexPath, const char* fragmentPath);
+		~Shader();
 
 		inline void use();
-		inline void del();
 		inline void setBool(const char*, bool);
 		inline void setInt(const char*, int);
 		inline void setFloat(const char*, float);

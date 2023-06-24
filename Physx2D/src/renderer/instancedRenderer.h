@@ -17,6 +17,7 @@ namespace Physx2D {
 			uint32_t numPoints,
 			GLenum mode = GL_TRIANGLES
 		);
+		~InstancedRenderer();
 
 		void InstanceLayout(
 			uint32_t location,
@@ -29,7 +30,6 @@ namespace Physx2D {
 
 		void InstanceData(void* data, uint32_t count, size_t size_i);
 		void Draw(Shader* shader) override;
-		void del() override;
 
 	protected:
 		uint32_t m_ivbo;

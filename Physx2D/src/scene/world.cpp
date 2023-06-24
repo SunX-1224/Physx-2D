@@ -12,18 +12,11 @@ namespace Physx2D {
 	}
 
 	World::~World()	{
-		
-		for (auto& iter : renderers) {
-			iter.second.del();
-		}
-		renderers.clear();
-		for (auto& iter : shaders) {
-			if(iter.second)
-				iter.second.reset();
-		}
 		for (auto& ent : entities) {
 			delete ent;
 		}
+
+		renderers.clear();
 		shaders.clear();
 		renderData.clear();
 		LOG_INFO("CLEARED !!!!! %c", '\n');
@@ -75,9 +68,9 @@ namespace Physx2D {
 				textures[iter.first]->texUnit(shaders[iter.first].get(), "u_texture");
 			}
 			if (shaders.find(iter.first) != shaders.end())
-				iter.second.Draw(shaders[iter.first].get());
+				iter.second->Draw(shaders[iter.first].get());
 			else
-				iter.second.Draw(shaders[0].get());
+				iter.second->Draw(shaders[0].get());
 		}
 	}
 
@@ -86,18 +79,17 @@ namespace Physx2D {
 		Entity* ent = new Entity(id, this);
 
 		ent->AddComponent<Transform>();
-		//ent->AddComponent<Tag>(name.c_str());
-
+		ent->AddComponent<Tag>(name);
 		entities.push_back(ent);
 		return ent;
 	}
 
 	inline void World::loadShader(const char* vert, const char* frag, uint32_t ID) {
-		shaders[ID] = std::make_shared<Shader>(Shader(vert, frag));
+		shaders[ID] = std::shared_ptr<Shader>(new Shader(vert, frag));
 	}
 
 	inline void World::loadTexture(const char* path, const char* type, uint32_t ID, uint32_t slot) {
-		textures[ID] = std::make_shared<Texture>(Texture(path, type, slot));
+		textures[ID] = std::shared_ptr<Texture>(new Texture(path, type, slot));
 	}
 
 	InstancedRenderer* World::addInstancedRenderer(uint32_t type, std::vector<float> vertices, uint32_t numPoints,GLenum draw_mode) {
@@ -110,21 +102,21 @@ namespace Physx2D {
 		}
 		if (!createNew) { 
 			LOG_WARN("Renderer of the type %u already exists", type);
-			return &renderers[type];
+			return renderers[type].get();
 		}
 
-		renderers[type] = InstancedRenderer(vertices, numPoints, draw_mode);
-		renderers[type].VertexDataLayout(0, 2, GL_FLOAT, 2*sizeof(vec2), 0);					//vec2 vertex position
-		renderers[type].VertexDataLayout(1, 2, GL_FLOAT, 2*sizeof(vec2), sizeof(vec2));			//vec2 texture coords
+		renderers[type] = std::shared_ptr<InstancedRenderer>(new InstancedRenderer(vertices, numPoints, draw_mode));
+		renderers[type]->VertexDataLayout(0, 2, GL_FLOAT, 2*sizeof(vec2), 0);						//vec2 vertex position
+		renderers[type]->VertexDataLayout(1, 2, GL_FLOAT, 2*sizeof(vec2), sizeof(vec2));			//vec2 texture coords
 
-		renderers[type].InstanceLayout(2, 2, GL_FLOAT, sizeof(RenderData), 0);					//vec2 position
-		renderers[type].InstanceLayout(3, 2, GL_FLOAT, sizeof(RenderData), 2 * sizeof(float));	//vec2 scale
-		renderers[type].InstanceLayout(4, 1, GL_FLOAT, sizeof(RenderData), 4 * sizeof(float));	//float rotation
-		renderers[type].InstanceLayout(5, 4, GL_FLOAT, sizeof(RenderData), 5 * sizeof(float));	//vec4 color
-		renderers[type].InstanceLayout(6, 2, GL_FLOAT, sizeof(RenderData), 9 * sizeof(float));	//texOffset
-		renderers[type].InstanceLayout(7, 2, GL_FLOAT, sizeof(RenderData), 11 * sizeof(float)); //Tiling factor
+		renderers[type]->InstanceLayout(2, 2, GL_FLOAT, sizeof(RenderData), 0);						//vec2 position
+		renderers[type]->InstanceLayout(3, 2, GL_FLOAT, sizeof(RenderData), 2 * sizeof(float));		//vec2 scale
+		renderers[type]->InstanceLayout(4, 1, GL_FLOAT, sizeof(RenderData), 4 * sizeof(float));		//float rotation
+		renderers[type]->InstanceLayout(5, 4, GL_FLOAT, sizeof(RenderData), 5 * sizeof(float));		//vec4 color
+		renderers[type]->InstanceLayout(6, 2, GL_FLOAT, sizeof(RenderData), 9 * sizeof(float));		//texOffset
+		renderers[type]->InstanceLayout(7, 2, GL_FLOAT, sizeof(RenderData), 11 * sizeof(float));	//Tiling factor
 
-		return &renderers[type];
+		return renderers[type].get();
 	}
 
 	InstancedRenderer* World::addInstancedRenderer(uint32_t type, std::vector<float> vertices, std::vector<uint32_t> indices, GLenum draw_mode) {
@@ -137,20 +129,20 @@ namespace Physx2D {
 		}
 		if (!createNew) {
 			LOG_WARN("Renderer of the type %u already exists", type);
-			return &renderers[type];
+			return renderers[type].get();
 		}
-		renderers[type] = InstancedRenderer(vertices, indices, draw_mode);
-		renderers[type].VertexDataLayout(0, 2, GL_FLOAT, 2*sizeof(vec2), 0);						//vec2 vertex position
-		renderers[type].VertexDataLayout(1, 2, GL_FLOAT, 2*sizeof(vec2), sizeof(vec2));			//vec2 texture coords
+		renderers[type] = std::shared_ptr<InstancedRenderer>(new InstancedRenderer(vertices, indices, draw_mode));
+		renderers[type]->VertexDataLayout(0, 2, GL_FLOAT, 2*sizeof(vec2), 0);						//vec2 vertex position
+		renderers[type]->VertexDataLayout(1, 2, GL_FLOAT, 2*sizeof(vec2), sizeof(vec2));			//vec2 texture coords
 
-		renderers[type].InstanceLayout(2, 2, GL_FLOAT, sizeof(RenderData), 0);					//vec2 position
-		renderers[type].InstanceLayout(3, 2, GL_FLOAT, sizeof(RenderData), 2 * sizeof(float));	//vec2 scale
-		renderers[type].InstanceLayout(4, 1, GL_FLOAT, sizeof(RenderData), 4 * sizeof(float));	//float rotation
-		renderers[type].InstanceLayout(5, 4, GL_FLOAT, sizeof(RenderData), 5 * sizeof(float));	//vec4 color
-		renderers[type].InstanceLayout(6, 2, GL_FLOAT, sizeof(RenderData), 9 * sizeof(float));	//texOffset
-		renderers[type].InstanceLayout(7, 2, GL_FLOAT, sizeof(RenderData), 11 * sizeof(float)); //Tiling factor
+		renderers[type]->InstanceLayout(2, 2, GL_FLOAT, sizeof(RenderData), 0);						//vec2 position
+		renderers[type]->InstanceLayout(3, 2, GL_FLOAT, sizeof(RenderData), 2 * sizeof(float));		//vec2 scale
+		renderers[type]->InstanceLayout(4, 1, GL_FLOAT, sizeof(RenderData), 4 * sizeof(float));		//float rotation
+		renderers[type]->InstanceLayout(5, 4, GL_FLOAT, sizeof(RenderData), 5 * sizeof(float));		//vec4 color
+		renderers[type]->InstanceLayout(6, 2, GL_FLOAT, sizeof(RenderData), 9 * sizeof(float));		//texOffset
+		renderers[type]->InstanceLayout(7, 2, GL_FLOAT, sizeof(RenderData), 11 * sizeof(float));	//Tiling factor
 		
-		return &renderers[type];
+		return renderers[type].get();
 	}
 
 	void World::handleScripts(float delta_time) {
@@ -264,7 +256,7 @@ namespace Physx2D {
 		for (auto& renderer : renderers) {
 			auto& rd = renderData[renderer.first];
 			if (rd.size() == 0) continue;
-			renderer.second.InstanceData(rd.data(), rd.size(), sizeof(RenderData));
+			renderer.second->InstanceData(rd.data(), rd.size(), sizeof(RenderData));
 		}
 	}
 }

@@ -72,7 +72,7 @@ namespace Physx2D {
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	void Texture::del() {
+	Texture::~Texture() {
 		glDeleteTextures(1, &m_ID);
 	}
 

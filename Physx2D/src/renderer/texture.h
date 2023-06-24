@@ -29,7 +29,7 @@ namespace Physx2D {
 		const char* m_type;
 		unsigned int m_slot;
 		int m_width, m_height;
-
+		
 		Texture(
 			const char* path,
 			const char* type,
@@ -39,13 +39,12 @@ namespace Physx2D {
 			int _width = 800,
 			int _height = 800
 		);
-
+		~Texture();
 		inline void bindImageTextureMode(GLenum mode, GLenum type, int slot = -1);
 		inline void unbindImageTextureMode(GLenum mode, GLenum type, int slot = -1);
 		inline void texUnit(Shader* shader, const char* uniform);
 		inline void bind(int slot = -1);
 		static inline void unbind();
-		inline void del();
 		inline void set_property(GLenum target, GLenum pname, GLenum parameter);
 		uint32_t ID();
 	private:

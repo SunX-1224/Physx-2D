@@ -18,11 +18,6 @@ CA_gpu::CA_gpu(const char* compute_shader, const char* instate_path) {
 }
 
 CA_gpu::~CA_gpu() {
-	cur->del();
-	prev->del();
-	shader->del();
-	renderer->del();
-
 	delete cur;
 	delete prev;
 	delete shader;

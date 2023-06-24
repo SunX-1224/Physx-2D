@@ -54,7 +54,7 @@ namespace Physx2D {
 		m_vao.unbind();
 	}
 
-	void Renderer2D::del(){
+	Renderer2D::~Renderer2D(){
 		m_vao.del();
 		glDeleteBuffers(1, &m_vbo);
 		if(m_ebo)

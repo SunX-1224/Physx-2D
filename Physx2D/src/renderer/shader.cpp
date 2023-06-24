@@ -44,7 +44,7 @@ namespace Physx2D {
 		glUseProgram(m_ID);
 	}
 
-	inline void Shader::del() {
+	Shader::~Shader() {
 		glDeleteProgram(m_ID);
 	}
 

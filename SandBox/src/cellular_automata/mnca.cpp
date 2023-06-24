@@ -23,11 +23,6 @@ mnca::mnca(const char* compute_shader, const char* instate_path, std::string nh_
 }
 
 mnca::~mnca() {
-	cur->del();
-	prev->del();
-	shader->del();
-	renderer->del();
-
 	delete cur;
 	delete prev;
 	delete shader;
@@ -35,7 +30,6 @@ mnca::~mnca() {
 	delete compute;
 
 	for (int i = 0; i < neighbours.size(); i++) {
-		neighbours[i]->del();
 		delete neighbours[i];
 	}
 }

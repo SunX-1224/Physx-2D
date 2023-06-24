@@ -52,7 +52,7 @@ namespace Physx2D {
 		m_vao.unbind();
 	}
 
-	void InstancedRenderer::del(){
+	InstancedRenderer::~InstancedRenderer(){
 		glDeleteBuffers(1, &m_ivbo);
 		m_vao.del();
 		glDeleteBuffers(1, &m_vbo);

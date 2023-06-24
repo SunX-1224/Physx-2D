@@ -47,7 +47,7 @@ namespace Physx2D {
 			std::unordered_map<uint32_t, std::shared_ptr<Shader>> shaders;
 			std::unordered_map<uint32_t, std::shared_ptr<Texture>> textures;
 
-			std::unordered_map<uint32_t, InstancedRenderer> renderers;
+			std::unordered_map<uint32_t, std::shared_ptr<InstancedRenderer>> renderers;
 
 			std::unordered_map<uint32_t, std::vector<RenderData>> renderData;
 			

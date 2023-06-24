@@ -11,19 +11,21 @@
 
 #include <glad/glad.h>
 
-class PHYSX2D_API Buffer {
+namespace Physx2D {
+	class PHYSX2D_API Buffer {
 	public:
-		
+
 		Buffer(GLenum type);
+		~Buffer();
+
 		inline void setBufferData(const void* data, size_t size);
 		inline void bind();
 		inline void bindBase(uint32_t index);
-		inline void del();
 
 		inline void unbind();
 
 	private:
 		GLenum m_type;
 		uint32_t m_ID;
-};
-
+	};
+}

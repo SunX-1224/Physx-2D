@@ -19,8 +19,7 @@ namespace Physx2D {
 		glDeleteFramebuffers(1, &m_ID);
 		glDeleteRenderbuffers(1, &m_rbo);
 		m_vao.del();
-		m_texture->del();
-		delete(m_texture);
+		delete m_texture;
 	}
 
 	void FrameBuffer::attachRenderBuffer() {
