@@ -10,7 +10,7 @@ public:
 	std::map<ivec2, int> fin_states;
 
 	WaveFuncCollapseApp() {
-		world = new World(m_window.get());
+		world = new World(m_window);
 		world->loadTexture("res/images/textures/test.png", "wfc", DEFAULT);
 
 		initwfc();
@@ -20,6 +20,8 @@ public:
 	}
 
 	~WaveFuncCollapseApp() {
+		delete world;
+		delete wfc;
 		LOG_INFO("Destructor called%c", '\n');
 	}
 
@@ -39,7 +41,9 @@ public:
 		}
 
 		std::map<int, std::vector<int>[4]> rules;
-		{//assigning rules, dir_index : d = 0, l = 1, u = 2, r = 3
+		
+		//assigning rules, dir_index : d = 0, l = 1, u = 2, r = 3
+		{
 			rules[0][0] = {1, 4, 5};
 			rules[0][1] = {4, 5};
 			rules[0][2] = {2, 5};
@@ -92,7 +96,6 @@ public:
 		}
 	}
 
-
 	vec2 offset_from_ind(int i, ivec2 tilegrd) {
 		return vec2(float(i % tilegrd.x) / tilegrd.x, float(i / tilegrd.x) / tilegrd.y);
 	}
@@ -118,9 +121,6 @@ public:
 			clock.update();
 			m_window->SetTitle((std::to_string(clock.get_fps())).c_str());
 		}
-
-		delete world;
-		delete wfc;
 	}
 };
 /**/

@@ -13,12 +13,12 @@ namespace Physx2D {
 	public:
 		Application();
 
-		~Application();
+		virtual ~Application();
 
 		virtual void Run();
 
 	protected:
-		std::unique_ptr<Window> m_window;
+		Window* m_window;
 	};
 
 	Application* CreateApplication();

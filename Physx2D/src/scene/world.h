@@ -20,10 +20,9 @@ namespace Physx2D {
 
 	class PHYSX2D_API World {
 		public:
-
 			Camera sceneCamera;
 
-			World(Window* targetWindow);
+			World(const Window* targetWindow);
 			virtual ~World();
 
 			void loadDefaultRenderer(RenderType type = DEFAULT);
@@ -40,14 +39,15 @@ namespace Physx2D {
 			InstancedRenderer* addInstancedRenderer(uint32_t type, std::vector<float> vertices, std::vector<uint32_t> indices, GLenum draw_mode);
 
 		private:
-			Window* window = nullptr;
+			const Window* window;
 
-			ECSManager manager;
+			ECSManager* manager;
 			std::vector<Entity*> entities;
-			std::unordered_map<uint32_t, std::shared_ptr<Shader>> shaders;
-			std::unordered_map<uint32_t, std::shared_ptr<Texture>> textures;
+			
+			std::unordered_map<uint32_t, Shader*> shaders;
+			std::unordered_map<uint32_t, Texture*> textures;
 
-			std::unordered_map<uint32_t, std::shared_ptr<InstancedRenderer>> renderers;
+			std::unordered_map<uint32_t, InstancedRenderer*> renderers;
 
 			std::unordered_map<uint32_t, std::vector<RenderData>> renderData;
 			

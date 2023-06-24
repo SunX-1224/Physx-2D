@@ -4,7 +4,6 @@
 namespace Physx2D {
 	class PHYSX2D_API InstancedRenderer : public Renderer2D {
 	public:
-		uint32_t m_count;
 
 		InstancedRenderer();
 		InstancedRenderer(
@@ -33,5 +32,6 @@ namespace Physx2D {
 
 	protected:
 		uint32_t m_ivbo;
+		uint32_t m_count;
 	};
 }

@@ -17,7 +17,7 @@ namespace Physx2D {
 		virtual void Draw(Shader* shader);
 
 	protected:
-		VAO m_vao;
+		VAO *m_vao;
 		uint32_t p_count;
 		bool arrayMode = true;
 		uint32_t m_vbo, m_ebo;

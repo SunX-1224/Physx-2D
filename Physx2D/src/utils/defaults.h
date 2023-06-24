@@ -6,8 +6,8 @@
 
 #include "../math/math.h"
 
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 760
+#define DEF_SCREEN_WIDTH 1280
+#define DEF_SCREEN_HEIGHT 760
 #define arrayLength(a) (sizeof(a)/sizeof(a[0]))
 #define initVectorFromArray(arr, type) std::vector<type>(arr, arr + arrayLength(arr))
 #define max(a, b) (a>b?a:b)
@@ -31,8 +31,8 @@ namespace Physx2D {
 		const char* TITLE;
 
 		WindowProps(
-			int width = SCREEN_WIDTH,
-			int height = SCREEN_HEIGHT,
+			uint32_t width = DEF_SCREEN_WIDTH,
+			uint32_t height = DEF_SCREEN_HEIGHT,
 			const char* title = "Physx2D Window"
 		) {
 			WIDTH = width;

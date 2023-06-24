@@ -24,7 +24,7 @@ namespace Physx2D {
 		T* addComponent(EntityID entity, T* component) {
 			PHSX2D_ASSERT(entity >= 0 && entity < nextEntity, "Invalid entity ID : %d", entity);
 
-			std::vector<void*>& componentVector = componentStorage[std::type_index(typeid(T))];
+			std::vector<void*>& componentVector = cmpStrg[std::type_index(typeid(T))];
 			if (entity >= componentVector.size()) {
 				componentVector.resize(entity + 16, nullptr);
 			}
@@ -40,7 +40,7 @@ namespace Physx2D {
 		void removeComponent(EntityID entity) {
 			PHSX2D_ASSERT(entity >= 0 && entity < nextEntity, "Invalid entity ID : %d", entity);
 
-			std::vector<void*>& componentVector = componentStorage[std::type_index(typeid(T))];
+			std::vector<void*>& componentVector = cmpStrg[std::type_index(typeid(T))];
 			delete ((T*)componentVector[entity]);
 		}
 
@@ -48,7 +48,7 @@ namespace Physx2D {
 		inline bool hasComponent(EntityID entity) {
 			PHSX2D_ASSERT(entity >= 0 && entity < nextEntity, "Invalid entity ID : %d", entity);
 
-			std::vector<void*>& componentVector = componentStorage[std::type_index(typeid(T))];
+			std::vector<void*>& componentVector = cmpStrg[std::type_index(typeid(T))];
 			return entity < componentVector.size() && componentVector[entity] ;
 		}
 
@@ -56,7 +56,7 @@ namespace Physx2D {
 		T* getComponent(EntityID entity) {
 			PHSX2D_ASSERT(entity >= 0 && entity < nextEntity, "Invalid entity ID : %d", entity);
 
-			std::vector<void*>& componentVector = componentStorage[std::type_index(typeid(T))];
+			std::vector<void*>& componentVector = cmpStrg[std::type_index(typeid(T))];
 
 			if (entity < componentVector.size()) {
 				return static_cast<T*>(componentVector[entity]);
@@ -64,19 +64,22 @@ namespace Physx2D {
 			return nullptr;
 		}
 
+		// TODO : get only components
 		template<typename T>
-		const inline std::vector<void*>& getAllComponents() {
-			return componentStorage[std::type_index(typeid(T))];
+		void getAllComponents(std::vector<T*>& comp_cont) {
+			for (auto& cmp : cmpStrg[std::type_index(typeid(T))]) {
+				if (cmp) comp_cont.push_back(static_cast<T*>(cmp));
+			}
 		}
 
 		~ECSManager() {
-			componentStorage.clear();
+
 		}
 
 	private:
 		EntityID nextEntity = 0;
 		
-		std::unordered_map<std::type_index, std::vector<void*>> componentStorage;
+		std::unordered_map<std::type_index, std::vector<void*>> cmpStrg;
 
 	};
 }

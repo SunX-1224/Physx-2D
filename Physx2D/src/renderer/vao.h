@@ -23,10 +23,10 @@ namespace Physx2D {
 		GLuint m_ID;
 
 		VAO();
+		~VAO();
 
 		inline void layout(GLuint location, GLuint count, GLenum type, GLuint stride, unsigned int offset);
 		inline void bind();
 		inline void unbind();
-		inline void del();
 	};
 }

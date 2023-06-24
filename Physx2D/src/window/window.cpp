@@ -2,6 +2,7 @@
 #include "window.h"
 
 namespace Physx2D {
+    WindowProps Window::properties = WindowProps();
 
     Window::Window(WindowProps props, uint32_t version_major, uint32_t version_minor) {
         properties = props;
@@ -23,13 +24,15 @@ namespace Physx2D {
         m_window = glfwCreateWindow(properties.WIDTH, properties.HEIGHT, properties.TITLE, NULL, NULL);
         glfwMakeContextCurrent(m_window);
         
-        bool __glload = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-        PHSX2D_ASSERT( __glload, "Failed to initialize glad%s", "\n");
+        PHSX2D_ASSERT( gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialize glad%s", "\n");
 
         glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
-            glfwSetWindowSize(window, width, height);
-            glViewport(0, 0, width, height);
-            });
+                glfwSetWindowSize(window, width, height);
+                glViewport(0, 0, width, height);
+                properties.WIDTH = width;
+                properties.HEIGHT = height;
+            }
+        );
 
         glfwSwapInterval(0);        
     }
@@ -42,30 +45,27 @@ namespace Physx2D {
     }
 
     inline void Window::SetVsync(bool value) {
-            glfwSwapInterval(value);
+        glfwSwapInterval(value);
     }
 
-    bool Window::ShouldClose() {
+    inline bool Window::ShouldClose() {
         return glfwWindowShouldClose(m_window);
     }
 
-    void Window::SetClose(bool value){
+    inline void Window::SetClose(bool value){
         glfwSetWindowShouldClose(m_window, value);
     }
 
-    ivec2 Window::GetResolution() {
-        glfwGetWindowSize(m_window, (int*)&properties.WIDTH, (int*)&properties.HEIGHT);
+    inline ivec2 Window::GetResolution() const {
         return ivec2(properties.WIDTH, properties.HEIGHT);
     }
 
-    inline int Window::GetWidth()
-    {
-        return GetResolution().x;
+    inline int Window::GetWidth() const {
+        return properties.WIDTH;
     }
 
-    inline int Window::GetHeight()
-    {
-        return GetResolution().y;
+    inline int Window::GetHeight() const {
+        return properties.HEIGHT;
     }
 
     inline void Window::FillScreen(Color color) {

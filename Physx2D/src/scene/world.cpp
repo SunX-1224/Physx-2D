@@ -4,22 +4,27 @@
 #include "../utils/time.h"
 
 namespace Physx2D {
-	World::World(Window* targetWindow) {
+	World::World(const Window* targetWindow) {
 		this->window = targetWindow;
 		this->sceneCamera = Camera();
-
+		this->manager = new ECSManager;
 		loadShader("res/shaders/vert.glsl", "res/shaders/quad.glsl", DEFAULT);
 	}
 
 	World::~World()	{
-		for (auto& ent : entities) {
+		for (auto& ent : entities)
 			delete ent;
-		}
 
-		renderers.clear();
-		shaders.clear();
-		renderData.clear();
-		LOG_INFO("CLEARED !!!!! %c", '\n');
+		for (auto& shd : shaders)
+			delete shd.second;
+
+		for (auto& txt : textures)
+			delete txt.second;
+
+		for (auto& irnd : renderers)
+			delete irnd.second;
+
+		delete manager;
 	}
 
 	void World::loadDefaultRenderer(RenderType type) {
@@ -63,19 +68,17 @@ namespace Physx2D {
 
 	void World::Render() {
 		for (auto& iter : renderers) {
+			bool __shex = shaders.find(iter.first) != shaders.end();
 			if (textures.find(iter.first) != textures.end()) {
 				textures[iter.first]->bind();
-				textures[iter.first]->texUnit(shaders[iter.first].get(), "u_texture");
+				textures[iter.first]->texUnit(__shex?shaders[iter.first]:shaders[DEFAULT], "u_texture");
 			}
-			if (shaders.find(iter.first) != shaders.end())
-				iter.second->Draw(shaders[iter.first].get());
-			else
-				iter.second->Draw(shaders[0].get());
+			iter.second->Draw(__shex?shaders[iter.first]:shaders[DEFAULT]);
 		}
 	}
 
 	Entity* World::CreateEntity(const char* name) {
-		EntityID id = manager.CreateEntity();
+		EntityID id = manager->CreateEntity();
 		Entity* ent = new Entity(id, this);
 
 		ent->AddComponent<Transform>();
@@ -85,27 +88,25 @@ namespace Physx2D {
 	}
 
 	inline void World::loadShader(const char* vert, const char* frag, uint32_t ID) {
-		shaders[ID] = std::shared_ptr<Shader>(new Shader(vert, frag));
+		if (shaders.find(ID) != shaders.end()) {
+			LOG_WARN("Replacing existing shader with new one.. ID : (%u)\n", ID);
+			delete shaders[ID];
+		}
+		shaders[ID] = new Shader(vert, frag);
 	}
 
 	inline void World::loadTexture(const char* path, const char* type, uint32_t ID, uint32_t slot) {
-		textures[ID] = std::shared_ptr<Texture>(new Texture(path, type, slot));
+		textures[ID] = new Texture(path, type, slot);
 	}
 
 	InstancedRenderer* World::addInstancedRenderer(uint32_t type, std::vector<float> vertices, uint32_t numPoints,GLenum draw_mode) {
-		bool createNew = true;
-		for (auto& iter : renderers) {
-			if (iter.first == type) {
-				createNew = false;
-				break;
-			}
-		}
-		if (!createNew) { 
+		
+		if (renderers.find(type) != renderers.end()) { 
 			LOG_WARN("Renderer of the type %u already exists", type);
-			return renderers[type].get();
+			return renderers[type];
 		}
 
-		renderers[type] = std::shared_ptr<InstancedRenderer>(new InstancedRenderer(vertices, numPoints, draw_mode));
+		renderers[type] = new InstancedRenderer(vertices, numPoints, draw_mode);
 		renderers[type]->VertexDataLayout(0, 2, GL_FLOAT, 2*sizeof(vec2), 0);						//vec2 vertex position
 		renderers[type]->VertexDataLayout(1, 2, GL_FLOAT, 2*sizeof(vec2), sizeof(vec2));			//vec2 texture coords
 
@@ -116,22 +117,16 @@ namespace Physx2D {
 		renderers[type]->InstanceLayout(6, 2, GL_FLOAT, sizeof(RenderData), 9 * sizeof(float));		//texOffset
 		renderers[type]->InstanceLayout(7, 2, GL_FLOAT, sizeof(RenderData), 11 * sizeof(float));	//Tiling factor
 
-		return renderers[type].get();
+		return renderers[type];
 	}
 
 	InstancedRenderer* World::addInstancedRenderer(uint32_t type, std::vector<float> vertices, std::vector<uint32_t> indices, GLenum draw_mode) {
-		bool createNew = true;
-		for (auto& iter : renderers) {
-			if (iter.first == type) {
-				createNew = false;
-				break;
-			}
-		}
-		if (!createNew) {
+		if (renderers.find(type) != renderers.end()) {
 			LOG_WARN("Renderer of the type %u already exists", type);
-			return renderers[type].get();
+			return renderers[type];
 		}
-		renderers[type] = std::shared_ptr<InstancedRenderer>(new InstancedRenderer(vertices, indices, draw_mode));
+
+		renderers[type] =new InstancedRenderer(vertices, indices, draw_mode);
 		renderers[type]->VertexDataLayout(0, 2, GL_FLOAT, 2*sizeof(vec2), 0);						//vec2 vertex position
 		renderers[type]->VertexDataLayout(1, 2, GL_FLOAT, 2*sizeof(vec2), sizeof(vec2));			//vec2 texture coords
 
@@ -142,20 +137,20 @@ namespace Physx2D {
 		renderers[type]->InstanceLayout(6, 2, GL_FLOAT, sizeof(RenderData), 9 * sizeof(float));		//texOffset
 		renderers[type]->InstanceLayout(7, 2, GL_FLOAT, sizeof(RenderData), 11 * sizeof(float));	//Tiling factor
 		
-		return renderers[type].get();
+		return renderers[type];
 	}
 
 	void World::handleScripts(float delta_time) {
-		for (auto& entity : entities) {
-			if (entity->HasComponent<ScriptComponent>()) {
-				ScriptComponent *scr = entity->GetComponent<ScriptComponent>();
-				if (!scr->__setup) {
-					scr->script->setup();
-					scr->__setup = true;
-				}
-				else {
-					scr->script->update(delta_time);
-				}
+
+		std::vector<ScriptComponent*> scripts;
+		manager->getAllComponents<ScriptComponent>(scripts);
+		for (auto& scr : scripts) {
+			if (!scr->__setup) {
+				scr->script->setup();
+				scr->__setup = true;
+			}
+			else {
+				scr->script->update(delta_time);
 			}
 		}
 	}
@@ -249,7 +244,7 @@ namespace Physx2D {
 
 		for (auto& iter : shaders) {
 			iter.second->use();
-			sceneCamera.setValues(iter.second.get(), vec2(window->GetWidth(), window->GetHeight()));
+			sceneCamera.setValues(iter.second, vec2(window->GetWidth(), window->GetHeight()));
 			//iter.second->setFloat("u_time", glfwGetTime());
 		}
 		
