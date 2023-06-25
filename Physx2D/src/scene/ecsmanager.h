@@ -12,6 +12,12 @@
 namespace Physx2D {
 	using EntityID = uint32_t;
 
+	template<class t1, class t2>
+	struct __comp_pair {
+		t1 __pair1;
+		t2 __pair2;
+	};
+
 	class PHYSX2D_API ECSManager {
 
 	public:
@@ -41,7 +47,7 @@ namespace Physx2D {
 			PHSX2D_ASSERT(entity >= 0 && entity < nextEntity, "Invalid entity ID : %d", entity);
 
 			std::vector<void*>& componentVector = cmpStrg[std::type_index(typeid(T))];
-			delete ((T*)componentVector[entity]);
+			delete static_cast<T*>(componentVector[entity]);
 		}
 
 		template<typename T>
@@ -69,6 +75,17 @@ namespace Physx2D {
 		void getAllComponents(std::vector<T*>& comp_cont) {
 			for (auto& cmp : cmpStrg[std::type_index(typeid(T))]) {
 				if (cmp) comp_cont.push_back(static_cast<T*>(cmp));
+			}
+		}
+
+		template<class t1, class t2>
+		void getCompPair(std::vector<__comp_pair<t1*, t2*>>& comp_list) {
+			auto& st1 = cmpStrg[std::type_index(typeid(t1))];
+			auto& st2 = cmpStrg[std::type_index(typeid(t2))];
+			for (EntityID id = 0; id < min(st1.size(), st2.size()); id++) {
+
+				if (st1[id] && st2[id]) comp_list.push_back({ static_cast<t1*>(st1[id]), static_cast<t2*>(st2[id]) });
+
 			}
 		}
 

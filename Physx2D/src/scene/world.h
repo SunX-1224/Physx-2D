@@ -33,7 +33,7 @@ namespace Physx2D {
 			Entity* CreateEntity(const char* name = "Entity");
 
 			inline void loadShader(const char* vertexPath, const char* fragPath, uint32_t ID = DEFAULT);
-			inline void loadTexture(const char* path, const char* type, uint32_t ID, uint32_t slot = 0);
+			inline void loadTexture(const char* path, const char* type, uint32_t ID, int slot = -1);
 
 			InstancedRenderer* addInstancedRenderer(uint32_t type, std::vector<float> vertices, uint32_t numPoints, GLenum draw_mode);
 			InstancedRenderer* addInstancedRenderer(uint32_t type, std::vector<float> vertices, std::vector<uint32_t> indices, GLenum draw_mode);
@@ -45,7 +45,7 @@ namespace Physx2D {
 			std::vector<Entity*> entities;
 			
 			std::unordered_map<uint32_t, Shader*> shaders;
-			std::unordered_map<uint32_t, Texture*> textures;
+			std::unordered_map<uint32_t, std::vector<Texture*>> textures;
 
 			std::unordered_map<uint32_t, InstancedRenderer*> renderers;
 

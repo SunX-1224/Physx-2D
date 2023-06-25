@@ -83,7 +83,7 @@ namespace Physx2D{
 
 	void PhysicsHandler::collisionPhysics(CollisionData data, RigidBody2D* body1, RigidBody2D* body2) {
 
-		if (body2 != nullptr && body2->Type != STATIC) {
+		if (body2 && body2->Type != STATIC) {
 			vec2 del = data.axis * Math::dot(body2->Velocity - body1->Velocity, data.axis) * (2.f / (body1->mass + body2->mass));
 
 			body1->Velocity +=  del * body1->coef_restitution * body2->mass;
@@ -99,7 +99,7 @@ namespace Physx2D{
 		transform->Position += body->Velocity * delta_time;
 		body->Velocity += body->Acceleration *(1.0f - body->coef_drag) * delta_time;
 
-		body->Acceleration = vec2(0.f);
+		body->Acceleration = 0.f;
 	}
 	
 	CollisionData PhysicsHandler::_check(CircleCollider* c1, Transform* t1, CircleCollider* c2, Transform* t2)
@@ -112,16 +112,16 @@ namespace Physx2D{
 	CollisionData PhysicsHandler::_check(CircleCollider* c, Transform* t1, BoxCollider2D* b, Transform* t2)
 	{
 		float depth = Math::MAX_float;
-		vec2 c_axis = vec2();
+		vec2 c_axis;
 
-		vec2 dir = (*t2).Position + (*b).Offset - (*t1).Position - (*c).Offset;
-		vec2 naxis = vec2(0.f);
+		vec2 dir = t2->Position + b->Offset - t1->Position - c->Offset;
+		vec2 naxis;
 		float len = Math::MAX_float;
 
 		for (int i = 0; i < 4; i++) {
-			vec2 v = (*b).Size * ((vec2)UNIT_RECT[i]).rotate((*b).Rotation + (*t2).Rotation) + (*b).Offset + (*t2).Position;
+			vec2 v = b->Size * ((vec2)UNIT_RECT[i]).rotate(b->Rotation + t2->Rotation) + b->Offset + t2->Position;
 
-			vec2 temp = v - (*t1).Position - (*c).Offset;
+			vec2 temp = v - t2->Position - c->Offset;
 			if (temp.length() < len) {
 				naxis = temp;
 				len = temp.length();
@@ -130,13 +130,13 @@ namespace Physx2D{
 
 		float minA = Math::MAX_float, maxA = Math::MIN_float;
 		for (int j = 0; j < 4; j++) {
-			vec2 v = (*b).Size * ((vec2)UNIT_RECT[j]).rotate((*b).Rotation + (*t2).Rotation) + (*b).Offset + (*t2).Position;
+			vec2 v = b->Size * ((vec2)UNIT_RECT[j]).rotate(b->Rotation + t2->Rotation) + b->Offset + t2->Position;
 			float dot = Math::dot(v, naxis);
 			if (dot < minA) minA = dot;
 			if (dot > maxA) maxA = dot;
 		}
-		float minB = Math::dot((*c).Offset + (*t1).Position, naxis) - (*c).Radius;
-		float maxB = minB + 2 * (*c).Radius;
+		float minB = Math::dot(c->Offset + t1->Position, naxis) - c->Radius;
+		float maxB = minB + 2 * c->Radius;
 
 		if (minA > maxB || minB > maxA) return CollisionData();
 		if (Math::dot(-naxis, dir) > 0.f) {
@@ -149,19 +149,19 @@ namespace Physx2D{
 
 		for (int i = 0; i < 4; i++) {
 			vec2 axis = (vec2)UNIT_RECT[i] - (vec2)UNIT_RECT[(i + 1) % 4];
-			axis = axis.rotate((*b).Rotation + (*t2).Rotation);
+			axis = axis.rotate(b->Rotation + t2->Rotation);
 			axis = vec2(axis.y, -axis.x);
 
 			float minA = Math::MAX_float, maxA = Math::MIN_float;
 			for (int j = 0; j < 2; j++) {
-				vec2 v = (*b).Size * ((vec2)UNIT_RECT[(j + i + 1) % 4]).rotate((*b).Rotation + (*t2).Rotation) + (*b).Offset + (*t2).Position;
+				vec2 v = b->Size * ((vec2)UNIT_RECT[(j + i + 1) % 4]).rotate(b->Rotation + t2->Rotation) + b->Offset + t2->Position;
 				float dot = Math::dot(v, axis);
 				if (dot < minA) minA = dot;
 				if (dot > maxA) maxA = dot;
 			}
 
-			float minB = Math::dot((*c).Offset + (*t1).Position, axis) - (*c).Radius;
-			float maxB = minB + 2 * (*c).Radius;
+			float minB = Math::dot(c->Offset + t1->Position, axis) - c->Radius;
+			float maxB = minB + 2 * c->Radius;
 
 			if (minA > maxB || minB > maxA) return CollisionData();
 			if (Math::dot(-axis, dir) > 0.f) {
@@ -179,17 +179,17 @@ namespace Physx2D{
 	CollisionData PhysicsHandler::_check(BoxCollider2D* b1, Transform* t1, BoxCollider2D* b2, Transform* t2)
 	{
 		vec2 c_axis = vec2(0.f);
-		vec2 dir = (*t2).Position + (*b2).Offset - (*t1).Position - (*b1).Offset;
+		vec2 dir = t2->Position + b2->Offset - t1->Position - b1->Offset;
 		float depth = Math::MAX_float;
 
 		for (int i = 0; i < 4; i++) {
 			vec2 axis = (vec2)UNIT_RECT[i] - (vec2)UNIT_RECT[(i + 1) % 4];
-			axis = axis.rotate((*b1).Rotation + (*t1).Rotation);
+			axis = axis.rotate(b1->Rotation + t2->Rotation);
 			axis = vec2(-axis.y, axis.x);
 
 			float minA = Math::MAX_float, maxA = Math::MIN_float;
 			for (int j = 0; j < 2; j++) {
-				vec2 v = (*b1).Size * ((vec2)UNIT_RECT[(j + i + 1) % 4]).rotate((*b1).Rotation + (*t1).Rotation) + (*b1).Offset + (*t1).Position;
+				vec2 v = b1->Size * ((vec2)UNIT_RECT[(j + i + 1) % 4]).rotate(b1->Rotation + t1->Rotation) + b1->Offset + t1->Position;
 				float dot = Math::dot(v, axis);
 				if (dot < minA) minA = dot;
 				if (dot > maxA) maxA = dot;
@@ -197,7 +197,7 @@ namespace Physx2D{
 
 			float minB = Math::MAX_float, maxB = Math::MIN_float;
 			for (int j = 0; j < 4; j++) {
-				vec2 v = (*b2).Size * ((vec2)UNIT_RECT[j]).rotate((*b2).Rotation + (*t2).Rotation) + (*b2).Offset + (*t2).Position;
+				vec2 v = b2->Size * ((vec2)UNIT_RECT[j]).rotate(b2->Rotation + t2->Rotation) + b2->Offset + t2->Position;
 				float dot = Math::dot(v, axis);
 				if (dot < minB) minB = dot;
 				if (dot > maxB) maxB = dot;
@@ -217,12 +217,12 @@ namespace Physx2D{
 
 		for (int i = 0; i < 4; i++) {
 			vec2 axis = (vec2)UNIT_RECT[(i + 1) % 4] - (vec2)UNIT_RECT[i];
-			axis = axis.rotate((*b2).Rotation + (*t2).Rotation);
+			axis = axis.rotate(b2->Rotation + t2->Rotation);
 			axis = vec2(-axis.y, axis.x);
 
 			float minA = Math::MAX_float, maxA = Math::MIN_float;
 			for (int j = 0; j < 4; j++) {
-				vec2 v = (*b1).Size * ((vec2)UNIT_RECT[j]).rotate((*b1).Rotation + (*t1).Rotation) + (*b1).Offset + (*t1).Position;
+				vec2 v = b1->Size * ((vec2)UNIT_RECT[j]).rotate(b1->Rotation + t1->Rotation) + b1->Offset + t1->Position;
 				float dot = Math::dot(v, axis);
 				if (dot < minA) minA = dot;
 				if (dot > maxA) maxA = dot;
@@ -230,7 +230,7 @@ namespace Physx2D{
 
 			float minB = Math::MAX_float, maxB = Math::MIN_float;
 			for (int j = 0; j < 2; j++) {
-				vec2 v = (*b2).Size * ((vec2)UNIT_RECT[(j + i + 1) % 4]).rotate((*b2).Rotation + (*t2).Rotation) + (*b2).Offset + (*t2).Position;
+				vec2 v = b2->Size * ((vec2)UNIT_RECT[(j + i + 1) % 4]).rotate(b2->Rotation + t2->Rotation) + b2->Offset + t2->Position;
 				float dot = Math::dot(v, axis);
 				if (dot < minB) minB = dot;
 				if (dot > maxB) maxB = dot;

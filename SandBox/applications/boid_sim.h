@@ -2,11 +2,11 @@
 
 #include "../src/boids/boid.h"
 
-class Boids : public Application {
+class BoidSimulationApp : public Application {
 public:
 	std::unique_ptr<World> world;
 
-	Boids() {
+	BoidSimulationApp() {
 		world = std::unique_ptr<World>(new World(m_window));
 		Entity* ent = world->CreateEntity();
 		ent->AddComponent<ScriptComponent>(new Boid(500, m_window->GetResolution()));

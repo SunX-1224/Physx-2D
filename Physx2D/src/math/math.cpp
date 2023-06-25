@@ -7,12 +7,29 @@ namespace Physx2D {
 	const float Math::MAX_float = 3.40282e+038f;
 	const float Math::MIN_float = -3.40282e+038f;
 
+	inline float Math::inv_sqrt(float x) {
+		/*Fast Inverse Sqrt algorithm from Quake III : copied */
+		uint32_t i;
+		float x2, y;
+		const float threehalfs = 1.5f;
+
+		x2 = x * 0.5F;
+		y = x;
+		i = *(uint32_t*)&y;							// evil floating point bit level hacking
+		i = 0x5f3759df - (i >> 1);					// what the fuck?
+		y = *(float*)&i;
+		y = y * (threehalfs - (x2 * y * y));		// 1st iteration
+		y = y * (threehalfs - (x2 * y * y));		// 2nd iteration, this can be removed
+
+		return y;
+	}
+
 	inline float Math::dot(tvec2<int> u, tvec2<int> b) {
-		return u.x * u.x + u.y * u.y;
+		return u.x * b.x + u.y * b.y;
 	}
 
 	inline float Math::dot(tvec2<float> u, tvec2<float> b) {
-		return u.x * u.x + u.y * u.y;
+		return u.x * b.x + u.y * b.y;
 	}
 
 	mat3 Math::get_ortho2d(vec2 center, vec2 area) {
@@ -63,10 +80,12 @@ namespace Physx2D {
 	{
 		return point.x > (x - w * 0.5f) && point.x<(x + w * 0.5f) && point.y >(y - h * 0.5f) && point.y < (h * 0.5f + y);
 	}
+
 	inline bool centerRect::intersects(centerRect n)
 	{
 		return abs(x - n.x) < ((w + n.w) * 0.5f) && abs(y - n.y) < ((h + n.h) * 0.5f);
 	}
+
 	inline centerRect centerRect::getPart(float xp, float yp)
 	{
 		return centerRect(x + xp * 0.5f * w, y + yp * 0.5f * h, abs(xp) * w, abs(yp) * h);
@@ -78,10 +97,12 @@ namespace Physx2D {
 	{
 		return Math::random_i(seed_i++);
 	}
+
 	inline int Random::randr_i(int a, int b)
 	{
 		return a + Math::random_f(seed_i++) * (b - a);
 	}
+
 	inline float Random::rand_f()
 	{
 		return Math::random_f(seed_f++);
@@ -91,6 +112,7 @@ namespace Physx2D {
 	{
 		return a + Math::random_f(seed_f++) * (b - a);
 	}
+
 	template class PHYSX2D_API tvec2<int>;
 	template class PHYSX2D_API tvec2<float>;
 

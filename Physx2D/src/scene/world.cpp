@@ -18,12 +18,13 @@ namespace Physx2D {
 		for (auto& shd : shaders)
 			delete shd.second;
 
-		for (auto& txt : textures)
-			delete txt.second;
-
 		for (auto& irnd : renderers)
 			delete irnd.second;
 
+		for (auto& txtv : textures) {
+			for(auto& txt:txtv.second)
+				delete txt;
+		}
 		delete manager;
 	}
 
@@ -68,19 +69,26 @@ namespace Physx2D {
 
 	void World::Render() {
 		for (auto& iter : renderers) {
-			bool __shex = shaders.find(iter.first) != shaders.end();
+			auto& __sh = shaders.find(iter.first) != shaders.end()? shaders[iter.first] : shaders[DEFAULT];
+
 			if (textures.find(iter.first) != textures.end()) {
-				textures[iter.first]->bind();
-				textures[iter.first]->texUnit(__shex?shaders[iter.first]:shaders[DEFAULT], "u_texture");
+				int sz = textures[iter.first].size();
+				__sh->setInt("u_num_textures", sz);
+
+				for (int i = 0; i < sz; i++) {
+					auto& tex = textures[iter.first][i];
+					tex->bind();
+					std::string __unf = "u_textures[" + std::to_string(i) + "]";
+					tex->texUnit(__sh , __unf.c_str());
+				}
 			}
-			iter.second->Draw(__shex?shaders[iter.first]:shaders[DEFAULT]);
+			else __sh->setInt("u_num_textures", 0);
+			iter.second->Draw(__sh);
 		}
 	}
 
 	Entity* World::CreateEntity(const char* name) {
-		EntityID id = manager->CreateEntity();
-		Entity* ent = new Entity(id, this);
-
+		Entity* ent = new Entity(manager->CreateEntity(), this);
 		ent->AddComponent<Transform>();
 		ent->AddComponent<Tag>(name);
 		entities.push_back(ent);
@@ -95,8 +103,8 @@ namespace Physx2D {
 		shaders[ID] = new Shader(vert, frag);
 	}
 
-	inline void World::loadTexture(const char* path, const char* type, uint32_t ID, uint32_t slot) {
-		textures[ID] = new Texture(path, type, slot);
+	inline void World::loadTexture(const char* path, const char* type, uint32_t ID, int slot) {
+		textures[ID].push_back(new Texture(path, type, slot < 0 ? textures[ID].size() : slot));
 	}
 
 	InstancedRenderer* World::addInstancedRenderer(uint32_t type, std::vector<float> vertices, uint32_t numPoints,GLenum draw_mode) {
@@ -144,6 +152,7 @@ namespace Physx2D {
 
 		std::vector<ScriptComponent*> scripts;
 		manager->getAllComponents<ScriptComponent>(scripts);
+
 		for (auto& scr : scripts) {
 			if (!scr->__setup) {
 				scr->script->setup();
@@ -156,30 +165,33 @@ namespace Physx2D {
 	}
 
 	void World::handlePhysics(double delta_time) {
-		for (auto& entity : entities) {
-			if (entity->HasComponent<RigidBody2D>()) {
-				PhysicsHandler::updateRigidBody(entity->GetComponent<RigidBody2D>(), entity->GetComponent<Transform>(), delta_time);
-			}
-		}
+		std::vector<__comp_pair<Transform*, RigidBody2D*>> comp;
+		manager->getCompPair<Transform, RigidBody2D>(comp);
+
+		for (auto& cpair : comp) PhysicsHandler::updateRigidBody(cpair.__pair2, cpair.__pair1, delta_time);
 	}
 
 	void World::handleCollisions() {
-		centerRect treesize = centerRect(vec2(0.f), vec2(window->GetWidth(), window->GetHeight()));
-		vec2 range(10.f, 10.f);
+		centerRect treesize = centerRect(vec2(0.f), vec2(window->GetWidth(), window->GetHeight())); //setup the bounds for quadtree
+		vec2 range(0.f, 0.f);		//range upto which neighbour are valid
 		
-		QuadTree<Entity*> qtree(treesize);
+		QuadTree<Entity*> qtree(treesize);	//init quadtree
 		
-		//populate quadtree
+		//populate quadtree plus find the range of collision check
 		for (auto& entity : entities) {
 			if (entity->HasComponent<Collider>()) {
 				Transform* tfr = entity->GetComponent<Transform>();
 				Collider* cld = entity->GetComponent<Collider>();
 
+				//ignore Bounding colliders on quadtree
 				if (cld->typeIndex == std::type_index(typeid(AABB)) || cld->typeIndex == std::type_index(typeid(BoundingCircle)))
 					continue;
 				
+				//find max range
 				range.x = max(range.x, cld->getSize().x);
 				range.y = max(range.y, cld->getSize().y);
+
+				// insert entity on collider position on quadtree
 				qtree.insert(tfr->Position + cld->Offset, entity);
 			}
 		}
@@ -234,12 +246,11 @@ namespace Physx2D {
 		for (auto& vec : renderData)
 			vec.second.clear();
 
-		for (auto& entity : entities) {
-			if (entity->HasComponent<SpriteRenderer>()) {
-				Transform* trnf = entity->GetComponent<Transform>();
-				SpriteRenderer* rnc = entity->GetComponent<SpriteRenderer>();
-				renderData[rnc->type].push_back({ *trnf, rnc->color, rnc->offset, rnc->tiling }); // TODO : can be optimized
-			}
+		std::vector<__comp_pair<Transform*, SpriteRenderer*>> comp;
+		manager->getCompPair<Transform, SpriteRenderer>(comp);
+
+		for (auto& _pr : comp) {
+			renderData[_pr.__pair2->type].push_back({*_pr.__pair1, _pr.__pair2->color, _pr.__pair2->offset, _pr.__pair2->tiling});
 		}
 
 		for (auto& iter : shaders) {

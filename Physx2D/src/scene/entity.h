@@ -52,11 +52,11 @@ namespace Physx2D {
 			void RemoveComponent() {
 				
 				if constexpr(std::is_base_of_v<Collider, T>) {
-					PHSX2D_ASSERT(m_world->manager->hasComponent<Collider>(m_ID), "Component doesnot exist%c", '\n');
+					PHSX2D_ASSERT(m_world->manager->hasComponent<Collider>(m_ID), "Component does not exist%c", '\n');
 					m_world->manager->removeComponent<Collider>(m_ID);
 				}
 				else {
-					PHSX2D_ASSERT(m_world->manager->hasComponent<T>(m_ID), "Component doesnot exist%c", '\n');
+					PHSX2D_ASSERT(m_world->manager->hasComponent<T>(m_ID), "Component does not exist%c", '\n');
 					m_world->manager->removeComponent<T>(m_ID);
 				}
 			}
@@ -73,11 +73,11 @@ namespace Physx2D {
 				T* cptr;
 				if constexpr(std::is_base_of_v<Collider, T>) {
 					cptr = m_world->manager->getComponent<Collider>(m_ID);
-					PHSX2D_ASSERT(cptr, "Component doesnot exist%c", '\n');
+					PHSX2D_ASSERT(cptr, "Component does not exist%c", '\n');
 				}
 				else {
 					cptr = m_world->manager->getComponent<T>(m_ID);
-					PHSX2D_ASSERT(cptr, "Component doesnot exist%c", '\n');
+					PHSX2D_ASSERT(cptr, "Component does not exist%c", '\n');
 				}
 				return cptr;
 			}

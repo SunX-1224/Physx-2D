@@ -1,0 +1,57 @@
+ENGINE :
+    ; Math
+        (DONE)> Faster normalization of vectors
+        (DONE)> Quake_iii algorithm for ^^^^^^^
+        > matrices operations : add, sub, mult, scalar_div
+        > faster matrices multiplication algorithms
+        > projection matrices
+    
+    ; Renderer
+        (DONE)> Destructor implementation
+        (DONE)> use heap allocation for long term data
+        > Shaders should be abled to be loaded by directly supplying string as code
+        > optimize buffers to use anywhere effectively
+        > shader uniform functions
+        > SSBO extraction for every shaders
+        > improve renderer + code
+        > make a better default renderer
+
+    ; World
+        (UNDER_WORK)> Optimize the existing collision detection algorithms
+        (DONE)> Getting data from ECSManager can be heavily improved
+        (DELAY)> Collision handler should be improved... should be independent to entity but dependent on registry data
+        (DONE)> Texture binding not looking good... allow upto 16 differenr multiple textures for a single renderer
+        > addInstancedRenderer is not looking good... fix it
+        > Camera implementation
+        > cam matrices and model matrices calculations in cpu
+        > Updated renderData
+        > better and generalized collision detection algorithm for polygons
+
+    ; Events
+        > Learn the basics about engine events
+        > Create event-types for Physx2D
+        > event - creation, dispatching, etc
+        > Base everything on events
+    
+    ; Utilities
+        > Generic Wave Function Collapse algorithm
+        > Noise generators : Perlin noise, {Add others later}
+    
+SandBox :
+    ; Cellular automatas
+        > fix the gittering effect on wolfram rules implementation
+        > solve the appearing of pre-image on reduced-size window {Applies for all}
+    
+    ; Wave function collapse : tile-based
+        > implement backtracking to solve empty available states on cells
+
+
+Overall :  
+    ; Generic datas : Remove the parts where 2D stuff is forced on
+    ; debug_assertion error while deleting the allocated memory of objects created on params
+    ; simplify everything use basic data-types to later on migrate to C
+
+LongTerm :
+    ; Convert to data oriented mode
+    ; Implement UI using IMGUI
+    ; Convert everything to be compatible with the Grand - {C}
