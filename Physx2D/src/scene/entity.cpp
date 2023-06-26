@@ -9,12 +9,16 @@ Physx2D::Entity::~Entity() {
 	
 	if(HasComponent<Transform>())
 		RemoveComponent<Transform>();
+
 	if (HasComponent<Tag>())
 		RemoveComponent<Tag>();
+
 	if (HasComponent<RigidBody2D>())
 		RemoveComponent<RigidBody2D>();
+
 	if (HasComponent<SpriteRenderer>())
 		RemoveComponent<SpriteRenderer>();
+
 	if (HasComponent<ScriptComponent>())
 		RemoveComponent<ScriptComponent>();
 

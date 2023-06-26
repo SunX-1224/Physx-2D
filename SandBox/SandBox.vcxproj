@@ -82,7 +82,7 @@
       <AdditionalIncludeDirectories>..\Physx2D\libraries\include;..\Physx2D\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -102,7 +102,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -123,7 +123,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -135,6 +135,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="applications\MNCA.h" />
+    <ClInclude Include="applications\PhysicsTestApp.h" />
     <ClInclude Include="applications\WaveFuncCollapseApp.h" />
     <ClInclude Include="applications\boid_sim.h" />
     <ClInclude Include="applications\cellularAutomata.h" />
@@ -145,7 +146,6 @@
     <ClInclude Include="src\wavefcollapse\WFC.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="applications\PhysicsTestApp.h" />
     <ClCompile Include="src\boids\boid.cpp" />
     <ClCompile Include="src\cellular_automata\CA_gpu.cpp" />
     <ClCompile Include="src\cellular_automata\mnca.cpp" />

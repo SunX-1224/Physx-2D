@@ -4,6 +4,22 @@
 
 using namespace Physx2D;
 
+class Gravity : public ScriptObject {
+	public:
+
+		virtual void setup() {
+
+		}
+		virtual void update(float delta_time) {
+			self->GetComponent<RigidBody2D>()->Acceleration.y = -200.f;
+		}
+
+		virtual void OnCollisionDetected(CollisionData& data, Entity* other) {
+			self->GetComponent<SpriteRenderer>()->color *= Color(1.3f, 1.f, 1.f, 1.f);
+		}
+
+};
+
 class PhysicsTestApp : public Application {
 public:
 	World* world;
@@ -17,17 +33,19 @@ public:
 		Random rng(0xfafafafa);
 		for (uint32_t i = 0; i < num_obj; i++) {
 			Entity* ent = world->CreateEntity();
-			float sc = rng.randr_f(20.f, 40.f);
+			float sc = rng.randr_f(10.f, 15.f);
 			ent->AddComponent<SpriteRenderer>(CIRCLE, Color(.5f, rng.rand_f(), 0.6f, 1.f), vec2(0.f), vec2(1.f));
-			ent->AddComponent<CircleCollider>(vec2(), sc*0.5f);
-			ent->AddComponent<RigidBody2D>(KINETIC, vec2(rng.randr_i(-30, 30), rng.randr_i(-30, 30)));
+			ent->AddComponent<CircleCollider>(vec2(), sc*0.6f);
+			ent->AddComponent<RigidBody2D>(KINETIC, 400.f, 0.f, 1.f, 0.f, 0.95f);
+			ent->AddComponent<ScriptComponent>(new Gravity());
 
 			Transform* tfr = ent->GetComponent<Transform>();
 			tfr->Position = vec2(rng.randr_i(-400, 400), rng.randr_i(-300, 300));
 			tfr->Scale = vec2(sc);
 		}
 		Entity* ent = world->CreateEntity();
-		ent->AddComponent<AABB>(0.f, vec2(1400, 800));
+		auto __res = m_window->GetResolution();
+		ent->AddComponent<AABB>(0.f, vec2(__res.x, __res.y));
 		ent->GetComponent<Transform>()->Scale = vec2(1400, 800);
 	}
 

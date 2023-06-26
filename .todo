@@ -39,7 +39,7 @@ ENGINE :
     
 SandBox :
     ;PhysicsTestApp
-        (UNDER_WORK)> Debug assertion failed while destroying the entities
+        (DONE)> Debug assertion failed while destroying the entities
 
     ; Cellular automatas
         > fix the gittering effect on wolfram rules implementation
@@ -51,7 +51,6 @@ SandBox :
 
 Overall :  
     ; Generic datas : Remove the parts where 2D stuff is forced on
-    ; debug_assertion error while deleting the allocated memory of objects created on params
     ; simplify everything use basic data-types to later on migrate to C
 
 LongTerm :

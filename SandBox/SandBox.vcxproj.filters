@@ -63,6 +63,9 @@
     <ClInclude Include="applications\MNCA.h">
       <Filter>applications</Filter>
     </ClInclude>
+    <ClInclude Include="applications\PhysicsTestApp.h">
+      <Filter>applications</Filter>
+    </ClInclude>
     <ClInclude Include="applications\WaveFuncCollapseApp.h">
       <Filter>applications</Filter>
     </ClInclude>
@@ -107,7 +110,6 @@
     <ClCompile Include="src\wavefcollapse\WFC.cpp">
       <Filter>src\wavefcollapse</Filter>
     </ClCompile>
-    <ClCompile Include="applications\PhysicsTestApp.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\c_shaders\b_reaction.glsl">

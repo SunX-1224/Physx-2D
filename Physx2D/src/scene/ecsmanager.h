@@ -32,7 +32,7 @@ namespace Physx2D {
 
 			std::vector<void*>& componentVector = cmpStrg[std::type_index(typeid(T))];
 			if (entity >= componentVector.size()) {
-				componentVector.resize(entity + 16, nullptr);
+				componentVector.resize((entity+1) * 1.5, nullptr);
 			}
 
 			if (componentVector[entity] != nullptr) 
@@ -84,8 +84,8 @@ namespace Physx2D {
 			auto& st2 = cmpStrg[std::type_index(typeid(t2))];
 			for (EntityID id = 0; id < min(st1.size(), st2.size()); id++) {
 
-				if (st1[id] && st2[id]) comp_list.push_back({ static_cast<t1*>(st1[id]), static_cast<t2*>(st2[id]) });
-
+				if (st1[id] && st2[id])
+					comp_list.push_back({ static_cast<t1*>(st1[id]), static_cast<t2*>(st2[id]) });
 			}
 		}
 
@@ -95,8 +95,6 @@ namespace Physx2D {
 
 	private:
 		EntityID nextEntity = 0;
-		
 		std::unordered_map<std::type_index, std::vector<void*>> cmpStrg;
-
 	};
 }
