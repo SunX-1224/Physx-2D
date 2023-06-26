@@ -107,6 +107,7 @@
     <ClCompile Include="src\wavefcollapse\WFC.cpp">
       <Filter>src\wavefcollapse</Filter>
     </ClCompile>
+    <ClCompile Include="applications\PhysicsTestApp.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\c_shaders\b_reaction.glsl">

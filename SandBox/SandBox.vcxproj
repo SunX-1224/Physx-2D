@@ -145,6 +145,7 @@
     <ClInclude Include="src\wavefcollapse\WFC.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="applications\PhysicsTestApp.h" />
     <ClCompile Include="src\boids\boid.cpp" />
     <ClCompile Include="src\cellular_automata\CA_gpu.cpp" />
     <ClCompile Include="src\cellular_automata\mnca.cpp" />

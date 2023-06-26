@@ -18,7 +18,7 @@ void main(){
 	for(int i=0; i<u_num_textures;i++){
 		frag_color += texture(u_textures[i], vs_out.texUV);
 	}
-	frag_color /= float(u_num_textures);
+	frag_color /= max(1.f, float(u_num_textures));
 
 	frag_color = vs_out.color + (frag_color - vs_out.color) * frag_color.a;
 }

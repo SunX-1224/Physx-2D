@@ -20,6 +20,13 @@ out Vert_Out{
 uniform vec2 u_resolution;
 uniform mat3 u_camMatrices;
 
+vec2 performcalculations();
+
+void main(){
+	vec2 pos = performcalculations();
+	gl_Position = vec4(pos.x, pos.y, 0.0f, 1.0f);
+}
+
 vec2 performcalculations(){	
 	float s = sin(angle);
 	float c = cos(angle);
@@ -37,12 +44,4 @@ vec2 performcalculations(){
 	vs_out.texUV = texCoord * tiling + texOffset;
 	
 	return pos;
-}
-
-void main(){
-	
-	vec2 pos = performcalculations();
-	gl_Position = vec4(pos.x, pos.y, 0.0f, 1.0f);
-
-	//gl_Position = vec4(vertPos * 0.5f, 0.0f, 1.0f);
 }

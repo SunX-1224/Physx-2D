@@ -38,6 +38,9 @@ ENGINE :
         > Noise generators : Perlin noise, {Add others later}
     
 SandBox :
+    ;PhysicsTestApp
+        (UNDER_WORK)> Debug assertion failed while destroying the entities
+
     ; Cellular automatas
         > fix the gittering effect on wolfram rules implementation
         > solve the appearing of pre-image on reduced-size window {Applies for all}

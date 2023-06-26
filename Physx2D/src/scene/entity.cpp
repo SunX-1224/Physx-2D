@@ -27,7 +27,9 @@ Physx2D::Entity::~Entity() {
 			delete ((BoxCollider2D*)cldr);
 		else if (cldr->typeIndex == std::type_index(typeid(BoundingCircle)))
 			delete ((BoundingCircle*)cldr);
-		else
+		else if (cldr->typeIndex == std::type_index(typeid(AABB)))
 			delete ((AABB*)cldr);
+		else
+			PHSX2D_ASSERT(false, "Invalid Collider%c", '\n');
 	}
 }

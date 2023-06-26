@@ -83,6 +83,7 @@ namespace Physx2D {
 				}
 			}
 			else __sh->setInt("u_num_textures", 0);
+
 			iter.second->Draw(__sh);
 		}
 	}

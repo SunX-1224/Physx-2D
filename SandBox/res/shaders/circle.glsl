@@ -11,7 +11,8 @@ in Vert_Out{
 
 uniform vec2 u_resolution;
 uniform float u_fov;
-uniform sampler2D u_texture;
+uniform sampler2D u_textures[2];
+uniform int u_num_textures;
 
 vec2 precalc(){
 	float aspect = u_resolution.x / u_resolution.y;
@@ -25,6 +26,14 @@ vec2 precalc(){
 void main(){
 	vec2 uv = precalc();
 	float len = smoothstep(1.0f, 0.99f, length(uv));
-	frag_color = vs_out.color + vec4(texture(u_texture, vs_out.texUV).xyz, 0.f);
+	
+	frag_color = vec4(0.f);
+
+	for(int i=0; i<u_num_textures;i++){
+		frag_color += texture(u_textures[i], vs_out.texUV);
+	}
+	frag_color /= max(1.f, float(u_num_textures));
+
+	frag_color = vs_out.color + (frag_color - vs_out.color) * frag_color.a;
 	frag_color *= len;
 }
