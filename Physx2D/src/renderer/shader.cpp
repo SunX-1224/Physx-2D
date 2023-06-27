@@ -8,31 +8,39 @@ namespace Physx2D {
 	Shader::Shader() : m_ID(0) {
 	}
 
-	Shader::Shader(const char* vertexPath, const char* fragmentPath) {
+	Shader::Shader(const char* vertex_shader, const char* fragment_shader, bool is_path) {
 		uint32_t vertShader, fragShader;
 
-		std::string vertString = get_file_content(vertexPath);
-		std::string fragString = get_file_content(fragmentPath);
+		if (is_path) {
+			std::string v_ = get_file_content(vertex_shader);
+			std::string f_ = get_file_content(fragment_shader);
 
-		const char* vertexCode = vertString.c_str();
-		const char* fragmentCode = fragString.c_str();
+			const char* vertexCode = v_.c_str();
+			const char* fragmentCode = f_.c_str();
 
-		vertShader = compile_shader(vertexCode, GL_VERTEX_SHADER);
-		fragShader = compile_shader(fragmentCode, GL_FRAGMENT_SHADER);
+			vertShader = compile_shader(vertexCode, GL_VERTEX_SHADER);
+			fragShader = compile_shader(fragmentCode, GL_FRAGMENT_SHADER);
+		}
+		else {
+			vertShader = compile_shader(vertex_shader, GL_VERTEX_SHADER);
+			fragShader = compile_shader(fragment_shader, GL_FRAGMENT_SHADER);
+		}
 
 		m_ID = glCreateProgram();
 		
 		glAttachShader(m_ID, vertShader);
 		glAttachShader(m_ID, fragShader);
 		glLinkProgram(m_ID);
-		{// Link status check
+		
+		// Link status check
+		{
 			int success;
 			char infoLog[512];
 
 			glGetProgramiv(m_ID, GL_LINK_STATUS, &success);
 			if (!success) {
 				glGetProgramInfoLog(m_ID, 512, NULL, infoLog);
-				LOG_ERROR("ERROR : Shader program did not link successfully, paths : vertex_shader : %s , fragment_shader : %s\nLOG:%s\n", vertexPath, fragmentPath, infoLog);
+				LOG_ERROR("ERROR : Shader program did not link successfully : \nLOG:%s\n", infoLog);
 			}
 		}
 

@@ -4,25 +4,6 @@
 namespace Physx2D {
 
 	const double Math::PI = 3.1415926535897932384626433832795028841971693993751058209749445923078164062;
-	const float Math::MAX_float = 3.40282e+038f;
-	const float Math::MIN_float = -3.40282e+038f;
-
-	inline float Math::inv_sqrt(float x) {
-		/*Fast Inverse Sqrt algorithm from Quake III : copied */
-		uint32_t i;
-		float x2, y;
-		const float threehalfs = 1.5f;
-
-		x2 = x * 0.5F;
-		y = x;
-		i = *(uint32_t*)&y;							// evil floating point bit level hacking
-		i = 0x5f3759df - (i >> 1);					// what the fuck?
-		y = *(float*)&i;
-		y = y * (threehalfs - (x2 * y * y));		// 1st iteration
-		y = y * (threehalfs - (x2 * y * y));		// 2nd iteration, this can be removed
-
-		return y;
-	}
 
 	inline float Math::dot(tvec2<int> u, tvec2<int> b) {
 		return u.x * b.x + u.y * b.y;

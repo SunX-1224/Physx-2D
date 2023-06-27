@@ -1,31 +1,37 @@
+CURRENT REPORTS :
+    ; Collision Resolution : Type(Circle) : Num(1000) : Optimization(QuadTree) : Mode(Debug)
+        > Average Time : 40ms
+        > Slowest Time : 92ms
+        > (Target Time) : avg < 10ms : margin < 40ms
+    
 ENGINE :
     ; Math
-        (DONE)> Faster normalization of vectors
-        (DONE)> Quake_iii algorithm for ^^^^^^^
         > matrices operations : add, sub, mult, scalar_div
         > faster matrices multiplication algorithms
         > projection matrices
     
     ; Renderer
-        (DONE)> Destructor implementation
-        (DONE)> use heap allocation for long term data
-        > Shaders should be abled to be loaded by directly supplying string as code
-        > optimize buffers to use anywhere effectively
+        (UNDER_WORK)> Reduce the default shader code's complexity
+        (UNDER_WORK)> Load Default shader from string
         > shader uniform functions
         > SSBO extraction for every shaders
+        > optimize buffers to use anywhere effectively
         > improve renderer + code
         > make a better default renderer
+        (DONE)> Shaders should be abled to be loaded by directly supplying string as code
+        (DONE)> Destructor implementation
+        (DONE)> use heap allocation for long term data
 
     ; World
         (UNDER_WORK)> Optimize the existing collision detection algorithms
-        (DONE)> Getting data from ECSManager can be heavily improved
-        (DELAY)> Collision handler should be improved... should be independent to entity but dependent on registry data
-        (DONE)> Texture binding not looking good... allow upto 16 differenr multiple textures for a single renderer
+        (DELAYED)> Collision handler should be improved... should be independent to entity but dependent on registry data
         > addInstancedRenderer is not looking good... fix it
         > Camera implementation
         > cam matrices and model matrices calculations in cpu
         > Updated renderData
         > better and generalized collision detection algorithm for polygons
+        (DONE)> Getting data from ECSManager can be heavily improved
+        (DONE)> Texture binding not looking good... allow upto 16 differenr multiple textures for a single renderer
 
     ; Events
         > Learn the basics about engine events
@@ -49,7 +55,8 @@ SandBox :
         > implement backtracking to solve empty available states on cells
 
 
-Overall :  
+Overall :
+    ; build configuration for linux
     ; Generic datas : Remove the parts where 2D stuff is forced on
     ; simplify everything use basic data-types to later on migrate to C
 

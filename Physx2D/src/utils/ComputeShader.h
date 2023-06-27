@@ -19,7 +19,7 @@ namespace Physx2D {
 	
 	class PHYSX2D_API ComputeShader {
 		public:
-			ComputeShader(const char* path);
+			ComputeShader(const char* shader, bool is_path = true);
 			~ComputeShader();
 
 			inline void dispatch(uint32_t x, uint32_t y, uint32_t z = 1);

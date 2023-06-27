@@ -3,13 +3,17 @@
 #include <glad/glad.h>
 
 namespace Physx2D {
-	ComputeShader::ComputeShader(const char* path) {
+	ComputeShader::ComputeShader(const char* compute_shader, bool is_path) {
+		uint32_t shader;
 
-		std::string src_str = get_file_content(path);
-
-		const char* src = src_str.c_str();
-
-		uint32_t shader = compile_shader(src, GL_COMPUTE_SHADER);
+		if (is_path) {
+			std::string c_ = get_file_content(compute_shader);
+			const char* src = c_.c_str();
+			shader = compile_shader(src, GL_COMPUTE_SHADER);
+		}
+		else {
+			shader = compile_shader(compute_shader, GL_COMPUTE_SHADER);
+		}
 
 		m_ID = glCreateProgram();
 
@@ -22,7 +26,7 @@ namespace Physx2D {
 			glGetProgramiv(m_ID, GL_LINK_STATUS, &success);
 			if (!success) {
 				glGetProgramInfoLog(m_ID, 512, NULL, infoLog);
-				LOG_ERROR("ERROR : Compute Shader program did not link successfully, path : %s\nLOG:%s\n", path, infoLog);
+				LOG_ERROR("ERROR : Compute Shader program did not link successfully, path : %s\nLOG:%s\n", compute_shader, infoLog);
 			}
 		}
 		glDeleteShader(shader);

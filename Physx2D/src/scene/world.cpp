@@ -8,7 +8,38 @@ namespace Physx2D {
 		this->window = targetWindow;
 		this->sceneCamera = Camera();
 		this->manager = new ECSManager;
-		loadShader("res/shaders/vert.glsl", "res/shaders/quad.glsl", DEFAULT);
+
+		const char* vs = "\
+			#version 460 core\n\
+			#define __l(x) layout(location=x)\n\
+			__l(0) in vec2 vp;__l(1) in vec2 tc;\
+			__l(2) in vec2 ps;__l(3) in vec2 sc;__l(4) in float a;__l(5) in vec4 cl;__l(6) in vec2 to;__l(7) in vec2 tf;\
+			out vdat{vec4 cl;vec2 uv;}vo;\
+				uniform mat3 u_camMatrices;\
+				void main() {\
+					float s = sin(a), c = cos(a);\
+					vec2 p = mat2(c, s, -s, c) * (vp.xy * sc) + ps;\
+					p = (u_camMatrices * vec3(p, 1.0f)).xy;\
+					vo.cl = cl; vo.uv = tc * tf + to;\
+					gl_Position = vec4(p, 0.0f, 1.0f);\
+			}\
+		";
+
+		const char* fs = "\
+			#version 460 core\n\
+			in vdat{vec4 cl;vec2 uv;}fsi;\
+			out vec4 _;\
+			uniform int u_num_textures;\
+			uniform sampler2D u_textures[16];\
+			void main(){\
+				_ = vec4(0.f);\
+				for(int i=0; i<u_num_textures && i < 16; i++) _+= texture(u_textures[i], fsi.uv);\
+				_/=max(1.f, float(u_num_textures));\
+				_=fsi.cl + (_ - fsi.cl) * _.a;\
+			}";
+
+
+		loadShader(vs, fs, DEFAULT, false);
 	}
 
 	World::~World()	{
@@ -45,11 +76,9 @@ namespace Physx2D {
 				break;
 
 			case QUAD:
-				addInstancedRenderer(QUAD, initVectorFromArray(QUAD_VERTICES, float), 6, GL_TRIANGLES);
-				break;
 			case DEFAULT:
 			default:
-				addInstancedRenderer(DEFAULT, initVectorFromArray(QUAD_VERTICES, float), 6, GL_TRIANGLES);
+				addInstancedRenderer(QUAD, initVectorFromArray(QUAD_VERTICES, float), 6, GL_TRIANGLES);
 				break;
 		}
 	}
@@ -96,12 +125,12 @@ namespace Physx2D {
 		return ent;
 	}
 
-	inline void World::loadShader(const char* vert, const char* frag, uint32_t ID) {
+	inline void World::loadShader(const char* vert, const char* frag, uint32_t ID, bool is_path) {
 		if (shaders.find(ID) != shaders.end()) {
 			LOG_WARN("Replacing existing shader with new one.. ID : (%u)\n", ID);
 			delete shaders[ID];
 		}
-		shaders[ID] = new Shader(vert, frag);
+		shaders[ID] = new Shader(vert, frag, is_path);
 	}
 
 	inline void World::loadTexture(const char* path, const char* type, uint32_t ID, int slot) {
@@ -173,7 +202,7 @@ namespace Physx2D {
 	}
 
 	void World::handleCollisions() {
-		centerRect treesize = centerRect(vec2(0.f), vec2(window->GetWidth(), window->GetHeight())); //setup the bounds for quadtree
+		centerRect treesize = centerRect(vec2(0.f), vec2(WORLD_SIZE_X, WORLD_SIZE_Y)); //setup the bounds for quadtree
 		vec2 range(0.f, 0.f);		//range upto which neighbour are valid
 		
 		QuadTree<Entity*> qtree(treesize);	//init quadtree
@@ -257,7 +286,6 @@ namespace Physx2D {
 		for (auto& iter : shaders) {
 			iter.second->use();
 			sceneCamera.setValues(iter.second, vec2(window->GetWidth(), window->GetHeight()));
-			//iter.second->setFloat("u_time", glfwGetTime());
 		}
 		
 		for (auto& renderer : renderers) {

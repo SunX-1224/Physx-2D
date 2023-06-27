@@ -29,11 +29,10 @@ namespace Physx2D {
 		tvec2(T _x, T _y): x(_x), y(_y) {}
 
 		inline tvec2 normalized() {
-			float inl = Math::inv_sqrt(x * x + y * y);
-			return (*this) * inl;
+			return (*this)/length();
 		}
 		inline float length(){
-			return 1.f/Math::inv_sqrt(x * x + y * y);
+			return sqrt(x * x + y * y);
 		}
 		inline tvec2 rotate(T a) {
 			float c = cos(a);
@@ -97,11 +96,10 @@ namespace Physx2D {
 		tvec3(T _x, T _y, T _z) : x(_x), y(_y), z(_z) {}
 
 		inline tvec3 normalized() {
-			float inlen = Math::inv_sqrt(x * x + y * y + z * z);
-			return (*this) * inlen;
+			return (*this) / length();
 		}
 		inline float length() {
-			return 1.f/ Math::inv_sqrt(x * x + y * y + z * z);
+			return sqrt(x * x + y * y + z * z);
 		}
 
 		inline tvec3 operator =(tvec3 v)
@@ -160,11 +158,10 @@ namespace Physx2D {
 		tvec4(T _x, T _y, T _z, T _w) :x(_x), y(_y), z(_z), w(_w) {}
 
 		inline tvec4 normalized() {
-			float inlen = Math::inv_sqrt(x * x + y * y + z * z + w * w);
-			return (*this) * inlen;
+			return (*this) / length();
 		}
 		inline float length() {
-			return 1.f / Math::inv_sqrt(x * x + y * y + z * z + w * w);
+			return sqrt(x * x + y * y + z * z + w * w);
 		}
 
 		inline tvec4 operator +(tvec4 v){
@@ -246,10 +243,7 @@ namespace Physx2D {
 	class PHYSX2D_API Math {
 	public:
 		static const double PI;
-		static const float MAX_float;
-		static const float MIN_float;
 
-		static inline float inv_sqrt(float x);
 
 		static inline float dot(tvec2<int> u, tvec2<int> b);
 		static inline float dot(tvec2<float> u, tvec2<float> b);

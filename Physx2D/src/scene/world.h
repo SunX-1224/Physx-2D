@@ -32,7 +32,7 @@ namespace Physx2D {
 
 			Entity* CreateEntity(const char* name = "Entity");
 
-			inline void loadShader(const char* vertexPath, const char* fragPath, uint32_t ID = DEFAULT);
+			inline void loadShader(const char* vertexPath, const char* fragPath, uint32_t ID = DEFAULT, bool is_path = true);
 			inline void loadTexture(const char* path, const char* type, uint32_t ID, int slot = -1);
 
 			InstancedRenderer* addInstancedRenderer(uint32_t type, std::vector<float> vertices, uint32_t numPoints, GLenum draw_mode);

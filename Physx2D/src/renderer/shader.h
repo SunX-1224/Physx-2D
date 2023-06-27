@@ -19,7 +19,7 @@ namespace Physx2D {
 		uint32_t m_ID;
 
 		Shader();
-		Shader(const char* vertexPath, const char* fragmentPath);
+		Shader(const char* vertexPath, const char* fragmentPath, bool is_path = true);
 		~Shader();
 
 		inline void use();

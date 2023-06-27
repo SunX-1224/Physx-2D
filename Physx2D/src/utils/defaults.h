@@ -8,6 +8,10 @@
 
 #define DEF_SCREEN_WIDTH 1280
 #define DEF_SCREEN_HEIGHT 760
+
+#define WORLD_SIZE_X 1e8f
+#define WORLD_SIZE_Y 1e8f
+
 #define arrayLength(a) (sizeof(a)/sizeof(a[0]))
 #define initVectorFromArray(arr, type) std::vector<type>(arr, arr + arrayLength(arr))
 #define max(a, b) (a>b?a:b)

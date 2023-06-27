@@ -6,6 +6,6 @@
 
 namespace Physx2D {
 	std::string PHYSX2D_API get_file_content(const char* filename);
-	uint32_t compile_shader(const char* source, GLenum type);
+	uint32_t PHYSX2D_API compile_shader(const char* source, GLenum type);
 	inline PHYSX2D_API void  GetError();
 }

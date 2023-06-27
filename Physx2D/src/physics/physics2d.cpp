@@ -111,12 +111,12 @@ namespace Physx2D{
 
 	CollisionData PhysicsHandler::_check(CircleCollider* c, Transform* t1, BoxCollider2D* b, Transform* t2)
 	{
-		float depth = Math::MAX_float;
+		float depth = FLT_MAX;
 		vec2 c_axis;
 
 		vec2 dir = t2->Position + b->Offset - t1->Position - c->Offset;
 		vec2 naxis;
-		float len = Math::MAX_float;
+		float len = FLT_MAX;
 
 		for (int i = 0; i < 4; i++) {
 			vec2 v = b->Size * ((vec2)UNIT_RECT[i]).rotate(b->Rotation + t2->Rotation) + b->Offset + t2->Position;
@@ -128,7 +128,7 @@ namespace Physx2D{
 			}
 		}
 
-		float minA = Math::MAX_float, maxA = Math::MIN_float;
+		float minA = FLT_MAX, maxA = FLT_MIN;
 		for (int j = 0; j < 4; j++) {
 			vec2 v = b->Size * ((vec2)UNIT_RECT[j]).rotate(b->Rotation + t2->Rotation) + b->Offset + t2->Position;
 			float dot = Math::dot(v, naxis);
@@ -152,7 +152,7 @@ namespace Physx2D{
 			axis = axis.rotate(b->Rotation + t2->Rotation);
 			axis = vec2(axis.y, -axis.x);
 
-			float minA = Math::MAX_float, maxA = Math::MIN_float;
+			float minA = FLT_MAX, maxA = FLT_MIN;
 			for (int j = 0; j < 2; j++) {
 				vec2 v = b->Size * ((vec2)UNIT_RECT[(j + i + 1) % 4]).rotate(b->Rotation + t2->Rotation) + b->Offset + t2->Position;
 				float dot = Math::dot(v, axis);
@@ -180,14 +180,14 @@ namespace Physx2D{
 	{
 		vec2 c_axis = vec2(0.f);
 		vec2 dir = t2->Position + b2->Offset - t1->Position - b1->Offset;
-		float depth = Math::MAX_float;
+		float depth = FLT_MAX;
 
 		for (int i = 0; i < 4; i++) {
 			vec2 axis = (vec2)UNIT_RECT[i] - (vec2)UNIT_RECT[(i + 1) % 4];
 			axis = axis.rotate(b1->Rotation + t2->Rotation);
 			axis = vec2(-axis.y, axis.x);
 
-			float minA = Math::MAX_float, maxA = Math::MIN_float;
+			float minA = FLT_MAX, maxA = FLT_MIN;
 			for (int j = 0; j < 2; j++) {
 				vec2 v = b1->Size * ((vec2)UNIT_RECT[(j + i + 1) % 4]).rotate(b1->Rotation + t1->Rotation) + b1->Offset + t1->Position;
 				float dot = Math::dot(v, axis);
@@ -195,7 +195,7 @@ namespace Physx2D{
 				if (dot > maxA) maxA = dot;
 			}
 
-			float minB = Math::MAX_float, maxB = Math::MIN_float;
+			float minB = FLT_MAX, maxB = FLT_MIN;
 			for (int j = 0; j < 4; j++) {
 				vec2 v = b2->Size * ((vec2)UNIT_RECT[j]).rotate(b2->Rotation + t2->Rotation) + b2->Offset + t2->Position;
 				float dot = Math::dot(v, axis);
@@ -220,7 +220,7 @@ namespace Physx2D{
 			axis = axis.rotate(b2->Rotation + t2->Rotation);
 			axis = vec2(-axis.y, axis.x);
 
-			float minA = Math::MAX_float, maxA = Math::MIN_float;
+			float minA = FLT_MAX, maxA = FLT_MIN;
 			for (int j = 0; j < 4; j++) {
 				vec2 v = b1->Size * ((vec2)UNIT_RECT[j]).rotate(b1->Rotation + t1->Rotation) + b1->Offset + t1->Position;
 				float dot = Math::dot(v, axis);
@@ -228,7 +228,7 @@ namespace Physx2D{
 				if (dot > maxA) maxA = dot;
 			}
 
-			float minB = Math::MAX_float, maxB = Math::MIN_float;
+			float minB = FLT_MAX, maxB = FLT_MIN;
 			for (int j = 0; j < 2; j++) {
 				vec2 v = b2->Size * ((vec2)UNIT_RECT[(j + i + 1) % 4]).rotate(b2->Rotation + t2->Rotation) + b2->Offset + t2->Position;
 				float dot = Math::dot(v, axis);
@@ -255,8 +255,8 @@ namespace Physx2D{
 
 	CollisionData PhysicsHandler::_check(CircleCollider* c1, Transform* t1, AABB* c2, Transform* t2)
 	{
-		vec2 minB = vec2(UNIT_RECT[0]) * c2->Size + c2->Offset;
-		vec2 maxB = vec2(UNIT_RECT[2]) * c2->Size + c2->Offset;
+		vec2 minB = UNIT_RECT[0] * c2->Size + c2->Offset;
+		vec2 maxB = UNIT_RECT[2] * c2->Size + c2->Offset;
 
 		vec2 c_axis(0.0f);
 
@@ -267,13 +267,14 @@ namespace Physx2D{
 		maxB = A - maxB + radiusVec;
 
 		minB.x = min(0.f, minB.x);
-		maxB.x = max(0.f, maxB.x);
 		minB.y = min(0.f, minB.y);
+
+		maxB.x = max(0.f, maxB.x);
 		maxB.y = max(0.f, maxB.y);
 
 		c_axis = minB + maxB;
 
-		return CollisionData(c_axis.x!=0 || c_axis.y!=0, c_axis);
+		return CollisionData(c_axis.x!=0.f || c_axis.y!=0.f, c_axis);
 	}
 
 	CollisionData PhysicsHandler::_check(CircleCollider* c1, Transform* t1, BoundingCircle* c2, Transform* t2)
@@ -289,7 +290,7 @@ namespace Physx2D{
 		vec2 ax1((axis.x)/abs(axis.x), 0.f);
 		vec2 ax2(0.f, (axis.y)/abs(axis.y));
 
-		float max1 = Math::MIN_float, min1 = Math::MAX_float, max2 = Math::MIN_float, min2 = Math::MAX_float;
+		float max1 = FLT_MIN, min1 = FLT_MAX, max2 = FLT_MIN, min2 = FLT_MAX;
 		for (int i = 0; i < 4; i++) {
 			vec2 vert(vec2(UNIT_RECT[i]) * c1->Size + axis);
 			float dot1 = Math::dot(vert, ax1);
@@ -309,7 +310,7 @@ namespace Physx2D{
 	CollisionData PhysicsHandler::_check(BoxCollider2D* c1, Transform* t1, BoundingCircle* c2, Transform* t2)
 	{
 		vec2 axis = (t1->Position + c1->Offset) - (t2->Position = c2->Offset);
-		float maxA = Math::MIN_float, minA = Math::MAX_float;
+		float maxA = FLT_MIN, minA = FLT_MAX;
 		vec2 norm = axis.normalized();
 		for (int i = 0; i < 4; i++) {
 			vec2 vert(vec2(UNIT_RECT[i]) * c1->Size + axis);
