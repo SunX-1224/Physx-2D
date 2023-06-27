@@ -11,9 +11,9 @@ namespace Physx2D {
 
 		const char* vs = "\
 			#version 460 core\n\
-			#define __l(x) layout(location=x)\n\
-			__l(0) in vec2 vp;__l(1) in vec2 tc;\
-			__l(2) in vec2 ps;__l(3) in vec2 sc;__l(4) in float a;__l(5) in vec4 cl;__l(6) in vec2 to;__l(7) in vec2 tf;\
+			#define __l(x) layout(location=x) in\n\
+			__l(0) vec2 vp;__l(1) vec2 tc;\
+			__l(2) vec2 ps;__l(3) vec2 sc;__l(4) float a;__l(5) vec4 cl;__l(6) vec2 to;__l(7) vec2 tf;\
 			out vdat{vec4 cl;vec2 uv;}vo;\
 				uniform mat3 u_camMatrices;\
 				void main() {\
@@ -32,12 +32,11 @@ namespace Physx2D {
 			uniform int u_num_textures;\
 			uniform sampler2D u_textures[16];\
 			void main(){\
-				_ = vec4(0.f);\
-				for(int i=0; i<u_num_textures && i < 16; i++) _+= texture(u_textures[i], fsi.uv);\
-				_/=max(1.f, float(u_num_textures));\
-				_=fsi.cl + (_ - fsi.cl) * _.a;\
+				_=vec4(0.f);\
+				for(int i=0; i<u_num_textures && i < 16; i++) _+=texture(u_textures[i], fsi.uv);\
+				_/=max(1.f,float(u_num_textures));\
+				_=fsi.cl+(_-fsi.cl)*_.a;\
 			}";
-
 
 		loadShader(vs, fs, DEFAULT, false);
 	}
@@ -61,24 +60,27 @@ namespace Physx2D {
 
 	void World::loadDefaultRenderer(RenderType type) {
 		
-		switch (type)
-		{
+		switch (type) {
 			case LINE:
 				addInstancedRenderer(LINE, initVectorFromArray(LINE_VERTICES, float), 2, GL_LINES);
+				setDefaultLayout(LINE);
 				break;
 
 			case TRIANGLE:
 				addInstancedRenderer(TRIANGLE, initVectorFromArray(TRIANGLE_VERTICES, float), 3, GL_TRIANGLES);
+				setDefaultLayout(TRIANGLE);
 				break;
 
 			case CIRCLE:
 				addInstancedRenderer(CIRCLE, initVectorFromArray(QUAD_VERTICES, float), 6, GL_TRIANGLES);
+				setDefaultLayout(CIRCLE);
 				break;
 
 			case QUAD:
 			case DEFAULT:
 			default:
 				addInstancedRenderer(QUAD, initVectorFromArray(QUAD_VERTICES, float), 6, GL_TRIANGLES);
+				setDefaultLayout(QUAD);
 				break;
 		}
 	}
@@ -139,34 +141,24 @@ namespace Physx2D {
 
 	InstancedRenderer* World::addInstancedRenderer(uint32_t type, std::vector<float> vertices, uint32_t numPoints,GLenum draw_mode) {
 		
-		if (renderers.find(type) != renderers.end()) { 
+		if (renderers.find(type) != renderers.end())
 			LOG_WARN("Renderer of the type %u already exists", type);
-			return renderers[type];
-		}
-
-		renderers[type] = new InstancedRenderer(vertices, numPoints, draw_mode);
-		renderers[type]->VertexDataLayout(0, 2, GL_FLOAT, 2*sizeof(vec2), 0);						//vec2 vertex position
-		renderers[type]->VertexDataLayout(1, 2, GL_FLOAT, 2*sizeof(vec2), sizeof(vec2));			//vec2 texture coords
-
-		renderers[type]->InstanceLayout(2, 2, GL_FLOAT, sizeof(RenderData), 0);						//vec2 position
-		renderers[type]->InstanceLayout(3, 2, GL_FLOAT, sizeof(RenderData), 2 * sizeof(float));		//vec2 scale
-		renderers[type]->InstanceLayout(4, 1, GL_FLOAT, sizeof(RenderData), 4 * sizeof(float));		//float rotation
-		renderers[type]->InstanceLayout(5, 4, GL_FLOAT, sizeof(RenderData), 5 * sizeof(float));		//vec4 color
-		renderers[type]->InstanceLayout(6, 2, GL_FLOAT, sizeof(RenderData), 9 * sizeof(float));		//texOffset
-		renderers[type]->InstanceLayout(7, 2, GL_FLOAT, sizeof(RenderData), 11 * sizeof(float));	//Tiling factor
-
+		else
+			renderers[type] = new InstancedRenderer(vertices, numPoints, draw_mode);
 		return renderers[type];
 	}
 
 	InstancedRenderer* World::addInstancedRenderer(uint32_t type, std::vector<float> vertices, std::vector<uint32_t> indices, GLenum draw_mode) {
-		if (renderers.find(type) != renderers.end()) {
+		if (renderers.find(type) != renderers.end())
 			LOG_WARN("Renderer of the type %u already exists", type);
-			return renderers[type];
-		}
+		else
+			renderers[type] =new InstancedRenderer(vertices, indices, draw_mode);
+		return renderers[type];
+	}
 
-		renderers[type] =new InstancedRenderer(vertices, indices, draw_mode);
-		renderers[type]->VertexDataLayout(0, 2, GL_FLOAT, 2*sizeof(vec2), 0);						//vec2 vertex position
-		renderers[type]->VertexDataLayout(1, 2, GL_FLOAT, 2*sizeof(vec2), sizeof(vec2));			//vec2 texture coords
+	void World::setDefaultLayout(uint32_t type) {
+		renderers[type]->VertexDataLayout(0, 2, GL_FLOAT, 2 * sizeof(vec2), 0);						//vec2 vertex position
+		renderers[type]->VertexDataLayout(1, 2, GL_FLOAT, 2 * sizeof(vec2), sizeof(vec2));			//vec2 texture coords
 
 		renderers[type]->InstanceLayout(2, 2, GL_FLOAT, sizeof(RenderData), 0);						//vec2 position
 		renderers[type]->InstanceLayout(3, 2, GL_FLOAT, sizeof(RenderData), 2 * sizeof(float));		//vec2 scale
@@ -174,8 +166,6 @@ namespace Physx2D {
 		renderers[type]->InstanceLayout(5, 4, GL_FLOAT, sizeof(RenderData), 5 * sizeof(float));		//vec4 color
 		renderers[type]->InstanceLayout(6, 2, GL_FLOAT, sizeof(RenderData), 9 * sizeof(float));		//texOffset
 		renderers[type]->InstanceLayout(7, 2, GL_FLOAT, sizeof(RenderData), 11 * sizeof(float));	//Tiling factor
-		
-		return renderers[type];
 	}
 
 	void World::handleScripts(float delta_time) {

@@ -5,24 +5,25 @@ CURRENT REPORTS :
         > (Target Time) : avg < 10ms : margin < 40ms
     
 ENGINE :
-    ; Math
+    ; Math :
         > matrices operations : add, sub, mult, scalar_div
         > faster matrices multiplication algorithms
         > projection matrices
     
-    ; Renderer
-        (UNDER_WORK)> Reduce the default shader code's complexity
-        (UNDER_WORK)> Load Default shader from string
+    ; Renderer :
+        (UNDER_WORK)> make a better default renderer
+        (UNDER_WORK)> Use UBO or SSBO instead of plain uniforms
         > shader uniform functions
         > SSBO extraction for every shaders
         > optimize buffers to use anywhere effectively
         > improve renderer + code
-        > make a better default renderer
+        (DONE)> Reduce the default shader code's complexity
+        (DONE)> Load Default shader from string
         (DONE)> Shaders should be abled to be loaded by directly supplying string as code
         (DONE)> Destructor implementation
         (DONE)> use heap allocation for long term data
-
-    ; World
+    
+    ; World : 
         (UNDER_WORK)> Optimize the existing collision detection algorithms
         (DELAYED)> Collision handler should be improved... should be independent to entity but dependent on registry data
         > addInstancedRenderer is not looking good... fix it
@@ -33,21 +34,21 @@ ENGINE :
         (DONE)> Getting data from ECSManager can be heavily improved
         (DONE)> Texture binding not looking good... allow upto 16 differenr multiple textures for a single renderer
 
-    ; Events
+    ; Events : 
         > Learn the basics about engine events
         > Create event-types for Physx2D
-        > event - creation, dispatching, etc
+        > Event - creation, dispatching, etc
         > Base everything on events
     
-    ; Utilities
+    ; Utilities :
         > Generic Wave Function Collapse algorithm
         > Noise generators : Perlin noise, {Add others later}
     
 SandBox :
-    ;PhysicsTestApp
+    ; PhysicsTestApp : 
         (DONE)> Debug assertion failed while destroying the entities
 
-    ; Cellular automatas
+    ; Cellular automatas : 
         > fix the gittering effect on wolfram rules implementation
         > solve the appearing of pre-image on reduced-size window {Applies for all}
     

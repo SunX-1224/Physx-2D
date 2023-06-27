@@ -55,6 +55,7 @@ namespace Physx2D {
 			void handlePhysics(double delta_time);
 			void handleCollisions();
 			void updateRenderData();
+			void setDefaultLayout(uint32_t type);
 			
 			friend class Entity;
 	};
