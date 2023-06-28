@@ -39,7 +39,6 @@ namespace Physx2D {
 			float s = sin(a);
 			return tvec2(x * c - y * s, x * s + y * c);
 		}
-		
 		inline tvec2 operator =(tvec2 v) {
 			x = v.x;
 			y = v.y;
@@ -80,7 +79,6 @@ namespace Physx2D {
 			y /= a.y;
 			return *this;
 		}
-
 		bool operator<(const tvec2<T>& v) const{
 			return y == v.y ? x < v.x : y < v.y;
 		}
@@ -101,7 +99,6 @@ namespace Physx2D {
 		inline float length() {
 			return sqrt(x * x + y * y + z * z);
 		}
-
 		inline tvec3 operator =(tvec3 v)
 		{
 			x = v.x, y = v.y, z = v.z;
@@ -141,7 +138,6 @@ namespace Physx2D {
 			x /= v.x;
 			y /= v.y;
 		}
-
 		bool operator<(const tvec3<T>& v) const {
 			return z == v.z ? (y==v.y?x<v.x:y<v.y) : z<v.z;
 		}
@@ -163,7 +159,6 @@ namespace Physx2D {
 		inline float length() {
 			return sqrt(x * x + y * y + z * z + w * w);
 		}
-
 		inline tvec4 operator +(tvec4 v){
 			return tvec4(x + v.x, y + v.y, z + v.z, w + v.w);
 		}
@@ -188,7 +183,6 @@ namespace Physx2D {
 		inline void operator /= (tvec4 v) {
 			x /= v.x, y /= v.y, z /= v.z, w /= v.w;
 		}
-
 		bool operator<(const tvec4<T>& v) const {
 			return w == v.w ? (z == v.z ? (y == v.y ? x < v.x : y < v.y) : z < v.z) : w < v.w;
 		}
@@ -212,9 +206,7 @@ namespace Physx2D {
 		centerRect(tvec2<float> cen, tvec2<float> res) :x(cen.x), y(cen.y), w(res.x), h(res.y) {}
 
 		inline bool contains(tvec2<float> point);
-
 		inline bool intersects(centerRect n);
-
 		inline centerRect getPart(float xp, float yp);
 	};
 		
@@ -222,6 +214,12 @@ namespace Physx2D {
 			float value[3][3];
 
 			mat3(float x = 0.0f) :value{ {x, 0.f, 0.f}, {0.f, x, 0.f}, {0.f, 0.f, x} } {}
+			mat3(float u[3][3]) {
+				memcpy(&value, &u, sizeof(float)*9);
+			}
+
+			mat3 operator +(mat3 u);
+			mat3 operator -(mat3 u);
 		};
 
 	class PHYSX2D_API Random {

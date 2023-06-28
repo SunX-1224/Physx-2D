@@ -14,12 +14,12 @@ out vdat{
 	vec2 uv;
 }vs_out;
 uniform vec2 u_resolution;
-uniform mat3 u_camMatrices;
+uniform mat3 u_cam_matrices;
 void main(){
 	float s = sin(a), c = cos(a);
 	vec2 pos = mat2(c, s, -s, c) * (vp.xy * sc) + ps;
-	pos = (u_camMatrices * vec3(pos, 1.0f)).xy;
-	vs_out.position = (u_camMatrices * vec3(ps, 1.f)).xy, vs_out.size = sc/u_resolution;
+	pos = (u_cam_matrices * vec3(pos, 1.0f)).xy;
+	vs_out.position = (u_cam_matrices * vec3(ps, 1.f)).xy, vs_out.size = sc/u_resolution;
 	vs_out.color = cl, vs_out.uv = tc * tf + tof;
 	gl_Position = vec4(pos, 0.0f, 1.0f);
 }

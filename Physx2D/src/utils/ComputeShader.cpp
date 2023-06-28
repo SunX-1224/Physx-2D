@@ -19,7 +19,9 @@ namespace Physx2D {
 
 		glAttachShader(m_ID, shader);
 		glLinkProgram(m_ID);
-		{// Link status check
+
+		PHSX2D_DBG_EXP({
+			// Link status check
 			int success;
 			char infoLog[512];
 
@@ -28,9 +30,8 @@ namespace Physx2D {
 				glGetProgramInfoLog(m_ID, 512, NULL, infoLog);
 				LOG_ERROR("ERROR : Compute Shader program did not link successfully, path : %s\nLOG:%s\n", compute_shader, infoLog);
 			}
-		}
+		});
 		glDeleteShader(shader);
-
 	}
 
 ComputeShader::~ComputeShader() {
@@ -53,15 +54,15 @@ ComputeShader::~ComputeShader() {
 	inline void ComputeShader::setInt(const char* u_name, int value) {
 		if (glGetUniformLocation(m_ID, u_name) >= 0)
 			glUniform1i(glGetUniformLocation(m_ID, u_name), value);
-		else
-			LOG_WARN("WARNING : location of integer %s not found\n", u_name);
+		PHSX2D_DBG_EXP(else
+			LOG_WARN("WARNING : location of integer %s not found\n", u_name););
 	}
 
 	inline void ComputeShader::setFloat(const char* u_name, float value) {
 		if (glGetUniformLocation(m_ID, u_name) >= 0)
 			glUniform1f(glGetUniformLocation(m_ID, u_name), value);
-		else
-			LOG_WARN("WARNING : location of float %s not found\n", u_name);
+		PHSX2D_DBG_EXP(else
+			LOG_WARN("WARNING : location of float %s not found\n", u_name););
 	}
 
 	inline tvec3<int> ComputeShader::getWorkGrpCount()

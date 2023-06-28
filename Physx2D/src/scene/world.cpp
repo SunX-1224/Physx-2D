@@ -11,15 +11,15 @@ namespace Physx2D {
 
 		const char* vs = "\
 			#version 460 core\n\
-			#define __l(x) layout(location=x) in\n\
+			#define __l(x) layout(location=x) in \n\
 			__l(0) vec2 vp;__l(1) vec2 tc;\
 			__l(2) vec2 ps;__l(3) vec2 sc;__l(4) float a;__l(5) vec4 cl;__l(6) vec2 to;__l(7) vec2 tf;\
 			out vdat{vec4 cl;vec2 uv;}vo;\
-				uniform mat3 u_camMatrices;\
+				uniform mat3 u_cam_matrices;\
 				void main() {\
 					float s = sin(a), c = cos(a);\
 					vec2 p = mat2(c, s, -s, c) * (vp.xy * sc) + ps;\
-					p = (u_camMatrices * vec3(p, 1.0f)).xy;\
+					p = (u_cam_matrices * vec3(p, 1.0f)).xy;\
 					vo.cl = cl; vo.uv = tc * tf + to;\
 					gl_Position = vec4(p, 0.0f, 1.0f);\
 			}\
@@ -98,6 +98,30 @@ namespace Physx2D {
 		PHSX2D_DBG_EXP(LOG_INFO("RenderData update : %f\n", (TIME - time) * 1000.f); time = TIME;)
 	}
 
+	void World::updateRenderData() {
+		for (auto& vec : renderData)
+			vec.second.clear();
+
+		std::vector<__comp_pair<Transform*, SpriteRenderer*>> comp;
+		manager->getCompPair<Transform, SpriteRenderer>(comp);
+
+		for (auto& _pr : comp) {
+			renderData[_pr.__pair2->type].push_back({*_pr.__pair1, _pr.__pair2->color, _pr.__pair2->offset, _pr.__pair2->tiling});
+		}
+
+		for (auto& iter : shaders) {
+			iter.second->use();
+			sceneCamera.setValues(iter.second, vec2(window->GetWidth(), window->GetHeight()));
+			iter.second->setFloat("u_time", TIME*1000);
+		}
+		
+		for (auto& renderer : renderers) {
+			auto& rd = renderData[renderer.first];
+			if (rd.size() == 0) continue;
+			renderer.second->InstanceData(rd.data(), rd.size(), sizeof(RenderData));
+		}
+	}
+
 	void World::Render() {
 		for (auto& iter : renderers) {
 			auto& __sh = shaders.find(iter.first) != shaders.end()? shaders[iter.first] : shaders[DEFAULT];
@@ -128,6 +152,15 @@ namespace Physx2D {
 	}
 
 	inline void World::loadShader(const char* vert, const char* frag, uint32_t ID, bool is_path) {
+		/*
+			Every Shader should have some default uniforms as of now.
+			> u_time for time
+			> u_textures[16] * for different texture samples(16 is max number of textures for each renderer)
+			> u_num_textures * for actual number of textures bound
+			> u_cam_matrices * for projection matrices
+			> u_fov for field of view of camera (zoom level)
+			> u_resolution for screen resolution
+		*/
 		if (shaders.find(ID) != shaders.end()) {
 			LOG_WARN("Replacing existing shader with new one.. ID : (%u)\n", ID);
 			delete shaders[ID];
@@ -259,29 +292,6 @@ namespace Physx2D {
 					}
 				}
 			}
-		}
-	}
-
-	void World::updateRenderData() {
-		for (auto& vec : renderData)
-			vec.second.clear();
-
-		std::vector<__comp_pair<Transform*, SpriteRenderer*>> comp;
-		manager->getCompPair<Transform, SpriteRenderer>(comp);
-
-		for (auto& _pr : comp) {
-			renderData[_pr.__pair2->type].push_back({*_pr.__pair1, _pr.__pair2->color, _pr.__pair2->offset, _pr.__pair2->tiling});
-		}
-
-		for (auto& iter : shaders) {
-			iter.second->use();
-			sceneCamera.setValues(iter.second, vec2(window->GetWidth(), window->GetHeight()));
-		}
-		
-		for (auto& renderer : renderers) {
-			auto& rd = renderData[renderer.first];
-			if (rd.size() == 0) continue;
-			renderer.second->InstanceData(rd.data(), rd.size(), sizeof(RenderData));
 		}
 	}
 }

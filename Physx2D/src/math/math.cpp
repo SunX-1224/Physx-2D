@@ -94,6 +94,24 @@ namespace Physx2D {
 		return a + Math::random_f(seed_f++) * (b - a);
 	}
 
+	mat3 mat3::operator+(mat3 u) {
+		float x[3][3]{
+			{value[0][0] + u.value[0][0],value[0][1] + u.value[0][1],value[0][2] + u.value[0][2]},
+			{value[1][0] + u.value[1][0],value[1][1] + u.value[1][1],value[1][2] + u.value[1][2]},
+			{value[2][0] + u.value[2][0],value[2][1] + u.value[2][1],value[2][2] + u.value[2][2]}
+		};
+		return mat3(x);
+	}
+
+	mat3 mat3::operator-(mat3 u) {
+		float x[3][3]{
+			{value[0][0] - u.value[0][0],value[0][1] - u.value[0][1],value[0][2] - u.value[0][2]},
+			{value[1][0] - u.value[1][0],value[1][1] - u.value[1][1],value[1][2] - u.value[1][2]},
+			{value[2][0] - u.value[2][0],value[2][1] - u.value[2][1],value[2][2] - u.value[2][2]}
+		};
+		return mat3(x);
+	}
+
 	template class PHYSX2D_API tvec2<int>;
 	template class PHYSX2D_API tvec2<float>;
 

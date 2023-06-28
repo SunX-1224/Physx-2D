@@ -6,17 +6,17 @@ CURRENT REPORTS :
     
 ENGINE :
     ; Math :
-        > matrices operations : add, sub, mult, scalar_div
-        > faster matrices multiplication algorithms
+        (UNDER_WORK)> matrices operations : add, sub, mult, scalar_div
+        (UNDER_WORK)> faster matrices multiplication algorithms
         > projection matrices
     
     ; Renderer :
-        (UNDER_WORK)> make a better default renderer
-        (UNDER_WORK)> Use UBO or SSBO instead of plain uniforms
+        (DELAYED)> Use UBO or SSBO instead of plain uniforms
         > shader uniform functions
         > SSBO extraction for every shaders
         > optimize buffers to use anywhere effectively
         > improve renderer + code
+        (DONE)> make a better default renderer
         (DONE)> Reduce the default shader code's complexity
         (DONE)> Load Default shader from string
         (DONE)> Shaders should be abled to be loaded by directly supplying string as code
@@ -24,13 +24,13 @@ ENGINE :
         (DONE)> use heap allocation for long term data
     
     ; World : 
-        (UNDER_WORK)> Optimize the existing collision detection algorithms
+        (DELAYED)> Optimize the existing collision detection algorithms
         (DELAYED)> Collision handler should be improved... should be independent to entity but dependent on registry data
-        > addInstancedRenderer is not looking good... fix it
         > Camera implementation
         > cam matrices and model matrices calculations in cpu
-        > Updated renderData
         > better and generalized collision detection algorithm for polygons
+        > Updated renderData
+        (DONE)> addInstancedRenderer is not looking good... fix it
         (DONE)> Getting data from ECSManager can be heavily improved
         (DONE)> Texture binding not looking good... allow upto 16 differenr multiple textures for a single renderer
 

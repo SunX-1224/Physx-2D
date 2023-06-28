@@ -15,7 +15,7 @@ namespace Physx2D {
 	}
 
 	void Camera::setValues(Shader* shader, vec2 res) {
-		shader->setMat3("u_camMatrices", get_matrices(res));
+		shader->setMat3("u_cam_matrices", get_matrices(res));
 		shader->setVec2("u_resolution", res);
 		shader->setFloat("u_fov", fov);
 	}
