@@ -7,25 +7,27 @@
 */
 #include "pch.h"
 
+#define __VA_ARGS0__(x, ...) x
+#define __VA_ARGSN0__(x, ...) __VA_ARGS__
+
 #ifdef PHSX2D_DEBUG
 
 #define LOG_INFO(form, ...) printf("\033[1;32m" form "\033[1;0m", __VA_ARGS__)
 #define LOG_WARN(form, ...) printf("\033[1;33m" form "\033[1;0m", __VA_ARGS__)
 #define LOG_ERROR(form, ...) printf("\033[1;31m" form "\033[1;0m", __VA_ARGS__)
-
+#define PHSX2D_DBG_EXP(EXP__) EXP__
 #else
 
 #define LOG_INFO(form, ...)
 #define LOG_WARN(form, ...)
 #define LOG_ERROR(form, ...)
+#define PHSX2D_DBG_EXP(x) 
 
 #endif
 
-#define __VA_ARGS0__(x, ...) x
-#define __VA_ARGSN0__(x, ...) __VA_ARGS__
 
 #ifdef PHSX2D_ASSERT_ENABLE
-#define PHSX2D_ASSERT(x, ...) if(!(x)) {LOG_ERROR("ASSERTION FAILED : " __VA_ARGS0__(__VA_ARGS__), __VA_ARGSN0__(__VA_ARGS__)); __debugbreak(); }
+#define PHSX2D_HARD_ASSERT(x, ...) if(!(x)) {LOG_ERROR("ASSERTION FAILED : " __VA_ARGS0__(__VA_ARGS__), __VA_ARGSN0__(__VA_ARGS__)); __debugbreak(); }
 #else
-#define PHSX2D_ASSERT(x, ...)
+#define PHSX2D_HARD_ASSERT(x, ...)
 #endif

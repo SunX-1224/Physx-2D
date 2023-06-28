@@ -24,7 +24,7 @@ namespace Physx2D {
         m_window = glfwCreateWindow(properties.WIDTH, properties.HEIGHT, properties.TITLE, NULL, NULL);
         glfwMakeContextCurrent(m_window);
         
-        PHSX2D_ASSERT( gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialize glad%s", "\n");
+        PHSX2D_HARD_ASSERT( gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialize glad%s", "\n");
 
         glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
                 glfwSetWindowSize(window, width, height);

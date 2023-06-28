@@ -34,6 +34,6 @@ Physx2D::Entity::~Entity() {
 		else if (cldr->typeIndex == std::type_index(typeid(AABB)))
 			delete ((AABB*)cldr);
 		else
-			PHSX2D_ASSERT(false, "Invalid Collider%c", '\n');
+			PHSX2D_HARD_ASSERT(false, "Invalid Collider%c", '\n');
 	}
 }

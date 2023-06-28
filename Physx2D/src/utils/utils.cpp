@@ -26,11 +26,13 @@ namespace Physx2D {
 		glShaderSource(id, 1, &source, NULL);
 		glCompileShader(id);
 
-		glGetShaderiv(id, GL_COMPILE_STATUS, &success);
-		if (!success) {
-			glGetShaderInfoLog(id, 512, NULL, infoLog);
-			LOG_ERROR("ERROR: Shader :: Type :: ( %d ) did not compiled successfully\n LOG : %s\n", type, infoLog);
-		}
+		PHSX2D_DBG_EXP(
+			glGetShaderiv(id, GL_COMPILE_STATUS, &success);
+			if (!success) {
+				glGetShaderInfoLog(id, 512, NULL, infoLog);
+				LOG_ERROR("ERROR: Shader :: Type :: ( %d ) did not compiled successfully\n LOG : %s\n", type, infoLog);
+			}
+		);
 		return id;
 	}
 

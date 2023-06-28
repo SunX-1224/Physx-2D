@@ -33,16 +33,15 @@ namespace Physx2D {
 		glLinkProgram(m_ID);
 		
 		// Link status check
-		{
+		PHSX2D_DBG_EXP({
 			int success;
 			char infoLog[512];
-
 			glGetProgramiv(m_ID, GL_LINK_STATUS, &success);
 			if (!success) {
 				glGetProgramInfoLog(m_ID, 512, NULL, infoLog);
 				LOG_ERROR("ERROR : Shader program did not link successfully : \nLOG:%s\n", infoLog);
 			}
-		}
+		});
 
 		glDeleteShader(vertShader);
 		glDeleteShader(fragShader);
@@ -57,37 +56,32 @@ namespace Physx2D {
 	}
 
 	inline void Shader::setBool(const char* name, bool value) {
-		if (glGetUniformLocation(m_ID, name) >= 0)
-			glUniform1i(glGetUniformLocation(m_ID, name), (int)value);
-		else
-			LOG_WARN("WARNING : location of boolean %s not found\n", name);
+		glUniform1i(getUniformLocation(name), (int)value);
 	}
 
 	inline void Shader::setInt(const char* name, int value) {
-		if (glGetUniformLocation(m_ID, name) >= 0)
-			glUniform1i(glGetUniformLocation(m_ID, name), value);
-		else
-			LOG_WARN("WARNING : location of integer %s not found\n", name);
+		glUniform1i(getUniformLocation(name), value);
 	}
 
 	inline void Shader::setFloat(const char* name, float value) {
-		if (glGetUniformLocation(m_ID, name) >= 0)
-			glUniform1f(glGetUniformLocation(m_ID, name), value);
-		else
-			LOG_WARN("WARNING : location of float %s not found\n", name);
+		glUniform1f(getUniformLocation(name), value);
 	}
 
 	inline void Shader::setVec2(const char* name, vec2 vec) {
-		if (glGetUniformLocation(m_ID, name) >= 0)
-			glUniform2f(glGetUniformLocation(m_ID, name), vec.x, vec.y);
-		else
-			LOG_WARN("WARNING : location of vec2 %s not found\n", name);
+		glUniform2f(getUniformLocation(name), vec.x, vec.y);
 	}
 
 	inline void Shader::setMat3(const char* name, mat3 mat) {
-		if (glGetUniformLocation(m_ID, name) >= 0)
-			glUniformMatrix3fv(glGetUniformLocation(m_ID, name), 1, GL_FALSE, &mat.value[0][0]);
-		else
-			LOG_WARN("WARNING : location of mat3 %s not found\n", name);
+		glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, &mat.value[0][0]);
+	}
+
+	GLint Shader::getUniformLocation(const char* loc) {
+		if (m_uniformCache.find(loc) != m_uniformCache.end())
+			return m_uniformCache[loc];
+
+		GLint loc_i = glGetUniformLocation(m_ID, loc);
+		PHSX2D_DBG_EXP(if(loc_i == -1) LOG_WARN("WARNING : Uniform Location : %s not found\n", loc););
+		m_uniformCache[loc] = loc_i;
+		return loc_i;
 	}
 }

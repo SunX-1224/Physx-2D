@@ -7,5 +7,5 @@
 #include "core/entry.h"
 
 Physx2D::Application* Physx2D::CreateApplication() {
-	return new PhysicsTestApp(1000);
+	return new PhysicsTestApp(200);
 }

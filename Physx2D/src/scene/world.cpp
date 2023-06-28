@@ -86,16 +86,16 @@ namespace Physx2D {
 	}
 
 	void World::Update(double delta_time) {
-		float time = TIME;
+		PHSX2D_DBG_EXP(float time = TIME;)
 		handleCollisions();
-		LOG_INFO("\nCollisions : %f\n", (TIME - time) * 1000.f); time = TIME;
+		PHSX2D_DBG_EXP(LOG_INFO("\nCollisions : %f\n", (TIME - time) * 1000.f); time = TIME;)
 		sceneCamera.handleInputs(window->m_window, delta_time);
 		handleScripts(delta_time);
-		LOG_INFO("Script Update : %f\n", (TIME - time) * 1000.f); time = TIME;
+		PHSX2D_DBG_EXP(LOG_INFO("Script Update : %f\n", (TIME - time) * 1000.f); time = TIME;)
 		handlePhysics(delta_time);
-		LOG_INFO("Physics Update : %f\n", (TIME - time) * 1000.f); time = TIME;
+		PHSX2D_DBG_EXP(LOG_INFO("Physics Update : %f\n", (TIME - time) * 1000.f); time = TIME;)
 		updateRenderData();
-		LOG_INFO("RenderData update : %f\n", (TIME - time) * 1000.f); time = TIME;
+		PHSX2D_DBG_EXP(LOG_INFO("RenderData update : %f\n", (TIME - time) * 1000.f); time = TIME;)
 	}
 
 	void World::Render() {
