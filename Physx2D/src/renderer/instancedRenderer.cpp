@@ -12,34 +12,37 @@ namespace Physx2D {
 		Renderer2D(vertices, indices, mode)
 	{
 		m_count = 1;
-		glGenBuffers(1, &m_ivbo);
+		m_ivbo = new Buffer(GL_ARRAY_BUFFER);
 	}
 
 	InstancedRenderer::InstancedRenderer(std::vector<float> vertices, uint32_t numPoints, GLenum mode) :
 		Renderer2D(vertices, numPoints, mode)
 	{
 		m_count = 1;
-		glGenBuffers(1, &m_ivbo);
+		m_ivbo = new Buffer(GL_ARRAY_BUFFER);
 	}
 
 	void InstancedRenderer::InstanceLayout(uint32_t location,uint32_t count, GLenum type, GLsizei stride, uint32_t offset, uint32_t divisor) {
 		m_vao->bind();
-		glBindBuffer(GL_ARRAY_BUFFER, m_ivbo);
+		m_ivbo->bind();
 
 		m_vao->layout(location, count, type, stride, offset);
 		glVertexAttribDivisor(location, divisor);
 
 		m_vao->unbind();
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		m_ivbo->unbind();
 	}
 
 	void InstancedRenderer::InstanceData(void* data, uint32_t count, size_t size_i) {
 		m_count = count;
+
 		m_vao->bind();
-		glBindBuffer(GL_ARRAY_BUFFER, m_ivbo);
-		glBufferData(GL_ARRAY_BUFFER, size_i * count, data, GL_DYNAMIC_DRAW);
+		m_ivbo->bind();
+
+		m_ivbo->setBufferData(data, size_i * count, GL_DYNAMIC_DRAW);
+
 		m_vao->unbind();
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		m_ivbo->unbind();
 	}
 
 	void InstancedRenderer::Draw(Shader* shader) {
@@ -53,9 +56,6 @@ namespace Physx2D {
 	}
 
 	InstancedRenderer::~InstancedRenderer(){
-		glDeleteBuffers(1, &m_ivbo);
-		glDeleteBuffers(1, &m_vbo);
-		if(m_ebo) glDeleteBuffers(1, &m_ebo);
-		delete m_vao;
+		delete m_ivbo;
 	}
 }

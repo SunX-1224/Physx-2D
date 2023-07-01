@@ -31,7 +31,7 @@ namespace Physx2D {
 		void Draw(Shader* shader) override;
 
 	protected:
-		uint32_t m_ivbo;
+		Buffer* m_ivbo;
 		uint32_t m_count;
 	};
 }

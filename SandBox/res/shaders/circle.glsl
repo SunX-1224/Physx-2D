@@ -12,7 +12,7 @@ uniform sampler2D u_textures[2];
 uniform int u_num_textures;
 vec2 precalc(){
 	vec2 fp = gl_FragCoord.xy / u_resolution * 2.0f - 1.0f - fsi.position;
-	return fp/fsi.size/u_fov;
+	return fp*u_fov/fsi.size;
 }
 void main(){
 	vec2 fp = precalc();

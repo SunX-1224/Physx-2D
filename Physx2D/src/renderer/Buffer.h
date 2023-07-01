@@ -18,7 +18,7 @@ namespace Physx2D {
 		Buffer(GLenum type);
 		~Buffer();
 
-		inline void setBufferData(const void* data, size_t size);
+		inline void setBufferData(const void* data, size_t size, GLenum useMode = GL_STATIC_DRAW);
 		inline void bind();
 		inline void bindBase(uint32_t index);
 

@@ -18,13 +18,13 @@ namespace Physx2D {
 		public:
 			vec2 position;
 			float fov = 1.0f;
-			float sensitivity = 0.1f;
+			float sensitivity = 0.2f;
 
-			vec2 speed = vec2(100.f, 100.f);
+			vec2 speed = vec2(1.f);
 
 			Camera(vec2 position = vec2(), float fov = 1.0f);
 
-			mat3 get_matrices(vec2 res);
+			inline mat3 get_matrices(vec2 res);
 			void setValues(Shader* shader, vec2 res);
 			void handleInputs(GLFWwindow* window, float delta_time);
 	};

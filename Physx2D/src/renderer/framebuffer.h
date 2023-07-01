@@ -17,6 +17,7 @@
 
 #include "texture.h"
 #include "vao.h"
+#include "Buffer.h"
 #include "../utils/defaults.h"
 
 namespace Physx2D {
@@ -42,6 +43,7 @@ namespace Physx2D {
 		uint32_t m_rbo = NULL;
 		uint32_t m_slot = NULL;
 		VAO* m_vao;
+		Buffer* m_quad_buffer;
 		Texture* m_texture;
 		void attachVertexArray();
 		void attachRenderBuffer();

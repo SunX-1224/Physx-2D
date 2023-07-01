@@ -13,24 +13,23 @@ namespace Physx2D {
 		return u.x * b.x + u.y * b.y;
 	}
 
-	mat3 Math::get_ortho2d(vec2 center, vec2 area) {
-		vec2 btm_left = center - area * 0.5f;
-		vec2 top_right = center + area * 0.5f;
+	inline mat3 Math::get_ortho2d(vec2 center, vec2 area) {
+		vec2 b_l = center - area * 0.5f;
+		vec2 t_r = center + area * 0.5f;
 
-		mat3 ortho = mat3(1.0f);
-		ortho.value[0][0] = 2.0f / (top_right.x - btm_left.x);
-		ortho.value[1][1] = 2.0f / (top_right.y - btm_left.y);
-
-		ortho.value[0][2] = -(btm_left.x + top_right.x) / (btm_left.x - top_right.x);
-		ortho.value[1][2] = -(btm_left.y + top_right.y) / (btm_left.y - top_right.y);
-		return ortho;
+		return {
+			{2.0f / (t_r.x - b_l.x), 0.f, 0.f},
+			{0.f, 2.0f / (t_r.y - b_l.y), 0.f},
+			{ -(b_l.x + t_r.x) / (b_l.x - t_r.x),   -(b_l.y + t_r.y) / (b_l.y - t_r.y), 1.f}
+		};
 	}
 
-	mat3 Math::get_view2d(tvec2<float> pos) {
-		mat3 view = mat3(1.0f);
-		view.value[0][2] = -pos.x;
-		view.value[1][2] = -pos.y;
-		return view;
+	inline mat3 Math::get_view2d(tvec2<float> pos) {
+		return {
+			{1.f, 0.f, 0.f},
+			{0.f, 1.f, 0.f},
+			{-pos.x, -pos.y,1.f}
+		};
 	}
 
 	inline float Math::random_i(uint32_t seed)
@@ -95,21 +94,58 @@ namespace Physx2D {
 	}
 
 	mat3 mat3::operator+(mat3 u) {
-		float x[3][3]{
-			{value[0][0] + u.value[0][0],value[0][1] + u.value[0][1],value[0][2] + u.value[0][2]},
-			{value[1][0] + u.value[1][0],value[1][1] + u.value[1][1],value[1][2] + u.value[1][2]},
-			{value[2][0] + u.value[2][0],value[2][1] + u.value[2][1],value[2][2] + u.value[2][2]}
+		return {
+			{_0[0] + u[0][0],_0[1] + u[0][1],_0[2] + u[0][2]},
+			{_1[0] + u[1][0],_1[1] + u[1][1],_1[2] + u[1][2]},
+			{_2[0] + u[2][0],_2[1] + u[2][1],_2[2] + u[2][2]}
 		};
-		return mat3(x);
 	}
 
 	mat3 mat3::operator-(mat3 u) {
-		float x[3][3]{
-			{value[0][0] - u.value[0][0],value[0][1] - u.value[0][1],value[0][2] - u.value[0][2]},
-			{value[1][0] - u.value[1][0],value[1][1] - u.value[1][1],value[1][2] - u.value[1][2]},
-			{value[2][0] - u.value[2][0],value[2][1] - u.value[2][1],value[2][2] - u.value[2][2]}
+		return mat3{
+			{_0[0] - u[0][0],_0[1] - u[0][1],_0[2] - u[0][2]},
+			{_1[0] - u[1][0],_1[1] - u[1][1],_1[2] - u[1][2]},
+			{_2[0] - u[2][0],_2[1] - u[2][1],_2[2] - u[2][2]}
 		};
-		return mat3(x);
+	}
+
+	mat3 mat3::operator*(mat3 u)
+	{
+		mat3 res(0.f);
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				for(int k = 0; k < 3; k++) {
+					res[i][j] += (*this)[i][k] * u[k][j];
+				}
+			}
+		}
+		return res;
+	}
+
+	mat3 mat3::operator*(float x)
+	{
+		mat3 _;
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				_[i][j] =(*this)[i][j] * x;
+			}
+		}
+		return _;
+	}
+	
+	mat3 mat3::operator/(float x)
+	{
+		mat3 _;
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				_[i][j] = (*this)[i][j]/x;
+			}
+		}
+		return _;
+	}
+
+	float* mat3::operator[](int i) {
+		return (float*) this + 3*i;
 	}
 
 	template class PHYSX2D_API tvec2<int>;

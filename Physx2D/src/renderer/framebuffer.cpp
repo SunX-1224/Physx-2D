@@ -18,6 +18,7 @@ namespace Physx2D {
 	FrameBuffer::~FrameBuffer() {
 		glDeleteFramebuffers(1, &m_ID);
 		glDeleteRenderbuffers(1, &m_rbo);
+		delete m_quad_buffer;
 		delete m_vao;
 		delete m_texture;
 	}
@@ -39,16 +40,14 @@ namespace Physx2D {
 
 	void FrameBuffer::attachVertexArray() {
 
-		unsigned int  rectVBO;
-
 		m_vao->bind();
-		glGenBuffers(1, &rectVBO);
+		m_quad_buffer = new Buffer(GL_ARRAY_BUFFER);
 
-		glBindBuffer(GL_ARRAY_BUFFER, rectVBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(FRAME_QUAD), &FRAME_QUAD, GL_STATIC_DRAW);
+		m_quad_buffer->setBufferData(&FRAME_QUAD, sizeof(FRAME_QUAD));
 
 		m_vao->layout(0, 2, GL_FLOAT, 4 * sizeof(float), 0);
 		m_vao->layout(1, 2, GL_FLOAT, 4 * sizeof(float), 2 * sizeof(float));
+
 		m_vao->unbind();
 	}
 

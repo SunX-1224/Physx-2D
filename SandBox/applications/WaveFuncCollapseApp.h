@@ -11,18 +11,17 @@ public:
 
 	WaveFuncCollapseApp() {
 		world = new World(m_window);
-		world->loadTexture("res/images/textures/test.png", "wfc", DEFAULT);
+		world->loadTexture("res/images/textures/test.png", "wfc");
+		world->loadDefaultRenderer();
 
 		initwfc();
 
-		world->loadDefaultRenderer();
 		LOG_INFO("%d, %d\n", m_window->GetWidth(), m_window->GetHeight());
 	}
 
 	~WaveFuncCollapseApp() {
 		delete world;
 		delete wfc;
-		LOG_INFO("Destructor called%c", '\n');
 	}
 
 	void initwfc() {
@@ -87,7 +86,7 @@ public:
 				tfr->Position = vec2((x-gridsize.x/2)*(tfr->Scale.x+2.f), (y-gridsize.y/2)*(tfr->Scale.y+2.f));
 				
 				ent->AddComponent<SpriteRenderer>(
-					DEFAULT, 
+					QUAD, 
 					vec4(1.f), 
 					offset_from_ind(fin_states[ivec2(x, y)], ivec2(3, 2)),
 					tilesize

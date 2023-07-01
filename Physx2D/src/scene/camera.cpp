@@ -7,14 +7,12 @@ namespace Physx2D {
 		this->fov = fov;
 	}
 
-	mat3 Camera::get_matrices(vec2 res) {
-		mat3 mat = Math::get_ortho2d(vec2(), res * fov);
-		mat.value[2][0] += -mat.value[0][0] * position.x;
-		mat.value[2][1] += -mat.value[1][1] * position.y;
+	inline mat3 Camera::get_matrices(vec2 res) {
+		mat3 mat = Math::get_ortho2d(vec2(), res * fov) * Math::get_view2d(position);
 		return mat;
 	}
 
-	void Camera::setValues(Shader* shader, vec2 res) {
+	inline void Camera::setValues(Shader* shader, vec2 res) {
 		shader->setMat3("u_cam_matrices", get_matrices(res));
 		shader->setVec2("u_resolution", res);
 		shader->setFloat("u_fov", fov);

@@ -38,8 +38,8 @@ vec3 conwaysgameoflife(ivec2 coords){
     }
     
     if(value>0.5f && !(n>=2.f && n<=3.f)) return vec3(0.f);
-    if(value<0.5f && abs(n-3.f)<0.1f) return vec3(1.f);
-    return vec3(value);
+    if(value<0.8f && abs(n-3.f)<0.5f) return vec3(1.f);
+    return vec3(value*0.999f);
 }
 
 vec3 evanslargerthanlife(ivec2 coords){

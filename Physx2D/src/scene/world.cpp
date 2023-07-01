@@ -169,7 +169,8 @@ namespace Physx2D {
 	}
 
 	inline void World::loadTexture(const char* path, const char* type, uint32_t ID, int slot) {
-		textures[ID].push_back(new Texture(path, type, slot < 0 ? textures[ID].size() : slot));
+		uint32_t _id = ID == DEFAULT ? QUAD : ID;
+		textures[_id].push_back(new Texture(path, type, slot < 0 ? textures[_id].size() : slot));
 	}
 
 	InstancedRenderer* World::addInstancedRenderer(uint32_t type, std::vector<float> vertices, uint32_t numPoints,GLenum draw_mode) {

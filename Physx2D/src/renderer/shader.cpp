@@ -72,7 +72,7 @@ namespace Physx2D {
 	}
 
 	inline void Shader::setMat3(const char* name, mat3 mat) {
-		glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, &mat.value[0][0]);
+		glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, (float*) & mat);
 	}
 
 	GLint Shader::getUniformLocation(const char* loc) {

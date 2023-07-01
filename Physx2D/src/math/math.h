@@ -211,16 +211,18 @@ namespace Physx2D {
 	};
 		
 	struct PHYSX2D_API mat3 {
-			float value[3][3];
+		float _0[3]{ 0.f,0.f,0.f };
+		float _1[3]{ 0.f,0.f,0.f };
+		float _2[3]{ 0.f,0.f,0.f };
 
-			mat3(float x = 0.0f) :value{ {x, 0.f, 0.f}, {0.f, x, 0.f}, {0.f, 0.f, x} } {}
-			mat3(float u[3][3]) {
-				memcpy(&value, &u, sizeof(float)*9);
-			}
+		mat3 operator +(mat3 u);
+		mat3 operator -(mat3 u);
+		mat3 operator *(mat3 u);
+		mat3 operator *(float x);
+		mat3 operator /(float x);
 
-			mat3 operator +(mat3 u);
-			mat3 operator -(mat3 u);
-		};
+		float* operator[](int i);
+	};
 
 	class PHYSX2D_API Random {
 		public:
@@ -246,8 +248,8 @@ namespace Physx2D {
 		static inline float dot(tvec2<int> u, tvec2<int> b);
 		static inline float dot(tvec2<float> u, tvec2<float> b);
 
-		static mat3 get_ortho2d(vec2 center, vec2 area);
-		static mat3 get_view2d(tvec2<float> pos);
+		static inline mat3 get_ortho2d(vec2 center, vec2 area);
+		static inline mat3 get_view2d(tvec2<float> pos);
 
 		static inline float random_i(uint32_t seed);
 		static inline float random_f(uint32_t seed);

@@ -6,16 +6,15 @@ CURRENT REPORTS :
     
 ENGINE :
     ; Math :
-        (UNDER_WORK)> matrices operations : add, sub, mult, scalar_div
-        (UNDER_WORK)> faster matrices multiplication algorithms
-        > projection matrices
-    
+        (DONE)> generalized projection matrices
+        (DONE)> matrices operations : add, sub, mult, scalar_div
+
     ; Renderer :
-        (DELAYED)> Use UBO or SSBO instead of plain uniforms
+        > Use UBO or SSBO instead of plain uniforms
         > shader uniform functions
         > SSBO extraction for every shaders
-        > optimize buffers to use anywhere effectively
         > improve renderer + code
+        (DONE)> optimize buffers to use anywhere effectively
         (DONE)> make a better default renderer
         (DONE)> Reduce the default shader code's complexity
         (DONE)> Load Default shader from string
@@ -24,8 +23,8 @@ ENGINE :
         (DONE)> use heap allocation for long term data
     
     ; World : 
-        (DELAYED)> Optimize the existing collision detection algorithms
-        (DELAYED)> Collision handler should be improved... should be independent to entity but dependent on registry data
+        > Optimize the existing collision detection algorithms
+        > Collision handler should be improved... should be independent to entity but dependent on registry data
         > Camera implementation
         > cam matrices and model matrices calculations in cpu
         > better and generalized collision detection algorithm for polygons

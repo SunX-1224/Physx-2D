@@ -8,10 +8,9 @@ namespace Physx2D {
 		this->m_type = type;
 	}
 
-	inline void Buffer::setBufferData(const void* data, size_t size) {
+	inline void Buffer::setBufferData(const void* data, size_t size, GLenum useMode) {
 		glBindBuffer(m_type, m_ID);
-		glBufferData(m_type, size, data, GL_STATIC_DRAW);
-		glBindBuffer(m_type, 0);
+		glBufferData(m_type, size, data, useMode);
 	}
 
 	inline void Buffer::bind() {
