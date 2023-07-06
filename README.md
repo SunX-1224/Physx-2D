@@ -99,3 +99,12 @@ Time to time, some interesting simulations are added here. This is a general pla
 * Wave Function Collapse Algorithm :
   * Some idea of quantum mechanics implemented in this engine to do some procedural generation of complex things from simple things
   * *Incomplete* (Backtracking not implemented but still works fine)
+
+# Others
+A project environment setup system is implemented using premake. Build system for windows is up and working, for Linux it is under testing as of now.
+
+There are many things I did not explained about the engine here. Take a look at code or contact me if you want to understand it.
+
+* Future plans for the project (large or small) are inside .todo file. Take a look if you want.
+
+Anyone is free to contribute to some bug-fixing, feature-adding, suggestions, etc. Enjoy !!!!!!!!!!
