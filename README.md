@@ -105,6 +105,6 @@ A project environment setup system is implemented using premake. Build system fo
 
 There are many things I did not explained about the engine here. Take a look at code or contact me if you want to understand it.
 
-* Future plans for the project (large or small) are inside .todo file. Take a look if you want *
+*Future plans for the project (large or small) are inside .todo file. Take a look if you want*
 
 Anyone is free to contribute to some bug-fixing, feature-adding, suggestions, etc. Enjoy !!!!!!!!!!
