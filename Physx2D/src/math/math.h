@@ -11,7 +11,7 @@
 		> mat3 which is a 3x3 matrix of floats
 		> Random : seeded random number generator with auto seed change at each generation
 		> Math class which contains few static functionalities like random numbers, dot product,
-		getOrtho2D, getView2D and QuakeIII's fast inverse sqrt algorithm
+		getOrtho2D, getView2D, etc.
 */
 #include "pch.h"
 #include "core/core.h"

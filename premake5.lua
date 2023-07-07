@@ -53,6 +53,18 @@ workspace "Physx2D"
                 "PHSX2D_BUILD_DLL",
                 "PHSX2D_PLATFORM_WINDOWS",
             }
+        
+        filter "system:linux"
+            systemversion "latest"
+            
+            postbuildcommands {
+                "{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/SandBox",
+            }
+
+            defines {
+                "PHSX2D_BUILD_DLL",
+                "PHSX2D_PLATFORM_LINUX",
+            }
 
         filter "configurations:Debug"
             defines {"PHSX2D_DEBUG", "PHSX2D_ASSERT_ENABLE"}

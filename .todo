@@ -56,7 +56,7 @@ SandBox :
 
 
 Overall :
-    ; build configuration for linux
+    (UNDER_WORK); build configuration for linux
     ; Generic datas : Remove the parts where 2D stuff is forced on
     ; simplify everything use basic data-types to later on migrate to C
 
