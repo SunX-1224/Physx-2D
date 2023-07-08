@@ -39,9 +39,9 @@ namespace Physx2D {
 		inline void Draw(Shader& shader);
 
 	private:
-		uint32_t m_ID;
-		uint32_t m_rbo = NULL;
-		uint32_t m_slot = NULL;
+		uint32_t m_ID = 0;
+		uint32_t m_rbo = 0;
+		uint32_t m_slot = 0;
 		VAO* m_vao;
 		Buffer* m_quad_buffer;
 		Texture* m_texture;

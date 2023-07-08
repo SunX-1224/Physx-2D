@@ -15,5 +15,6 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <cfloat>
 #include "core/Log.h"
 #include "core/core.h"

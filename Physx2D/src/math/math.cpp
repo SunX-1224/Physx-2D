@@ -111,7 +111,7 @@ namespace Physx2D {
 
 	mat3 mat3::operator*(mat3 u)
 	{
-		mat3 res(0.f);
+		mat3 res;
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				for(int k = 0; k < 3; k++) {

@@ -10,6 +10,10 @@
 		#define	PHYSX2D_API _declspec(dllimport)
 	#endif
 #else
-	#error ONLY_WINDOWS_SUPPORTED
+	#ifdef PHSX2D_BUILD_DLL
+		#define PHYSX2D_API __attribute__((visibility("default")))
+	#else
+		#define PHYSX2D_API 
+	#endif
 #endif
 

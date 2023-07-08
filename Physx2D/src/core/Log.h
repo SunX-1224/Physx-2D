@@ -25,9 +25,16 @@
 
 #endif
 
+#ifdef PHSX2D_PLATFORM_WINDOWS
+	#define dbgbrk() __debugbreak()
+#elif PHSX2D_PLATFORM_LINUX
+	#define dbgbrk() __builtin_trap()
+#else
+	#error "Unsupported OS"
+#endif
 
 #ifdef PHSX2D_ASSERT_ENABLE
-#define PHSX2D_HARD_ASSERT(x, ...) if(!(x)) {LOG_ERROR("ASSERTION FAILED : " __VA_ARGS0__(__VA_ARGS__), __VA_ARGSN0__(__VA_ARGS__)); __debugbreak(); }
+#define PHSX2D_HARD_ASSERT(x, ...) if(!(x)) {LOG_ERROR("ASSERTION FAILED : " __VA_ARGS0__(__VA_ARGS__), __VA_ARGSN0__(__VA_ARGS__)); dbgbrk(); }
 #else
 #define PHSX2D_HARD_ASSERT(x, ...)
 #endif
