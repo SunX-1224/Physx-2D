@@ -1,6 +1,6 @@
 # Physx-2D
 
-Physx2D is a in-development early stage physics and rendering engine for mainly 2D graphics. It is developed only for windows 64 bit OS only. Very few things are implemented until now relating to rendering and physics.
+Physx2D is a in-development early stage physics and rendering engine for mainly 2D graphics. It is now programmed for supporting windows and linux only.
 
 # Rendering 
 Inside this different options related to 2D rendering is implemented, which are listed as below,

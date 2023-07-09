@@ -32,20 +32,6 @@ workspace "Physx2D"
             "%{prj.name}/src"
         }
 
-<<<<<<< HEAD
-        libdirs {
-            "%{prj.name}/libraries/lib"
-        }
-        
-        filter "files:**.h"
-			flags {"ExcludeFromBuild"}
-	
-        filter "system:windows"
-            systemversion "latest"
-            links {"glfw3", "opengl32"}
-            postbuildcommands {"COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/SandBox"}
-            defines { "PHSX2D_BUILD_DLL", "PHSX2D_PLATFORM_WINDOWS"}
-=======
         libdirs {"%{prj.name}/libraries/lib_%{cfg.system}"}
 
         filter "system:windows"
@@ -53,21 +39,13 @@ workspace "Physx2D"
             links {"glfw3", "opengl32"}
             postbuildcommands {"{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/SandBox"}
             defines {"PHSX2D_BUILD_DLL","PHSX2D_PLATFORM_WINDOWS"}
->>>>>>> d5f14d6 (project build fix)
         
         filter "system:linux"
             systemversion "latest"
             buildoptions { "-fvisibility=hidden"}
-<<<<<<< HEAD
-            linkoptions { "-shared" }
             links {"glfw3", "GL"}
             postbuildcommands {"{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/SandBox"}
             defines { "PHSX2D_BUILD_DLL", "PHSX2D_PLATFORM_LINUX"}
-=======
-            links {"glfw3", "GL"}
-            postbuildcommands {"{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/SandBox"}
-            defines {"PHSX2D_BUILD_DLL","PHSX2D_PLATFORM_LINUX"}
->>>>>>> d5f14d6 (project build fix)
 
         filter "configurations:Debug"
             defines {"PHSX2D_DEBUG", "PHSX2D_ASSERT_ENABLE"}
@@ -82,7 +60,7 @@ workspace "Physx2D"
             optimize "on"
 
         filter "files:**/libraries/src/**.*"
-			flags { "NoPCH" }
+		    flags { "NoPCH" }
 
     project "SandBox"
         location "SandBox"
@@ -99,9 +77,6 @@ workspace "Physx2D"
             "%{prj.name}/res/**.*",
             "%{prj.name}/applications/**.*"
         }
-        
-        filter "files:**.h"
-    	     flags {"ExcludeFromBuild"}
 
         includedirs {
             "Physx2D/libraries/include",
@@ -112,29 +87,20 @@ workspace "Physx2D"
 
         filter "system:windows"
             systemversion "latest"
-<<<<<<< HEAD
-            postbuildcommands {"{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/SandBox"}
-            defines {"PHSX2D_BUILD_DLL","PHSX2D_PLATFORM_WINDOWS"}
+            defines {"PHSX2D_PLATFORM_WINDOWS"}
 	
-		filter "system:linux"
+	filter "system:linux"
             systemversion "latest"
-            postbuildcommands {"{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/SandBox"}
-            defines {"PHSX2D_BUILD_DLL","PHSX2D_PLATFORM_LINUX"}
+            defines {"PHSX2D_PLATFORM_LINUX"}
         
-		filter "configurations:Debug"
+	filter "configurations:Debug"
             defines {"PHSX2D_DEBUG", "PHSX2D_ASSERT_ENABLE"}
-=======
-            defines "PHSX2D_PLATFORM_WINDOWS"
-
-        filter "configurations:Debug"
-            defines "PHSX2D_DEBUG"
->>>>>>> d5f14d6 (project build fix)
             symbols "on"
 
-		filter "configurations:Release"
+	filter "configurations:Release"
             defines {"PHSX2D_RELEASE", "PHSX2D_ASSERT_ENABLE"}
             optimize "on"
 
-		filter "configurations:Dist"
+	filter "configurations:Dist"
             defines {"PHSX2D_DIST", "PHSX2D_ASSERT_ENABLE"}
             optimize "on"
