@@ -32,6 +32,7 @@ workspace "Physx2D"
             "%{prj.name}/src"
         }
 
+<<<<<<< HEAD
         libdirs {
             "%{prj.name}/libraries/lib"
         }
@@ -44,14 +45,29 @@ workspace "Physx2D"
             links {"glfw3", "opengl32"}
             postbuildcommands {"COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/SandBox"}
             defines { "PHSX2D_BUILD_DLL", "PHSX2D_PLATFORM_WINDOWS"}
+=======
+        libdirs {"%{prj.name}/libraries/lib_%{cfg.system}"}
+
+        filter "system:windows"
+            systemversion "latest"
+            links {"glfw3", "opengl32"}
+            postbuildcommands {"{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/SandBox"}
+            defines {"PHSX2D_BUILD_DLL","PHSX2D_PLATFORM_WINDOWS"}
+>>>>>>> d5f14d6 (project build fix)
         
         filter "system:linux"
             systemversion "latest"
             buildoptions { "-fvisibility=hidden"}
+<<<<<<< HEAD
             linkoptions { "-shared" }
             links {"glfw3", "GL"}
             postbuildcommands {"{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/SandBox"}
             defines { "PHSX2D_BUILD_DLL", "PHSX2D_PLATFORM_LINUX"}
+=======
+            links {"glfw3", "GL"}
+            postbuildcommands {"{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/SandBox"}
+            defines {"PHSX2D_BUILD_DLL","PHSX2D_PLATFORM_LINUX"}
+>>>>>>> d5f14d6 (project build fix)
 
         filter "configurations:Debug"
             defines {"PHSX2D_DEBUG", "PHSX2D_ASSERT_ENABLE"}
@@ -92,12 +108,11 @@ workspace "Physx2D"
             "Physx2D/src"
         }
 
-        links {
-            "Physx2D"
-        }
+        links {"Physx2D"}
 
         filter "system:windows"
             systemversion "latest"
+<<<<<<< HEAD
             postbuildcommands {"{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/SandBox"}
             defines {"PHSX2D_BUILD_DLL","PHSX2D_PLATFORM_WINDOWS"}
 	
@@ -108,6 +123,12 @@ workspace "Physx2D"
         
 		filter "configurations:Debug"
             defines {"PHSX2D_DEBUG", "PHSX2D_ASSERT_ENABLE"}
+=======
+            defines "PHSX2D_PLATFORM_WINDOWS"
+
+        filter "configurations:Debug"
+            defines "PHSX2D_DEBUG"
+>>>>>>> d5f14d6 (project build fix)
             symbols "on"
 
 		filter "configurations:Release"
