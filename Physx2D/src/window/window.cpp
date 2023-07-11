@@ -44,44 +44,6 @@ namespace Physx2D {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
-    inline void Window::SetVsync(bool value) {
-        glfwSwapInterval(value);
-    }
-
-    inline bool Window::ShouldClose() {
-        return glfwWindowShouldClose(m_window);
-    }
-
-    inline void Window::SetClose(bool value){
-        glfwSetWindowShouldClose(m_window, value);
-    }
-
-    inline ivec2 Window::GetResolution() const {
-        return ivec2(properties.WIDTH, properties.HEIGHT);
-    }
-
-    inline int Window::GetWidth() const {
-        return properties.WIDTH;
-    }
-
-    inline int Window::GetHeight() const {
-        return properties.HEIGHT;
-    }
-
-    inline void Window::FillScreen(Color color) {
-        glClearColor(color.x, color.y, color.z, color.w);
-        glClear(GL_COLOR_BUFFER_BIT);
-    }
-
-    inline void Window::SetTitle(const char* title){
-        glfwSetWindowTitle(m_window, properties.TITLE = title);
-    }
-
-    inline void Window::OnUpdate() {
-        glfwPollEvents();
-        glfwSwapBuffers(m_window);
-    }
-
     Window::~Window() {
         glfwDestroyWindow(m_window);
     }

@@ -25,8 +25,17 @@ namespace Physx2D {
 		VAO();
 		~VAO();
 
-		inline void layout(GLuint location, GLuint count, GLenum type, GLuint stride, unsigned int offset);
-		inline void bind();
-		inline void unbind();
+		inline void layout(GLuint location, GLuint count, GLenum type, GLuint stride, unsigned int offset) {
+			glEnableVertexAttribArray(location);
+			glVertexAttribPointer(location, count, type, GL_FALSE, stride, (void*)offset);
+		}
+
+		inline void bind() {
+			glBindVertexArray(m_ID);
+		}
+
+		inline void unbind() {
+			glBindVertexArray(0);
+		}
 	};
 }

@@ -40,13 +40,40 @@ namespace Physx2D {
 			int _height = 800
 		);
 		~Texture();
-		inline void bindImageTextureMode(GLenum mode, GLenum type, int slot = -1);
-		inline void unbindImageTextureMode(GLenum mode, GLenum type, int slot = -1);
-		inline void texUnit(Shader* shader, const char* uniform);
-		inline void bind(int slot = -1);
-		static inline void unbind();
-		inline void set_property(GLenum target, GLenum pname, GLenum parameter);
-		uint32_t ID();
+
+		inline void bind(int slot = -1) {
+		
+			glActiveTexture(GL_TEXTURE0 + (slot<0?m_slot:slot));
+			glBindTexture(GL_TEXTURE_2D, m_ID);
+		}
+
+		inline void bindImageTextureMode(GLenum mode, GLenum type, int slot = -1) {
+			bind();
+			glBindImageTexture(slot<0?m_slot:slot, m_ID, 0, GL_FALSE, 0, mode, type);
+			unbind();
+		}
+
+		inline void unbindImageTextureMode(GLenum mode, GLenum type, int slot = -1) {
+			glBindImageTexture(slot < 0 ? m_slot : slot, 0, 0, GL_FALSE, 0, mode, type);
+		}
+
+		inline void texUnit(Shader* shader, const char* uniform) {
+			shader->use();
+			shader->setInt(uniform, m_slot);
+		}
+
+		inline void unbind() {
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
+
+		inline void set_property(GLenum target, GLenum pname, GLenum parameter) {
+			glTexParameteri(target, pname, parameter);
+		}
+
+		inline uint32_t ID() {
+			return m_ID;
+		}
+
 	private:
 		GLuint m_ID;
 

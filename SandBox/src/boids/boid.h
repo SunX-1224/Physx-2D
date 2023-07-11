@@ -21,7 +21,7 @@ class Boid :public ScriptObject {
 		uint32_t n_agents;
 		std::vector<Agent> agents;
 
-		const float aware_radius = 30.f;
+		const float aware_radius = 80.f;
 		ivec2 bounds;
 
 		Boid(uint32_t n, ivec2 bounds = ivec2(760, 400));

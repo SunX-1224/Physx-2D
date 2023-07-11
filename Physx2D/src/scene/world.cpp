@@ -151,28 +151,6 @@ namespace Physx2D {
 		return ent;
 	}
 
-	inline void World::loadShader(const char* vert, const char* frag, uint32_t ID, bool is_path) {
-		/*
-			Every Shader should have some default uniforms as of now.
-			> u_time for time
-			> u_textures[16] * for different texture samples(16 is max number of textures for each renderer)
-			> u_num_textures * for actual number of textures bound
-			> u_cam_matrices * for projection matrices
-			> u_fov for field of view of camera (zoom level)
-			> u_resolution for screen resolution
-		*/
-		if (shaders.find(ID) != shaders.end()) {
-			LOG_WARN("Replacing existing shader with new one.. ID : (%u)\n", ID);
-			delete shaders[ID];
-		}
-		shaders[ID] = new Shader(vert, frag, is_path);
-	}
-
-	inline void World::loadTexture(const char* path, const char* type, uint32_t ID, int slot) {
-		uint32_t _id = ID == DEFAULT ? QUAD : ID;
-		textures[_id].push_back(new Texture(path, type, slot < 0 ? textures[_id].size() : slot));
-	}
-
 	InstancedRenderer* World::addInstancedRenderer(uint32_t type, std::vector<float> vertices, uint32_t numPoints,GLenum draw_mode) {
 		
 		if (renderers.find(type) != renderers.end())

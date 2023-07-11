@@ -99,25 +99,21 @@ namespace Physx2D {
 		inline float length() {
 			return sqrt(x * x + y * y + z * z);
 		}
-		inline tvec3 operator =(tvec3 v)
-		{
+		inline tvec3 operator =(tvec3 v) {
 			x = v.x, y = v.y, z = v.z;
 			return *this;
 		}
-		inline tvec3 operator -()
-		{
+		inline tvec3 operator -() {
 			return tvec3(-x, -y, -z);
 		}
-		inline tvec3 operator +(tvec3 v)
-		{
+		inline tvec3 operator +(tvec3 v) {
 			return tvec3(x + v.x, y + v.y, z + v.z);
 		}
 		inline tvec3 operator +=(tvec3 v) {
 			x += v.x, y += v.y, z += v.z;
 			return *this;
 		}
-		inline tvec3 operator -(tvec3 v)
-		{
+		inline tvec3 operator -(tvec3 v) {
 			return tvec3(x - v.x, y - v.y, z - v.z);
 		}
 		inline tvec3 operator -=(tvec3 v) {
@@ -205,9 +201,15 @@ namespace Physx2D {
 		centerRect(float x_, float y_, float w_, float h_) :x(x_), y(y_), w(w_), h(h_) {}
 		centerRect(tvec2<float> cen, tvec2<float> res) :x(cen.x), y(cen.y), w(res.x), h(res.y) {}
 
-		inline bool contains(tvec2<float> point);
-		inline bool intersects(centerRect n);
-		inline centerRect getPart(float xp, float yp);
+		inline bool contains(tvec2<float> point){
+			return point.x > (x - w * 0.5f) && point.x<(x + w * 0.5f) && point.y >(y - h * 0.5f) && point.y < (h * 0.5f + y);
+		}
+		inline bool intersects(centerRect n) {
+			return abs(x - n.x) < ((w + n.w) * 0.5f) && abs(y - n.y) < ((h + n.h) * 0.5f);
+		}
+		inline centerRect getPart(float xp, float yp) {
+			return centerRect(x + xp * 0.5f * w, y + yp * 0.5f * h, abs(xp) * w, abs(yp) * h);
+		}
 	};
 		
 	struct PHYSX2D_API mat3 {
@@ -224,37 +226,78 @@ namespace Physx2D {
 		float* operator[](int i);
 	};
 
+	class PHYSX2D_API Math {
+	public:
+		static const double PI;
+
+
+		static inline float dot(tvec2<int> u, tvec2<int> b){
+			return u.x * b.x + u.y * b.y;
+		}
+		static inline float dot(tvec2<float> u, tvec2<float> b) {
+			return u.x * b.x + u.y * b.y;
+		}
+
+		static inline mat3 get_ortho2d(vec2 center, vec2 area){
+			vec2 b_l = center - area * 0.5f;
+			vec2 t_r = center + area * 0.5f;
+
+			return {
+				{2.0f / (t_r.x - b_l.x), 0.f, 0.f},
+				{0.f, 2.0f / (t_r.y - b_l.y), 0.f},
+				{ -(b_l.x + t_r.x) / (b_l.x - t_r.x),   -(b_l.y + t_r.y) / (b_l.y - t_r.y), 1.f}
+			};
+		}
+		static inline mat3 get_view2d(tvec2<float> pos){
+			return {
+				{1.f, 0.f, 0.f},
+				{0.f, 1.f, 0.f},
+				{-pos.x, -pos.y,1.f}
+			};
+		}
+
+		static inline float random_i(uint32_t seed){
+			seed = seed * 747796405 + 2891336453;
+			uint32_t result = ((seed >> ((seed >> 28) + 4)) ^ seed) * 277803737;
+			result = (result >> 22) ^ result;
+
+			return result;
+		}
+		static inline float random_f(uint32_t seed) {
+			return random_i(seed) / 0xffffffff;
+		}
+
+		static inline int randomr_i(int a, int b) {
+			float x = (random_f(a) + random_f(b)) / 2.f;
+			return a + (int)(x * (b - a));
+		}
+		static inline float randomr_f(float a, float b){
+			float x = (random_f(a * 1000) + random_f(b * 2000)) / 2.f;
+			return a + x * (b - a);
+		}	
+	};
+
 	class PHYSX2D_API Random {
 		public:
 			Random(uint32_t seed);
 
-			inline uint32_t rand_i();
-			inline int randr_i(int a, int b);
+			inline uint32_t rand_i(){
+				return Math::random_i(seed_i++);
+			}
+			inline int randr_i(int a, int b) {
+				return a + Math::random_f(seed_i++) * (b - a);
+			}
 
-			inline float rand_f();
-			inline float randr_f(float a, float b);
+			inline float rand_f(){
+				return Math::random_f(seed_f++);
+			}
+			inline float randr_f(float a, float b){
+				return a + Math::random_f(seed_f++) * (b - a);
+			}
 
 		private:
 			uint32_t seed_i;
 			uint32_t seed_f;
 	};
 
-
-	class PHYSX2D_API Math {
-	public:
-		static const double PI;
-
-
-		static inline float dot(tvec2<int> u, tvec2<int> b);
-		static inline float dot(tvec2<float> u, tvec2<float> b);
-
-		static inline mat3 get_ortho2d(vec2 center, vec2 area);
-		static inline mat3 get_view2d(tvec2<float> pos);
-
-		static inline float random_i(uint32_t seed);
-		static inline float random_f(uint32_t seed);
-
-		static inline int randomr_i(int a, int b);
-		static inline float randomr_f(float a, float b);
-	};
 }

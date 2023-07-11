@@ -47,40 +47,7 @@ namespace Physx2D {
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	inline void Texture::bindImageTextureMode(GLenum mode, GLenum type, int slot) {
-		bind();
-		glBindImageTexture(slot<0?m_slot:slot, m_ID, 0, GL_FALSE, 0, mode, type);
-		unbind();
-	}
-
-	inline void Texture::unbindImageTextureMode(GLenum mode, GLenum type, int slot) {
-		glBindImageTexture(slot < 0 ? m_slot : slot, 0, 0, GL_FALSE, 0, mode, type);
-	}
-
-	void Texture::texUnit(Shader* shader, const char* uniform) {
-		shader->use();
-		shader->setInt(uniform, m_slot);
-	}
-
-	void Texture::bind(int slot) {
-		
-		glActiveTexture(GL_TEXTURE0 + (slot<0?m_slot:slot));
-		glBindTexture(GL_TEXTURE_2D, m_ID);
-	}
-
-	void Texture::unbind() {
-		glBindTexture(GL_TEXTURE_2D, 0);
-	}
-
 	Texture::~Texture() {
 		glDeleteTextures(1, &m_ID);
-	}
-
-	void Texture::set_property(GLenum target, GLenum pname, GLenum parameter) {
-		glTexParameteri(target, pname, parameter);
-	}
-
-	uint32_t Texture::ID() {
-		return m_ID;
 	}
 }

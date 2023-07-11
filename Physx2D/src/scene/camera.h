@@ -24,8 +24,16 @@ namespace Physx2D {
 
 			Camera(vec2 position = vec2(), float fov = 1.0f);
 
-			inline mat3 get_matrices(vec2 res);
-			void setValues(Shader* shader, vec2 res);
+			inline mat3 get_matrices(vec2 res) {
+				mat3 mat = Math::get_ortho2d(vec2(), res * fov) * Math::get_view2d(position);
+				return mat;
+			}
+
+			inline void setValues(Shader* shader, vec2 res) {
+				shader->setMat3("u_cam_matrices", get_matrices(res));
+				shader->setVec2("u_resolution", res);
+				shader->setFloat("u_fov", fov);
+			}
 			void handleInputs(GLFWwindow* window, float delta_time);
 	};
 }

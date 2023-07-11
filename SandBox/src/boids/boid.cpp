@@ -11,7 +11,7 @@ Agent::Agent(World* world, vec2 pos, float fov, float speed) {
 	
 	Transform* tfr = self->GetComponent<Transform>();
 	tfr->Position = pos;
-	tfr->Scale = vec2(10.f, 5.f);
+	tfr->Scale = vec2(20.f, 10.f);
 	tfr->Rotation = Math::random_f(pos.x + pos.y) * Math::PI * 2.f;
 
 	self->AddComponent<RigidBody2D>(KINETIC); //, vec2(speed * cos(tfr->Rotation), speed * sin(tfr->Rotation))
@@ -104,9 +104,9 @@ void Boid::update(float delta_time) {
 
 		if (others.size() <= 1) continue;
 
-		//agents[i].align(others);
-		//agents[i].cohesion(others);
-		//agents[i].separation(others);
+		agents[i].align(others);
+		agents[i].cohesion(others);
+		agents[i].separation(others);
 		agents[i].bounds(bounds);
 
 		RigidBody2D* rgb = agents[i].self->GetComponent<RigidBody2D>();

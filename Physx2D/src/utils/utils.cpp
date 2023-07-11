@@ -35,9 +35,4 @@ namespace Physx2D {
 		);
 		return id;
 	}
-
-	inline void GetError()
-	{
-		LOG_ERROR("ERROR : %d\n", glGetError());
-	}
 }

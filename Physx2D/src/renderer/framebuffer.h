@@ -32,11 +32,32 @@ namespace Physx2D {
 		);
 		~FrameBuffer();
 
-		inline void Clear(float r = 0.f, float g = 0.f, float b = 0.f, float a = 1.f);
-		inline void ActivateAsTexture(int slot = -1);
-		inline void Bind();
-		inline void Unbind();
-		inline void Draw(Shader& shader);
+		inline void Bind() {
+			glBindFramebuffer(GL_FRAMEBUFFER, m_ID);
+		}
+
+		inline void Unbind() {
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		}
+
+		inline void Clear(float r, float g, float b, float a){
+			glClearColor(r, g, b, a);
+			glClear(GL_COLOR_BUFFER_BIT);
+		}
+
+		inline void ActivateAsTexture(int slot) {
+			m_texture->bind(slot);
+		}
+
+		inline void Draw(Shader& shader) {
+			shader.use();
+			m_vao->bind();
+
+			glDrawArrays(GL_TRIANGLES, 0, 6);
+
+			m_vao->unbind();
+			m_texture->unbind();
+		}
 
 	private:
 		uint32_t m_ID = 0;

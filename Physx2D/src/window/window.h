@@ -23,14 +23,43 @@ namespace Physx2D{
 			);
 			~Window();
 			void OnInit();
-			inline void SetVsync(bool value);
-			inline bool ShouldClose();
-			inline void SetClose(bool value);
-			inline ivec2 GetResolution() const;
-			inline int GetWidth() const;
-			inline int GetHeight() const;
-			inline void FillScreen(Color color = Color(0.0f, 0.0f, 0.0f, 1.0f));
-			inline void SetTitle(const char* title);
-			inline void OnUpdate();
+
+            inline void SetVsync(bool value) {
+                glfwSwapInterval(value);
+            }
+
+            inline bool ShouldClose() {
+                return glfwWindowShouldClose(m_window);
+            }
+
+            inline void SetClose(bool value){
+                glfwSetWindowShouldClose(m_window, value);
+            }
+
+            inline ivec2 GetResolution() const {
+                return ivec2(properties.WIDTH, properties.HEIGHT);
+            }
+
+            inline int GetWidth() const {
+                return properties.WIDTH;
+            }
+
+            inline int GetHeight() const {
+                return properties.HEIGHT;
+            }
+
+            inline void FillScreen(Color color = Color(0.0f, 0.0f, 0.0f, 1.0f)) {
+                glClearColor(color.x, color.y, color.z, color.w);
+                glClear(GL_COLOR_BUFFER_BIT);
+            }
+
+            inline void SetTitle(const char* title){
+                glfwSetWindowTitle(m_window, properties.TITLE = title);
+            }
+
+            inline void OnUpdate() {
+                glfwPollEvents();
+                glfwSwapBuffers(m_window);
+            }
 	};
 }

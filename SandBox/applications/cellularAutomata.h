@@ -14,17 +14,14 @@ class CellularAutomataApp : public Application {
 		clock.initTimer();
 
 		//CA_gpu ca("res/c_shaders/wolfram.glsl", "res/images/wolfram.png");
-		//CA_gpu ca("res/c_shaders/reaction.glsl", "res/images/battle_fs.png");
-		//CA_gpu ca("res/c_shaders/b_reaction.glsl", "res/images/battle_fs.png");
-		CA_gpu ca("res/c_shaders/gameoflife.glsl", "res/images/battle_fs.png");
+		CA_gpu ca("res/c_shaders/reaction.glsl", "res/images/test.png");
+		//CA_gpu ca("res/c_shaders/b_reaction.glsl", "res/images/test.png");
+		//CA_gpu ca("res/c_shaders/gameoflife.glsl", "res/images/test.png");
 		ca.setup();
-		float _t = clock.get_time();
-		bool _s = false;
 		while (!m_window->ShouldClose()) {
 
-			if (_s) ca.update();
-			else _s = (clock.get_time() - _t) > 6.f;
-			//m_window->FillScreen(Color(0.f, 0.f, 0.f, 1.f));
+			ca.update();
+			m_window->FillScreen(Color(0.f, 0.f, 0.f, 1.f));
 			
 			ca.draw();
 

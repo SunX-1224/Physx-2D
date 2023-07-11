@@ -47,32 +47,8 @@ namespace Physx2D {
 		glDeleteShader(fragShader);
 	}
 
-	inline void Shader::use() {
-		glUseProgram(m_ID);
-	}
-
 	Shader::~Shader() {
 		glDeleteProgram(m_ID);
-	}
-
-	inline void Shader::setBool(const char* name, bool value) {
-		glUniform1i(getUniformLocation(name), (int)value);
-	}
-
-	inline void Shader::setInt(const char* name, int value) {
-		glUniform1i(getUniformLocation(name), value);
-	}
-
-	inline void Shader::setFloat(const char* name, float value) {
-		glUniform1f(getUniformLocation(name), value);
-	}
-
-	inline void Shader::setVec2(const char* name, vec2 vec) {
-		glUniform2f(getUniformLocation(name), vec.x, vec.y);
-	}
-
-	inline void Shader::setMat3(const char* name, mat3 mat) {
-		glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, (float*) & mat);
 	}
 
 	GLint Shader::getUniformLocation(const char* loc) {

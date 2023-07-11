@@ -34,7 +34,7 @@ public:
 		Random rng(0xfafafafa);
 		for (uint32_t i = 0; i < num_obj; i++) {
 			Entity* ent = world->CreateEntity();
-			float sc = rng.randr_f(18.f, 32.f);
+			float sc = rng.randr_f(8.f, 16.f);
 			ent->AddComponent<SpriteRenderer>(CIRCLE, Color(.5f, rng.rand_f(), 0.6f, 1.f), vec2(0.f), vec2(1.f));
 			ent->AddComponent<CircleCollider>(vec2(), sc*0.6f);
 			ent->AddComponent<RigidBody2D>(KINETIC, vec2(100.f, 0.f), 0.f, 1.f, 0.1f, 0.9f);

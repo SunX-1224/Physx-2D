@@ -20,14 +20,29 @@ namespace Physx2D {
 		Shader();
 		Shader(const char* vertexPath, const char* fragmentPath, bool is_path = true);
 		~Shader();
+		inline void use() {
+			glUseProgram(m_ID);
+		}
 
-		inline void use();
+		inline void setBool(const char* name, bool value) {
+			glUniform1i(getUniformLocation(name), (int)value);
+		}
 
-		inline void setBool(const char*, bool);
-		inline void setInt(const char*, int);
-		inline void setFloat(const char*, float);
-		inline void setVec2(const char*, vec2);
-		inline void setMat3(const char*, mat3);
+		inline void setInt(const char* name, int value) {
+			glUniform1i(getUniformLocation(name), value);
+		}
+
+		inline void setFloat(const char* name, float value) {
+			glUniform1f(getUniformLocation(name), value);
+		}
+
+		inline void setVec2(const char* name, vec2 vec) {
+			glUniform2f(getUniformLocation(name), vec.x, vec.y);
+		}
+
+		inline void setMat3(const char* name, mat3 mat) {
+			glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, (float*) & mat);
+		}
 
 	private:
 		uint32_t m_ID;

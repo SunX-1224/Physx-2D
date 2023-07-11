@@ -50,31 +50,4 @@ namespace Physx2D {
 
 		m_vao->unbind();
 	}
-
-	inline void FrameBuffer::Bind() {
-		glBindFramebuffer(GL_FRAMEBUFFER, m_ID);
-	}
-
-	inline void FrameBuffer::Unbind() {
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	}
-
-	inline void FrameBuffer::Clear(float r, float g, float b, float a){
-		glClearColor(r, g, b, a);
-		glClear(GL_COLOR_BUFFER_BIT);
-	}
-
-	inline void FrameBuffer::ActivateAsTexture(int slot) {
-		m_texture->bind(slot);
-	}
-
-	inline void FrameBuffer::Draw(Shader& shader) {
-		shader.use();
-		m_vao->bind();
-
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-
-		m_vao->unbind();
-		Texture::unbind();
-	}
 }
