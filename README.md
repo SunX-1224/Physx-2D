@@ -14,18 +14,23 @@ Inside this different options related to 2D rendering is implemented, which are 
      > For adding textures to objects
 * Shaders
      > For shading the model/objects
+
+A lot of optimization have been done in the rendering aspect of the engine to finally reduce the rendering time of thousands of objects to less than 0.1ms in release mode. Another plus side is that there are few default renderers implemented inside the engine for more reliability. Also default shader is also embedded directly inside the renderer. Some special shaders are also pre-written for better experience. 
+
+# Utilities
+Besides, there are som,e utility objects that can be used for multiple purposes.
 * General Buffers
      > Buffers for storing data for being processed by GPU
 * Compute Shaders (newly added)
      > Perform any processing/calculation on GPU in parallel
-
-A lot of optimization have been done in the rendering aspect of the engine to finally reduce the rendering time of thousands of objects to less than 0.1ms in release mode. Another plus side is that there are few default renderers implemented inside the engine for more reliability. Also default shader is also embedded directly inside the renderer. Some special shaders are also pre-written for better experience. 
+* QuadTree
+     > QuadTree can be used for space partitioning in 2D-Space. It is also used by this engine for collision detection optimization.
 
 # 2D Physics
 
 Although a "proper physics handling system" is still far off from where the it is, a base for handling very minimalistic 2d physics is implemented till now which includes basic rigidbody physics, collision detection and proper dynamics of elastic and inelastic collisions. Algorithms used are implemented in raw way without not much optimization, but works for now.
 
-QuadTree is used for handling on-screen collisions of object, when no clustering of thousands of objects is present, this can handle many colliding objects over 5 thousand. Framerate will drop if thousands of objects are clustered in one place. No substeps for collision optimization is implemented and no separate thread for handling physics is implemented till now. A generalized collision detected and resolution method used now is now in 'average' state. Type of collision detection used now is discrete. This part of engine works well for over 2 thousands collider components with the numbers being dependent on comnponent type.
+QuadTree is used for handling on-screen collisions of object, when no clustering of thousands of objects is present, this can handle many colliding objects over 5 thousand. Framerate will drop if thousands of objects are clustered in one place. No substeps for collision optimization is implemented and no separate thread for handling physics is implemented till now. A generalized collision detected and resolution method used now is now in 'average' state. Type of collision detection used now is discrete. This part of engine works well for over 2 thousands collider components with the numbers being dependent on component type.
 
 There are 4 types of colliders that can be used now,
 * CircleColliders
