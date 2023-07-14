@@ -9,7 +9,7 @@ public:
 	BoidSimulationApp() {
 		world = std::unique_ptr<World>(new World(m_window));
 		Entity* ent = world->CreateEntity();
-		ent->AddComponent<ScriptComponent>(new Boid(500, m_window->GetResolution()));
+		ent->AddComponent<ScriptComponent>(new Boid(1200, m_window->GetResolution()));
 
 		world->loadDefaultRenderer(TRIANGLE);
 

@@ -23,8 +23,8 @@ workspace "Physx2D"
         pchsource "%{prj.name}/src/pch.cpp"
 
         files {
-            "%{prj.name}/src/**.*",
-            "%{prj.name}/libraries/**.*"
+            "%{prj.name}/libraries/**.*",
+            "%{prj.name}/src/**.*"
         }
 
         includedirs {
@@ -83,14 +83,14 @@ workspace "Physx2D"
             "Physx2D/src"
         }
 
-        links {"Physx2D"}
-
         filter "system:windows"
             systemversion "latest"
+            links {"Physx2D", "glfw3", "opengl32"}
             defines {"PHSX2D_PLATFORM_WINDOWS"}
 	
 	filter "system:linux"
             systemversion "latest"
+            links {"Physx2D", "glfw3", "GL"}
             defines {"PHSX2D_PLATFORM_LINUX"}
         
 	filter "configurations:Debug"

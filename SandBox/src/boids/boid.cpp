@@ -23,8 +23,10 @@ void Agent::align(std::vector<void*>& agents) {
 		Agent* agent = (Agent*)ag;
 		res += agent->self->GetComponent<RigidBody2D>()->Velocity;
 	}
-	res *= 1.f / agents.size();
-	res = res.normalized() * speed;
+	if (agents.size() > 0) {
+		res *= 1.f / agents.size();
+		res = res.normalized() * speed;
+	}
 	
 	RigidBody2D* rgb = self->GetComponent<RigidBody2D>();
 	rgb->Acceleration += res - rgb->Velocity;
@@ -64,7 +66,7 @@ void Agent::bounds(ivec2 ss) {
 		TODO:
 			> Bounds not working properly
 	*/
-	ss /= 10;
+	ss /= 2;
 	Transform* trf = self->GetComponent<Transform>();
 
 	if (trf->Position.x > ss.x) trf->Position.x = -ss.x;
@@ -106,8 +108,13 @@ void Boid::update(float delta_time) {
 
 		agents[i].align(others);
 		agents[i].cohesion(others);
+<<<<<<< HEAD
 		agents[i].separation(others);
 		agents[i].bounds(bounds);
+=======
+		//agents[i].separation(others);
+		//agents[i].bounds(bounds);
+>>>>>>> 99e1881 (build script corruption fix)
 
 		RigidBody2D* rgb = agents[i].self->GetComponent<RigidBody2D>();
 		agents[i].self->GetComponent<Transform>()->Rotation = atan2(rgb->Velocity.y, rgb->Velocity.x);
