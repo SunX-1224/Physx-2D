@@ -108,13 +108,8 @@ void Boid::update(float delta_time) {
 
 		agents[i].align(others);
 		agents[i].cohesion(others);
-<<<<<<< HEAD
 		agents[i].separation(others);
 		agents[i].bounds(bounds);
-=======
-		//agents[i].separation(others);
-		//agents[i].bounds(bounds);
->>>>>>> 99e1881 (build script corruption fix)
 
 		RigidBody2D* rgb = agents[i].self->GetComponent<RigidBody2D>();
 		agents[i].self->GetComponent<Transform>()->Rotation = atan2(rgb->Velocity.y, rgb->Velocity.x);

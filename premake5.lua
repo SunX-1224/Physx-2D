@@ -85,12 +85,12 @@ workspace "Physx2D"
 
         filter "system:windows"
             systemversion "latest"
-            links {"Physx2D", "glfw3", "opengl32"}
+            links {"Physx2D"}
             defines {"PHSX2D_PLATFORM_WINDOWS"}
 	
 	filter "system:linux"
             systemversion "latest"
-            links {"Physx2D", "glfw3", "GL"}
+            links {"Physx2D"}
             defines {"PHSX2D_PLATFORM_LINUX"}
         
 	filter "configurations:Debug"
