@@ -1,6 +1,6 @@
 workspace "Physx2D"
     architecture "x64"
-
+    startproject "SandBox"	
     configurations {
         "Debug",
         "Release",
@@ -34,17 +34,16 @@ workspace "Physx2D"
 
         libdirs {"%{prj.name}/libraries/lib_%{cfg.system}"}
 
+	systemversion "latest"
+	postbuildcommands {"{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/SandBox"}
+
         filter "system:windows"
-            systemversion "latest"
             links {"glfw3", "opengl32"}
-            postbuildcommands {"{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/SandBox"}
             defines {"PHSX2D_BUILD_DLL","PHSX2D_PLATFORM_WINDOWS"}
         
         filter "system:linux"
-            systemversion "latest"
             buildoptions { "-fvisibility=hidden"}
             links {"glfw3", "GL"}
-            postbuildcommands {"{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/SandBox"}
             defines { "PHSX2D_BUILD_DLL", "PHSX2D_PLATFORM_LINUX"}
 
         filter "configurations:Debug"
@@ -83,13 +82,13 @@ workspace "Physx2D"
             "Physx2D/src"
         }
 
+	systemversion "latest"
+
         filter "system:windows"
-            systemversion "latest"
             links {"Physx2D"}
             defines {"PHSX2D_PLATFORM_WINDOWS"}
 	
 	filter "system:linux"
-            systemversion "latest"
             links {"Physx2D"}
             defines {"PHSX2D_PLATFORM_LINUX"}
         
