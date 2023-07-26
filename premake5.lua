@@ -39,12 +39,12 @@ workspace "Physx2D"
 
         filter "system:windows"
             links {"glfw3", "opengl32"}
-            defines {"PHSX2D_BUILD_DLL","PHSX2D_PLATFORM_WINDOWS"}
+            defines {"PHSX2D_BUILD_SHARED_LIB","PHSX2D_PLATFORM_WINDOWS"}
         
         filter "system:linux"
             buildoptions { "-fvisibility=hidden"}
             links {"glfw3", "GL"}
-            defines { "PHSX2D_BUILD_DLL", "PHSX2D_PLATFORM_LINUX"}
+            defines { "PHSX2D_BUILD_SHARED_LIB", "PHSX2D_PLATFORM_LINUX"}
 
         filter "configurations:Debug"
             defines {"PHSX2D_DEBUG", "PHSX2D_ASSERT_ENABLE"}
