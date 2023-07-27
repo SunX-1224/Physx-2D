@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.16)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 project(Physx2D VERSION 1.0)
@@ -50,6 +50,9 @@ target_link_directories(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
     glfw
 )
+#---------------- precompiled headers -----------------
+target_precompile_headers(${PROJECT_NAME} PRIVATE src/pch.h)
+set_source_files_properties(external/glad/src/glad.c external/stb/src/stb_image.cpp PROPERTIES SKIP_PRECOMPILE_HEADERS ON)
 
 # ---------- Compiler definitions ----------------------
 add_definitions(-DPHSX2D_BUILD_SHARED_LIB)
