@@ -1,0 +1,66 @@
+CURRENT REPORTS :
+    ; Collision Resolution : Type(Circle) : Num(1000) : Optimization(QuadTree) : Mode(Debug)
+        > Average Time : 40ms
+        > Slowest Time : 92ms
+        > (Target Time) : avg < 10ms : margin < 40ms
+    
+ENGINE :
+    ; Math :
+        (DONE)> generalized projection matrices
+        (DONE)> matrices operations : add, sub, mult, scalar_div
+
+    ; Renderer :
+        > Use UBO or SSBO instead of plain uniforms
+        > shader uniform functions
+        > SSBO extraction for every shaders
+        > improve renderer + code
+        (DONE)> optimize buffers to use anywhere effectively
+        (DONE)> make a better default renderer
+        (DONE)> Reduce the default shader code's complexity
+        (DONE)> Load Default shader from string
+        (DONE)> Shaders should be abled to be loaded by directly supplying string as code
+        (DONE)> Destructor implementation
+        (DONE)> use heap allocation for long term data
+    
+    ; World : 
+        > Optimize the existing collision detection algorithms
+        > Collision handler should be improved... should be independent to entity but dependent on registry data
+        > Camera implementation
+        > cam matrices and model matrices calculations in cpu
+        > better and generalized collision detection algorithm for polygons
+        > Updated renderData
+        (DONE)> addInstancedRenderer is not looking good... fix it
+        (DONE)> Getting data from ECSManager can be heavily improved
+        (DONE)> Texture binding not looking good... allow upto 16 differenr multiple textures for a single renderer
+
+    ; Events : 
+        > Learn the basics about engine events
+        > Create event-types for Physx2D
+        > Event - creation, dispatching, etc
+        > Base everything on events
+    
+    ; Utilities :
+        > Generic Wave Function Collapse algorithm
+        > Noise generators : Perlin noise, {Add others later}
+    
+SandBox :
+    ; PhysicsTestApp : 
+        (DONE)> Debug assertion failed while destroying the entities
+
+    ; Cellular automatas : 
+        > fix the gittering effect on wolfram rules implementation
+        > solve the appearing of pre-image on reduced-size window {Applies for all}
+    
+    ; Wave function collapse : tile-based
+        > implement backtracking to solve empty available states on cells
+
+
+Overall :
+    (UNDER_WORK); build configuration for linux
+    ; Generic datas : Remove the parts where 2D stuff is forced on
+    ; simplify everything use basic data-types to later on migrate to C
+
+LongTerm :
+    ; Convert to data oriented mode
+    ; Implement UI using IMGUI
+    ; Convert everything to be compatible with the Grand - {C}
