@@ -1,15 +1,21 @@
 cmake_minimum_required(VERSION 3.16)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-project(SandBox)
+project(SandBox LANGUAGES CXX)
 
-file(GLOB SRC_FILES 
-    "**.cpp"
-    "*.c"
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+file(GLOB_RECURSE SRC_FILES 
+    "src/*.cpp"
+    "applications/*.cpp"
+)
+file(GLOB EXTERNALS
     "../Physx2D/external/glad/src/glad.c"
 )
 
-add_executable(${PROJECT_NAME} ${SRC_FILES})
+add_executable(${PROJECT_NAME} ${SRC_FILES} ${EXTERNALS})
 
 target_include_directories(${PROJECT_NAME} PRIVATE "../Physx2D")
 target_link_libraries(${PROJECT_NAME} Physx2D)

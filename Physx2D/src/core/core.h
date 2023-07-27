@@ -40,7 +40,7 @@
         #define PHYSX2D_API 
     #endif
 
-#elif defined(PHSX2D_PLATFORM_UNIX)
+#elif defined(PHSX2D_PLATFORM_APPLE)
 
     #if defined(__clang__) // Clang
         #if !defined(PHSX2D_BUILD_SHARED_LIB)

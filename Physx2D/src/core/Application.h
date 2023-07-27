@@ -21,5 +21,5 @@ namespace Physx2D {
 		Window* m_window;
 	};
 
-	PHYSX2D_API Application* CreateApplication();
+    extern Application* CreateApplication();
 }

@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.16)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-project(Physx2D VERSION 1.0)
+project(Physx2D VERSION 1.0 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 #----------- download all the submodules ---------------
 find_package(Git QUIET)
@@ -23,11 +27,12 @@ if(NOT EXISTS "${PROJECT_SOURCE_DIR}/external/glfw/CMakeLists.txt")
 endif()
 # --------------module check finished ---------------------
 
-file(GLOB SRC_FILES
+file(GLOB_RECURSE SRC_FILES
+    "src/*.cpp"
+)
+file(GLOB EXTERNALS
     "external/glad/src/glad.c"
     "external/stb/src/stb_image.cpp"
-    "src/**.cpp"
-    "src/**.c"
 )
 
 # ------------- add all subdirectories ------------------
@@ -35,14 +40,14 @@ add_subdirectory(external/glfw)
 
 configure_file(Physx2DConfig.h.in Physx2DConfig.h)
 
-add_library(${PROJECT_NAME} SHARED ${SRC_FILES})
+add_library(${PROJECT_NAME} SHARED ${SRC_FILES} ${EXTERNALS})
 
-target_include_directories(${PROJECT_NAME}
-    PUBLIC ${PROJECT_BINARY_DIR}
-    PUBLIC src
-    PUBLIC external/glfw/include 
-    PUBLIC external/glad/include
-    PUBLIC external/stb/include
+target_include_directories(${PROJECT_NAME} PUBLIC 
+    ${PROJECT_BINARY_DIR}
+    src
+    external/glfw/include 
+    external/glad/include
+    external/stb/include
 )
 target_link_directories(${PROJECT_NAME}
     PRIVATE external/glfw/src
@@ -50,20 +55,35 @@ target_link_directories(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
     glfw
 )
+
+if(APPLE)
+    find_library(OPENGL_LIB OpenGL)
+    target_link_libraries(Physx2D PRIVATE ${OPENGL_LIB})
+endif()
+
 #---------------- precompiled headers -----------------
 target_precompile_headers(${PROJECT_NAME} PRIVATE src/pch.h)
 set_source_files_properties(external/glad/src/glad.c external/stb/src/stb_image.cpp PROPERTIES SKIP_PRECOMPILE_HEADERS ON)
 
 # ---------- Compiler definitions ----------------------
-add_definitions(-DPHSX2D_BUILD_SHARED_LIB)
+
 if (WIN32)
-    add_definitions(-DPHSX2D_PLATFORM_WINDOWS)
-elseif (LINUX)
-    add_definitions(-DPHSX2D_PLATFORM_LINUX)
-elseif (UNIX)
-    add_definitions(-DPHSX2D_PLATFORM_UNIX)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE -DPHSX2D_PLATFORM_WINDOWS)
+    message("system : WIN32")
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    target_compile_definitions(${PROJECT_NAME} PRIVATE -DPHSX2D_PLATFORM_LINUX)
+    message("system : Linux")
+elseif (APPLE)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE -DPHSX2D_PLATFORM_APPLE)
+    message("system : Apple")
 endif()
 
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Debug>:PHSX2D_DEBUG;PHSX2D_ASSERT_ENABLE>
+    $<$<CONFIG:Release>:PHSX2D_RELEASE;PHSX2D_ASSERT_ENABLE>
+    $<$<CONFIG:Dist>:PHSX2D_DIST;PHSX2D_ASSERT_ENABLE>
+    -DPHSX2D_BUILD_SHARED_LIB
+)
 # Setting up the installation to put shared_library on lib direcory and headers on include directory
 install(TARGETS ${PROJECT_NAME} DESTINATION lib)
 install(DIRECTORY ${CMAKE_SOURCE_DIRECTORY}

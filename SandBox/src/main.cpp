@@ -4,8 +4,8 @@
 #include "../applications/WaveFuncCollapseApp.h"
 #include "../applications/PhysicsTestApp.h"
 
-#include "core/entry.h"
+#include "src/core/entry.h"
 
 Physx2D::Application* Physx2D::CreateApplication() {
-	return new WaveFuncCollapseApp(); 
+	return (Physx2D::Application*)(new WaveFuncCollapseApp()); 
 }
