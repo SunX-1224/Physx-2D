@@ -51,3 +51,4 @@ _deps
 
 build/
 .vs/
+.cache/
