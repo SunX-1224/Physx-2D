@@ -1,9 +1,14 @@
 # Physx-2D
 
-Physx2D is a in-development early stage physics and rendering engine for mainly 2D graphics. It is now programmed for supporting windows and linux only.
+Physx-2D is a in-development early stage physics and rendering engine for mainly 2D graphics. It is programmed for supporting multiple platform.
+
+***NOTE : Currently the project build system is configured to be cmake for linux and macos and premake for windows. Until fully testing the cmake for windows, it recommended to use main branch code for windows and master branch for other OS.***
+
+It has many features that should be in a effective game engine/library. As of now, Physx-2D is only available as library with many tools optimized for general and specific purpose.
 
 # Rendering 
-Inside this different options related to 2D rendering is implemented, which are listed as below,
+Rendering feature as a whole is most important part and is build in a way that with almost no changes at all, it can be used for 3D rendering too. But, for now it is forced to be 2D. After all it comes down to number of floats per vertex.
+
 * Normal Renderer
      > For rendering a single 2D-model/objects
 * Instanced Renderer
@@ -18,29 +23,31 @@ Inside this different options related to 2D rendering is implemented, which are 
 A lot of optimization have been done in the rendering aspect of the engine to finally reduce the rendering time of thousands of objects to less than 0.1ms in release mode. Another plus side is that there are few default renderers implemented inside the engine for more reliability. Also default shader is also embedded directly inside the renderer. Some special shaders are also pre-written for better experience. 
 
 # Utilities
-Besides, there are som,e utility objects that can be used for multiple purposes.
+
+Besides, there are some utility objects that can be used for multiple purposes.
 * General Buffers
      > Buffers for storing data for being processed by GPU
-* Compute Shaders (newly added)
+* Compute Shaders
      > Perform any processing/calculation on GPU in parallel
 * QuadTree
      > QuadTree can be used for space partitioning in 2D-Space. It is also used by this engine for collision detection optimization.
 
 # 2D Physics
 
-Although a "proper physics handling system" is still far off from where the it is, a base for handling very minimalistic 2d physics is implemented till now which includes basic rigidbody physics, collision detection and proper dynamics of elastic and inelastic collisions. Algorithms used are implemented in raw way without not much optimization, but works for now.
+Physics system is a very deep and nice thing about the engine to talk about. Entities (game objects) can have a rigidbody component which handles all the kinetics and kinematics. Along with this Colliders are there to make things for physics better. 
 
-QuadTree is used for handling on-screen collisions of object, when no clustering of thousands of objects is present, this can handle many colliding objects over 5 thousand. Framerate will drop if thousands of objects are clustered in one place. No substeps for collision optimization is implemented and no separate thread for handling physics is implemented till now. A generalized collision detected and resolution method used now is now in 'average' state. Type of collision detection used now is discrete. This part of engine works well for over 2 thousands collider components with the numbers being dependent on component type.
+QuadTree is used for handling on-screen collisions of object, when no clustering of thousands of objects is present, this can handle many colliding objects over tens of  thousands in number. Framerate will drop if thousands of objects are clustered in one place. No substeps for collision optimization is implemented and no separate thread for handling physics is implemented till now. A generalized collision detection and resolution method used is now in 'average' state. Type of collision detection used now is discrete. This part of engine works well for over few thousands collider components with the numbers being dependent on component type.
 
 There are 4 types of colliders that can be used now,
 * CircleColliders
 * BoxCollider2D
-* AABB
+* AABB (Axis Aligned Bounding Box)
 * Bounding Circle
 
 Among them, last 2 colliders are static (and implemented only to make it easy to setup a physics simulation where objects won't fly off screen. On a single screen, AABB and BoundingCircles should not overlap with any of each other due to what they are made for.
 
 # Math
+
 Mathematical part of the engine includes some features like : 
 * 2-Component vector
 * 3-Component vector
@@ -49,9 +56,10 @@ Mathematical part of the engine includes some features like :
 * Pseudo Random Number generator
      > As a function for short term random numbers and as an object for auto-seed update which is proved to best for procedural generations.
 * Projection matrices and view matrices
-* center-rect
+* Center-rect (which is same as rect but instead of topleft and width-height as data, it uses center and width-height as data.
 
 # Entity Component System
+
 A Physx-2D world handles objects according to their components (data oriented design) rather than inherited properties (object oriented design). This enables an object to have any combination of properties. Components currently available are :
 * Transform
 * Tag
@@ -65,15 +73,17 @@ A Physx-2D world handles objects according to their components (data oriented de
 * RigidBody2D
 * ScriptComponent
 
-This game engine as of now does not have an integrated editor. So, setup has to be done through code.
+This game engine as of now does not have an integrated UI as aneditor. So, development is fully code based.
 
 # Logging system
+
 A simple yet effective logging system is implemented which is made to display the logged data in the debug mode. This will strip off the logging code in any other mode which makes the engine event faster in other mode and useful is debug mode.
 
 * LOG_INFO logs the informations in green color
 * LOG_WARN logs the informations in yellow color
 * LOG_ERROR logs the informations in red color
 
+**Other Highly Performance oriented Features**
 > Also, ASSERTIONS are available in any mode as long as enabled.
 
 > Also DEBUG_ONLY_EXPRESSIONS are also implemented which allows for debug mode to be effective in doing many things (e.g. performance evaluation and comparision).
@@ -86,12 +96,12 @@ Time to time, some interesting simulations are added here. This is a general pla
 * Autonomous agents :
    * Boids
 
-* Ray tracing : *Incomplete*
+* Ray tracing : *Under-work*
 
 * Cellular Automata :
    * Conway's game of life
    * Evan's larger than life
-   * wolfram cellular automata rules simulations
+   * Wolfram cellular automata rules simulations
    * Belousov-Zhabotinsky reaction
    * Another Reaction-Diffusion simulation that does something weird and spectacular
 
@@ -99,15 +109,13 @@ Time to time, some interesting simulations are added here. This is a general pla
    * Mitosis
    * Bacteria
    * Worms
-   * Circles (But actually resembles a forest fire through a bug.... kept the bug because it looks cool)
+   * Circles (But actually resembles a forest fire somehow.... kept the bug because it looks cool)
 
-* Wave Function Collapse Algorithm :
+* Wave Function Collapse :
   * Some idea of quantum mechanics implemented in this engine to do some procedural generation of complex things from simple things
   * *Incomplete* (Backtracking not implemented but still works fine)
 
 # Others
-A project environment setup system is implemented using premake. Build system for windows is up and working, for Linux it is under testing as of now.
-
 There are many things I did not explained about the engine here. Take a look at code or contact me if you want to understand it.
 
 *Future plans for the project (large or small) are inside .todo file. Take a look if you want*
