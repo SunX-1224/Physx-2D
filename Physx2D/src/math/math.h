@@ -29,7 +29,8 @@ namespace Physx2D {
 		tvec2(T _x, T _y): x(_x), y(_y) {}
 
 		inline tvec2 normalized() {
-			return (*this)/length();
+			float _l = length();
+			return _l<1e-6?tvec2():(*this)/_l;
 		}
 		inline float length(){
 			return sqrt(x * x + y * y);
@@ -94,7 +95,8 @@ namespace Physx2D {
 		tvec3(T _x, T _y, T _z) : x(_x), y(_y), z(_z) {}
 
 		inline tvec3 normalized() {
-			return (*this) / length();
+			float _l = length();
+			return _l<1e-6?tvec3():(*this)/_l; 
 		}
 		inline float length() {
 			return sqrt(x * x + y * y + z * z);
@@ -150,7 +152,8 @@ namespace Physx2D {
 		tvec4(T _x, T _y, T _z, T _w) :x(_x), y(_y), z(_z), w(_w) {}
 
 		inline tvec4 normalized() {
-			return (*this) / length();
+			float _l = length();
+			return _l<1e-6?tvec4():(*this)/_l;
 		}
 		inline float length() {
 			return sqrt(x * x + y * y + z * z + w * w);
