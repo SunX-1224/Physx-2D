@@ -17,11 +17,11 @@ if [ "$PLATFORM" = "Linux" ] || [ "$PLATFORM" = "Darwin" ]; then
     # cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE ..
     cmake -DGLFW_BUILD_DOCS=OFF -S . -B ./build -DCMAKE_BUILD_TYPE=$BUILD_TYPE -G "Unix Makefiles"
     make -C ./$BUILD_DIR
-elif [ "$PLATFORM" = "MINGW64_NT" ] || [ "$PLATFORM" = "MSYS_NT" ]; then
+elif [[ "$PLATFORM" = *"MINGW64_NT"* ]] || [[ "$PLATFORM" = *"MSYS_NT"* ]]; then
     # For Windows using MSYS2 or similar
     # cmake -G "Ninja" -DCMAKE_BUILD_TYPE=$BUILD_TYPE ..
-    cmake -DGLFW_BUILD_DOCS=OFF -S . -B ./build -DCMAKE_BUILD_TYPE=$BUILD_TYPE -G "Visual Studio 16 2019"
-    msbuild Physx-2D.sln /p:Configuration=$BUILD_TYPE
+    cmake -DGLFW_BUILD_DOCS=OFF -S . -B ./build -DCMAKE_BUILD_TYPE=$BUILD_TYPE -G "Visual Studio 17 2022"
+    msbuild "$BUILD_DIR/Physx-2D.sln" /p:Configuration=$BUILD_TYPE
 else
     echo "Unsupported platform: $PLATFORM"
     exit 1
