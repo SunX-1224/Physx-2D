@@ -7,5 +7,5 @@
 #include "src/core/entry.h"
 
 Physx2D::Application* Physx2D::CreateApplication() {
-	return (Physx2D::Application*)(new PhysicsTestApp(600)); 
+	return (Physx2D::Application*)(new BoidSimulationApp()); 
 }
