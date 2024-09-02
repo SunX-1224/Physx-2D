@@ -26,4 +26,6 @@ else
     echo "Unsupported platform: $PLATFORM"
     exit 1
 fi
-read -p "Press any key to continue"
+
+cd SandBox
+"../build/bin/$PLATFORM-x86_64/SandBox-$BUILD_TYPE/SandBox"

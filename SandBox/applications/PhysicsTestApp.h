@@ -6,13 +6,23 @@ using namespace Physx2D;
 
 class Gravity : public ScriptObject {
 	public:
+    vec2 gravity = vec2(0.f, -600.f);
+    float timer= 0.0f;
 
 		virtual void setup() {
 
 		}
 		virtual void update(float delta_time) {
-			//self->GetComponent<RigidBody2D>()->Acceleration = -self->GetComponent<Transform>()->Position;
-			self->GetComponent<RigidBody2D>()->Acceleration.y =-600.f;
+			self->GetComponent<RigidBody2D>()->Acceleration = -self->GetComponent<Transform>()->Position * 5.0f;
+			//self->GetComponent<RigidBody2D>()->Acceleration = gravity;
+      timer+= delta_time;
+
+      //if(timer > 5.f) {
+      //  gravity.y  = -gravity.y;
+      //  gravity.x = Math::randomr_f(-10.f, 10.f);
+      //  timer = 0.f;
+      //}
+
 		}
 
 		virtual void OnCollisionDetected(CollisionData& data, Entity* other) {
@@ -25,7 +35,7 @@ class PhysicsTestApp : public Application {
 public:
 	World* world;
 
-	PhysicsTestApp(uint32_t num_obj) {
+	PhysicsTestApp(uint32_t num_obj = 1200) {
 		world = new World(m_window);
 		world->loadDefaultRenderer();
 		world->loadDefaultRenderer(CIRCLE);
@@ -37,7 +47,7 @@ public:
 			float sc = rng.randr_f(8.f, 16.f);
 			ent->AddComponent<SpriteRenderer>(CIRCLE, Color(.5f, rng.rand_f(), 0.6f, 1.f), vec2(0.f), vec2(1.f));
 			ent->AddComponent<CircleCollider>(vec2(), sc*0.6f);
-			ent->AddComponent<RigidBody2D>(KINETIC, vec2(100.f, 0.f), 0.f, 1.f, 0.1f, 0.9f);
+			ent->AddComponent<RigidBody2D>(KINETIC, vec2(0.f, 0.f), 0.f, 1.f, 0.1f, 0.95f);
 			ent->AddComponent<ScriptComponent>(new Gravity());
 
 			Transform* tfr = ent->GetComponent<Transform>();

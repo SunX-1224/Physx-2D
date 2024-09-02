@@ -87,7 +87,7 @@ void Boid::setup() {
 				self->m_world, 
 				vec2((Math::random_f(i*200) - 0.5f) * 1000.f, (Math::random_f(i*300) - 0.5f) * 800.f),
 				3.14f,
-				250.f)
+				400.f)
 		);
 	}
 }

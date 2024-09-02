@@ -20,7 +20,7 @@ void main() {
     
     ivec2 coords = ivec2(gl_GlobalInvocationID.xy);
 
-    vec3 value = mitosis(coords);
+    vec3 value = bacteria(coords);
     imageStore(img_out, coords, vec4(value, 1.f));
 }
 

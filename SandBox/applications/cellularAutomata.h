@@ -13,7 +13,7 @@ class CellularAutomataApp : public Application {
 		Time clock;
 		clock.initTimer();
 
-		//CA_gpu ca("res/c_shaders/wolfram.glsl", "res/images/wolfram.png");
+		//CA_gpu ca("res/c_shaders/wolfram.glsl", "res/images/test.png");
 		CA_gpu ca("res/c_shaders/reaction.glsl", "res/images/test.png");
 		//CA_gpu ca("res/c_shaders/b_reaction.glsl", "res/images/test.png");
 		//CA_gpu ca("res/c_shaders/gameoflife.glsl", "res/images/test.png");
